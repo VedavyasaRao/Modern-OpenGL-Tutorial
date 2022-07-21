@@ -35,7 +35,7 @@ Read more about it [here](https://modernopengl-vedavyasarao.blogspot.com/2022/07
 
 #### Lesson02: Single Colored cube ####
 
-WCF is widely used in managed software for IPC. However porting existing COM based applications to WCF architecture can be daunting task. A balance can be achieved by deploying existing COM based applications as a WCF service so that it can be accessed by WCF clients.
+In the previous post the graphics pipeline and vertex processing were explained. In this post we will try to draw a single colored cube as shown above. The cube looks elongated because aspect ratio is not applied.
 
 Read more about it [here](https://modernopengl-vedavyasarao.blogspot.com/2022/07/lesson02-single-colored-cube.html)
 
