@@ -36,7 +36,7 @@ public:
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		//get Model View Projection matrix
 		mskbd->fetchCameraData(&cube.camera);
-		cube.Draw();
+		cube.Draw(false);
 
 	}
 

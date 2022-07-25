@@ -22,12 +22,12 @@ public:
 		std::vector < glm::vec2> texturemap =
 		{
 			//1 (top)
-			{ 0.0f, 0.99f },
+			{ 0.0f,  0.99f },
 			{ 0.33f, 0.99f },
 			{ 0.33f, 0.66f },
 			{ 0.33f, 0.66f },
-			{ 0.0f, 0.66f },
-			{ 0.0f, 0.99f },
+			{ 0.0f,  0.66f },
+			{ 0.0f,  0.99f },
 
 			//2 (left )
 			{ 0.33f, 0.99f },
@@ -46,12 +46,12 @@ public:
 			{ 0.66f, 0.99f },
 
 			//4 (right)
-			{ 0.0f, 0.66f },
-			{ 0.0f, 0.33f },
+			{ 0.0f,  0.66f },
+			{ 0.0f,  0.33f },
 			{ 0.33f, 0.33f },
 			{ 0.33f, 0.33f },
 			{ 0.33f, 0.66f },
-			{ 0.0f, 0.66f },
+			{ 0.0f,  0.66f },
 
 			//5 (back)
 			{ 0.33f, 0.66f },
@@ -93,7 +93,7 @@ public:
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		mskbd->fetchCameraData(&cube.camera);
-		cube.Draw();
+		cube.Draw(false);
 
 	}
 
@@ -107,11 +107,16 @@ public:
 	LRESULT OnDoRefresh(WORD wParam, WORD wParam2, HWND lParam, BOOL& bHandled)
 	{
 		bHandled = TRUE;
-		cube.camera.updateTranslate(glm::vec3(pdlg->tx, pdlg->ty, pdlg->ty));
-		cube.camera.updatePitch(pdlg->rx);
-		cube.camera.updateYaw(pdlg->ry);
-		cube.camera.updateRoll(pdlg->rz);
-		cube.camera.updateScale(glm::vec3(pdlg->sx, pdlg->sy, pdlg->sz));
+		if (pdlg->btranslate)
+			cube.camera.updateTranslate(glm::vec3(pdlg->tx, pdlg->ty, pdlg->tz));
+		if (pdlg->brotate)
+		{
+			cube.camera.updatePitch(pdlg->rx);
+			cube.camera.updateYaw(pdlg->ry);
+			cube.camera.updateRoll(pdlg->rz);
+		}
+		if (pdlg->bscale)
+			cube.camera.updateScale(glm::vec3(1.0+pdlg->sx, 1.0+pdlg->sy, 1.0+pdlg->sz));
 		mskbd->saveCameraData(&cube.camera);
 
 		Invalidate();

@@ -15,7 +15,7 @@
 #else
 #pragma comment(lib, "opengl32.lib")
 #pragma comment(lib, "gdiplus.lib")
-#pragma comment(lib, "..\\externals\\GLExtensions\\lib\\GLExtensions_static_x86.lib")
-#pragma comment(lib, "..\\externals\\SOIL2\\projects\\VC15\\libs\\SOIL_static_x86.lib")
+#pragma comment(lib, "..\\..\\externals\\GLExtensions\\lib\\GLExtensions_static_x86.lib")
+#pragma comment(lib, "..\\..\\externals\\SOIL2\\projects\\VC15\\libs\\SOIL_static_x86.lib")
 #endif
 

@@ -40,7 +40,7 @@ public:
 		//only model is modified
 		//view and projection will be identity matrix
 		mskbd->fetchCameraData(&cube.camera);
-		cube.Draw();
+		cube.Draw(false);
 
 	}
 

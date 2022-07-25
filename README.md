@@ -63,9 +63,20 @@ A 3D vector is represented as [Vx, Vy,  Vz] where  Vx, Vy and Vz represent numbe
 
 Read more about it [here](https://modernopengl-vedavyasarao.blogspot.com/2022/06/essential-3d-math.html)
 
+#### Essential 3D math - Matrices ####
+
+OpenGL uses matrix operations for a lot of purposes. For example, translations, scaling, rotations. Also computing of projection matrices, view matrices etc.
+
+Read more about it [here](https://modernopengl-vedavyasarao.blogspot.com/2022/07/matrices.html)
+
 #### Lesson06:Understanding Affine Transformation interactively. ####
 
 In this session we shall understand affine transformations interactively three kinds of affine transformations: Scale, Translate and Rotate on X, Y and  Z axes,
 
 Read more about this [here](https://modernopengl-vedavyasarao.blogspot.com/2022/07/lesson06understanding-affine.html)
 
+#### Projections. ####
+
+So far our camera was in a fixed position and transformations happened in object space.  In this post we will  look at the larger picture.
+
+Read more about this [here](https://modernopengl-vedavyasarao.blogspot.com/2022/07/projection.html)

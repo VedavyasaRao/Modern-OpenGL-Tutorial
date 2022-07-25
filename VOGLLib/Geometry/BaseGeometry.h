@@ -29,7 +29,7 @@ public:
 		glUniformMatrix4fv(shader.GetUniformLocation("transform"), 1, GL_FALSE, glm::value_ptr(camera.GetTransfermation()));
 	}
 
-	virtual void Draw(bool bindex=false)
+	virtual void Draw(bool bindex)
 	{
 		shader.Use();
 		vaoutl.bindVAO();

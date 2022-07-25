@@ -100,10 +100,15 @@ public:
 protected:
 	void agument(short& angle, short delta)
 	{
+		WCHAR buf[100];
+		swprintf_s(buf, 100,L" BEFORE %d %d\n", angle, delta);
+		OutputDebugString(buf);
 		angle += delta;
 		if (angle < 0)
 			angle += 360;
 		angle %= 360;
+		swprintf_s(buf, 100, L" AFTER %d %d\n", angle, delta);
+		OutputDebugString(buf);
 	}
 
 protected:

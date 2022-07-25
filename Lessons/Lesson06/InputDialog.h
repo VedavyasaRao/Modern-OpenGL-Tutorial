@@ -16,7 +16,7 @@ public:
 
 	void LoadDefaults()
 	{
-		WCHAR buf[100];
+		WCHAR buf[1000];
 		swprintf_s(buf, 100, L"%.*f", 2, tx);
 		transx.SetWindowText(buf);
 
@@ -43,6 +43,10 @@ public:
 
 		swprintf_s(buf, 100, L"%.*f", 2, sz);
 		scalez.SetWindowText(buf);
+		
+		swprintf_s(buf, 1000, L"Input - Scale:{%.02f,%.02f,%.02f}  Translate:{%.02f,%.02f,%.02f} Rotate:{%d,%d,%d}",
+			1.0 + sx, 1.0 + sy, 1.0 + sz, tx, ty, tz, rx % 360, ry % 360, rz % 360);
+		SetWindowTextW(buf);
 	}
 
 	LRESULT OnInitDialog(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
@@ -68,43 +72,63 @@ public:
 public:
 	LRESULT OnBnClickedOK(WORD wNotifyCode, WORD wID, HWND hWndCtl, BOOL& bHandled)
 	{
-		WCHAR buf[100];
-		transx.GetWindowText(buf, 100);
-		if (buf[0] != 0)
-			tx = _wtof(buf);
+		WCHAR buf[1000];
+		bscale = IsDlgButtonChecked(IDC_CHECK2);
+		btranslate = IsDlgButtonChecked(IDC_CHECK3);
+		brotate = IsDlgButtonChecked(IDC_CHECK4);
 
-		transy.GetWindowText(buf, 100);
-		if (buf[0] != 0)
-			ty = _wtof(buf);
+		if (bscale)
+		{
 
-		transz.GetWindowText(buf, 100);
-		if (buf[0] != 0)
-			tz = _wtof(buf);
+			scalex.GetWindowText(buf, 100);
+			if (buf[0] != 0)
+				sx += _wtof(buf);
 
-		rotx.GetWindowText(buf, 100);
-		if (buf[0] != 0)
-			rx = _wtol(buf);
+			scaley.GetWindowText(buf, 100);
+			if (buf[0] != 0)
+				sy += _wtof(buf);
 
-		roty.GetWindowText(buf, 100);
-		if (buf[0] != 0)
-			ry = _wtol(buf);
+			scalez.GetWindowText(buf, 100);
+			if (buf[0] != 0)
+				sz += _wtof(buf);
+		}
 
-		rotz.GetWindowText(buf, 100);
-		if (buf[0] != 0)
-			rz = _wtol(buf);
+		if (btranslate)
+		{
+			transx.GetWindowText(buf, 100);
+			if (buf[0] != 0)
+				tx += _wtof(buf);
 
-		scalex.GetWindowText(buf, 100);
-		if (buf[0] != 0)
-			sx = _wtof(buf);
+			transy.GetWindowText(buf, 100);
+			if (buf[0] != 0)
+				ty += _wtof(buf);
 
-		scaley.GetWindowText(buf, 100);
-		if (buf[0] != 0)
-			sy = _wtof(buf);
+			transz.GetWindowText(buf, 100);
+			if (buf[0] != 0)
+				tz += _wtof(buf);
+		}
+	
+		if (brotate)
+		{
+			rotx.GetWindowText(buf, 100);
+			if (buf[0] != 0)
+				rx += _wtol(buf);
 
-		scalez.GetWindowText(buf, 100);
-		if (buf[0] != 0)
-			sz = _wtof(buf);
+			roty.GetWindowText(buf, 100);
+			if (buf[0] != 0)
+				ry += _wtol(buf);
+
+			rotz.GetWindowText(buf, 100);
+			if (buf[0] != 0)
+				rz += _wtol(buf);
+		}
+
+
 		::PostMessage(GetParent(), WM_COMMAND, IDOK, 0);
+			
+		swprintf_s(buf, 1000, L"Input - Scale:{%.02f,%.02f,%.02f}  Translate:{%.02f,%.02f,%.02f} Rotate:{%d,%d,%d}",
+			1.0+sx, 1.0+sy, 1.0+sz, tx, ty, tz, rx % 360, ry % 360, rz % 360);
+		SetWindowTextW(buf);
 		bHandled = true;
 
 		return 0;
@@ -122,8 +146,8 @@ public:
 	{
 		tx = 0.0; ty = 0.0; tz = 0.0;
 		rx = 0; ry = 0; rz = 0;
-		sx = 1.0; sy = 1.0; sz = 1.0;
-
+		sx = 0.0; sy = 0.0; sz = 0.0;
+				
 		LoadDefaults();
 		bHandled = true;
 
@@ -134,8 +158,9 @@ public:
 public:
 	double tx = 0.0, ty = 0.0, tz = 0.0;
 	int rx = 0, ry = 0, rz = 0;
-	double sx = 1.0, sy = 1.0, sz = 1.0;
-
+	double sx = 0.0, sy = 0.0, sz = 0.0;
+	int bscale, btranslate, brotate;
+		
 private:
 	CWindow transx;
 	CWindow transy;
