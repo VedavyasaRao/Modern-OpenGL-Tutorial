@@ -83,7 +83,7 @@ Read more about this [here](https://modernopengl-vedavyasarao.blogspot.com/2022/
 
 #### Lesson 07: Start Camera and Roll ####
 
-So far our camera was in a fixed position and transformations happened in object space.  In this post we will  look at the larger picture.
+In this post understand cameras space and Perspective and Orthographic  projections interactively.
 
 Read more about this [here](https://modernopengl-vedavyasarao.blogspot.com/2022/08/lesson-07-start-camera-and-roll.html)
 
