@@ -1,6 +1,6 @@
 #pragma once
 #include "GeometryMesh.h"
-#include "..\Camera\CameraData.h"
+#include "..\Scene\CameraData.h"
 #include "ShaderUtil.h"
 #include "VAOUtil.h"
 

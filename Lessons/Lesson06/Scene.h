@@ -72,9 +72,9 @@ public:
 
 		BaseScene::Init(rect, windowname);
 		//attach mouse keyboard input handler
-		mskbd = new BaseCameraInputHandler(m_hWnd);
+		mskbd = new SimpleCameraInputHandler(m_hWnd);
 
-		cube.Init(0, R"(..\..\resources\textures\uvtemplate.tga)");
+		cube.Init(0, R"(..\resources\textures\uvtemplate.tga)");
 		dynamic_cast<CubeMesh*>(cube.mesh)->updateTextureMap(texturemap);
 		cube.GenerateVertices();
 

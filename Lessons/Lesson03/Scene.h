@@ -16,7 +16,7 @@ public:
 		//create host window and context
 		BaseScene::Init(rect, windowname);
 		//attach mouse keyboard input handler
-		mskbd = new BaseCameraInputHandler(m_hWnd);
+		mskbd = new SimpleCameraInputHandler(m_hWnd);
 
 		//Create cube an set color
 		cube.Init();

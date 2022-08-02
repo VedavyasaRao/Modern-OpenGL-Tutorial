@@ -16,9 +16,9 @@ public:
 		//create host window and context
 		BaseScene::Init(rect, windowname);
 		//attach mouse keyboard input handler
-		mskbd = new BaseCameraInputHandler(m_hWnd);
+		mskbd = new SimpleCameraInputHandler(m_hWnd);
 		//Create cube an set texture filename
-		cube.Init(0, R"(..\..\resources\textures\bricks2.jpg)");
+		cube.Init(0, R"(..\resources\textures\bricks2.jpg)");
 		//generate vertices
 		cube.GenerateVertices();
 		

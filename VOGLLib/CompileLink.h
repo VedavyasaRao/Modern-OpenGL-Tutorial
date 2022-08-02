@@ -6,6 +6,8 @@
 #pragma include_alias( "glm/glm.hpp", "..\..\externals\glm\glm\glm.hpp" )
 #pragma include_alias( "glm/gtc/matrix_transform.hpp", "..\..\externals\glm\glm\gtc\matrix_transform.hpp" )
 #pragma include_alias( "glm/gtc/type_ptr.hpp", "..\..\externals\glm\glm\gtc\type_ptr.hpp" )
+#pragma include_alias( "glm/ext/matrix_projection.hpp", "..\..\externals\glm\glm\ext\matrix_projection.hpp" )
+
 
 #ifdef _DEBUG 
 #pragma comment(lib, "opengl32.lib")

@@ -1,6 +1,6 @@
 #pragma once
 #include "OGLAppWindow.h"
-#include "..\Camera\BaseCameraInputHandler.h"
+#include "Camera\SimpleCameraInputHandler.h"
 
 class BaseScene:public COGLAppWindow
 {
@@ -177,8 +177,8 @@ protected:
 	{
 		if (mskbd == nullptr)
 			return;
-		mskbd->updateFOV(dir);
-		PaintScene();
+		if (mskbd->OnMouseWheel(dir))
+			PaintScene();
 	}
 
 protected:

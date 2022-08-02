@@ -75,8 +75,16 @@ In this session we shall understand affine transformations interactively three k
 
 Read more about this [here](https://modernopengl-vedavyasarao.blogspot.com/2022/07/lesson06understanding-affine.html)
 
-#### Projections. ####
+#### Understanding Model Transformation, View space, Perspective and Orthographic Projections ####
 
 So far our camera was in a fixed position and transformations happened in object space.  In this post we will  look at the larger picture.
 
 Read more about this [here](https://modernopengl-vedavyasarao.blogspot.com/2022/07/projection.html)
+
+#### Lesson 07: Start Camera and Roll ####
+
+So far our camera was in a fixed position and transformations happened in object space.  In this post we will  look at the larger picture.
+
+Read more about this [here](https://modernopengl-vedavyasarao.blogspot.com/2022/08/lesson-07-start-camera-and-roll.html)
+
+
