@@ -1,12 +1,14 @@
 #pragma once
-#include "GLUtils.h"
-
+#include "..\GeometryMesh.h"
 
 class TextMesh:public IGeometryMesh
 {
 public:
-	int GenerateVertices(int att, VAOUtil& vaoutl)
+	int GenerateVerticesData(bool isindexed, int att, VAOUtil& vaoutl)
 	{
+		if (isindexed)
+			return 0;
+
 		for (unsigned short  i = 0; i < vertices.size(); ++i)
 		{
 			if (att & VAOUtil::POS)
@@ -21,6 +23,11 @@ public:
 
 		}
 		return vertices.size();
+	}
+
+	int GenerateIndicesData(VAOUtil& vaoutl)
+	{
+		return 0;
 	}
 
 private:

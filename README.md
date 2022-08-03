@@ -75,13 +75,25 @@ In this session we shall understand affine transformations interactively three k
 
 Read more about this [here](https://modernopengl-vedavyasarao.blogspot.com/2022/07/lesson06understanding-affine.html)
 
+#### Drawing Text ####
+
+Modern OpenGL does not support drawing text so it needs to be handled independently. There many popular libraries available such as freetype.
+
+Read more about this [here](https://modernopengl-vedavyasarao.blogspot.com/2022/07/drawing-text.html)
+
+#### Lesson 07:Drawing Text interactively. ####
+
+As discussed in the  previous article, Text can be drawn in multiple fonts, sizes and colors. Also can be moved around. It's implemented in Lessons\Lesson07 project.
+
+Read more about this [here](https://modernopengl-vedavyasarao.blogspot.com/2022/08/lesson-07drawing-text-interactively.html)
+
 #### Understanding Model Transformation, View space, Perspective and Orthographic Projections ####
 
 So far our camera was in a fixed position and transformations happened in object space.  In this post we will  look at the larger picture.
 
 Read more about this [here](https://modernopengl-vedavyasarao.blogspot.com/2022/07/projection.html)
 
-#### Lesson 07: Start Camera and Roll ####
+#### Lesson 08: Start Camera and Roll ####
 
 In this post understand cameras space and Perspective and Orthographic  projections interactively.
 

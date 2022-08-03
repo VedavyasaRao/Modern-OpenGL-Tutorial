@@ -2,11 +2,12 @@
 
 #include <algorithm>
 #include <iterator>
-#include "textmesh.h"
 #include <windows.h>
 #include <gdiplus.h>
 #include <gdiplusheaders.h>
-#include "basegeometry.h"
+#include "..\TextureUtil.h"
+#include "textmesh.h"
+#include "..\BaseGeometry.h"
 
 using namespace Gdiplus;
 
@@ -48,9 +49,9 @@ public:
 		BaseGeometry::Init(new TextMesh());
 		glDisable(GL_DEPTH_TEST);
 
-		kount = mesh->GenerateVertices(VAOUtil::POS | VAOUtil::TEX, vaoutl);
-		vaoutl.SetupAttribute(0, VAOUtil::POS);
-		vaoutl.SetupAttribute(1, VAOUtil::TEX);
+		kount = mesh->GenerateVerticesData(false, VAOUtil::POS | VAOUtil::TEX, vaoutl);
+		vaoutl.SetupVBO(0, VAOUtil::POS);
+		vaoutl.SetupVBO(1, VAOUtil::TEX);
 		vaoutl.unbindVAO();
 		texutl.Init(texunit);
 
@@ -63,13 +64,16 @@ public:
 
 	}
 
-	void UpdateFontColor(Color tclr, const string& fontname, float fontsize)
+	void UpdateFontandColor(COLORREF clr, LPLOGFONTW lf)
 	{
-		wstring wsbuf;
-		ptextbrush = new SolidBrush(tclr);
-		copy(fontname.begin(), fontname.end(), std::back_inserter(wsbuf));
-		pfont = new Font(wsbuf.c_str(), fontsize);
+		Color gdipColor(255, 0, 0, 255);
+		gdipColor.SetFromCOLORREF(clr);
+		ptextbrush = new SolidBrush(gdipColor);
+		HDC hdc = pgraphics->GetHDC();
+		pfont = new Font(hdc, lf);
+		pgraphics->ReleaseHDC(hdc);
 	}
+
 
 	void UpdateUniforms()
 	{
@@ -122,7 +126,7 @@ public:
 	static ULONG_PTR gdiplusToken;
 
 private:
-	TexUtil		texutl;
+	TextureUtil		texutl;
 	Bitmap		*pbitmap;
 	Graphics	*pgraphics;
 	SolidBrush	*ptextbrush;

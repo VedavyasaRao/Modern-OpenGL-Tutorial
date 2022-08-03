@@ -1,6 +1,6 @@
 #include "Scene\BaseScene.h"
-#include "..\..\VOGLLib\Scene\Camera\SimpleCameraInputHandler.h"
-#include "..\..\VOGLLib\Geometry\Text\DrawTextUtil.h"
+#include "..\Lessons\Lesson05\MultiColoredCube.h"
+#include "..\..\VOGLLib\Scene\Camera\PerspectiveProjectionCameraInputHandler.h"
 #include "InputDialog.h"
 
 DWORD WINAPI ThreadFunction(LPVOID lpParam);
@@ -21,45 +21,60 @@ public:
 	{
 		//custom texture mapping
 		BaseScene::Init(rect, windowname);
-
 		//attach mouse keyboard input handler
-		mskbd = new SimpleCameraInputHandler(m_hWnd);
-		textutl.Init(GL_TEXTURE0+4, 256);
+		mskbd = new PerspectiveProjectionCameraInputHandler(m_hWnd);
+		mskbd->updateWH();
+		dynamic_cast<PerspectiveProjectionCameraInputHandler*>(mskbd)->UpdateViewMatrix({ 0.0,0.0,5.0 }, { 0.0,0.0,0.0 }, { 0.0,1.0,0.0 });
+		dynamic_cast<PerspectiveProjectionCameraInputHandler*>(mskbd)->UpdateProjectionMatrix(1.0,100.0);
+		cube.Init();
+
 		CreateThread(NULL, 0, ThreadFunction,  this,  0, NULL);
+
 		return 0;
 	}
 
 	void Cleanup()
 	{
-		textutl.Cleanup();
+		cube.Cleanup();
+		
 	}
 	
 	void DrawScene()
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		mskbd->fetchCameraData(&textutl.camera);
-		textutl.Drawtext({ 1.0,1.0 }, L"Hellow orld!");
+		mskbd->fetchCameraData(&cube.camera);
+		cube.Draw(false);
 
 	}
 
-	void CreateInputDlg()
+void CreateInputDlg()
 	{
 		pdlg = new InputDlg();
+		pdlg->aspectratio = -mskbd->GetAspectRatio();
+		pdlg->xminmaxvec = { -pdlg->aspectratio, pdlg->aspectratio };
 		pdlg->Create(m_hWnd);
 		pdlg->ShowWindow(SW_SHOW);
-		textutl.UpdateFontandColor(pdlg->rgbCurrent, &pdlg->lf);
-		Invalidate();
 	}
 
 	LRESULT OnDoRefresh(WORD wParam, WORD wParam2, HWND lParam, BOOL& bHandled)
 	{
 		bHandled = TRUE;
-		if (pdlg->btranslate)
+		if (pdlg->blookat)
 		{
-			textutl.camera.updateTranslate(glm::vec3(pdlg->tx, pdlg->ty, pdlg->tz));
-			mskbd->saveCameraData(&textutl.camera);
+			dynamic_cast<PerspectiveProjectionCameraInputHandler*>(mskbd)->UpdateViewMatrix(pdlg->positionvec, pdlg->targetvec, pdlg->upvec);
 		}
-		textutl.UpdateFontandColor(pdlg->rgbCurrent, &pdlg->lf);
+
+		if (pdlg->bperspective)
+		{
+			dynamic_cast<PerspectiveProjectionCameraInputHandler*>(mskbd)->updateFOV(pdlg->fovflt);
+			dynamic_cast<PerspectiveProjectionCameraInputHandler*>(mskbd)->UpdateProjectionMatrix(pdlg->nearflt, pdlg->farflt);
+		}
+
+		if (pdlg->bortho)
+		{
+			dynamic_cast<PerspectiveProjectionCameraInputHandler*>(mskbd)->UpdateProjectionMatrix(pdlg->xminmaxvec, pdlg->yminmaxvec, pdlg->zminmaxvec);
+		}
+
 		Invalidate();
 		return 0;
 	}
@@ -81,10 +96,9 @@ public:
 
 
 private:
+	MultiColoredCube cube;
 	int IDM_INPUTDLG = 1001;
 	InputDlg *pdlg;
-	DrawTextUtil  textutl;
-
 };
 /////////////////////Scene0///////////////////////////////////
 

@@ -10,57 +10,35 @@ public:
 	BEGIN_MSG_MAP(InputDlg)
 		MESSAGE_HANDLER(WM_INITDIALOG, OnInitDialog)
 		COMMAND_HANDLER(IDOK, BN_CLICKED, OnBnClickedOK)
-		COMMAND_HANDLER(IDOK2, BN_CLICKED, OnBnClickedReset)
+		COMMAND_HANDLER(IDOK3, BN_CLICKED, OnBnClickedOK3)
 		COMMAND_HANDLER(IDCANCEL, BN_CLICKED, OnBnClickedCancel)
 	END_MSG_MAP()
 
 	void LoadDefaults()
 	{
 		WCHAR buf[1000];
-		swprintf_s(buf, 100, L"%.02f, %.02f, %.02f", positionvec.x, positionvec.y, positionvec.z);
-		position.SetWindowText(buf);
+		swprintf_s(buf, 100, L"%.*f", 2, tx);
+		transx.SetWindowText(buf);
 
-		swprintf_s(buf, 100, L"%.02f, %.02f, %.02f", targetvec.x, targetvec.y, targetvec.z);
-		target.SetWindowText(buf);
+		swprintf_s(buf, 100, L"%.*f", 2, ty);
+		transy.SetWindowText(buf);
 
-		swprintf_s(buf, 100, L"%.02f, %.02f, %.02f", upvec.x, upvec.y, upvec.z);
-		up.SetWindowText(buf);
+		swprintf_s(buf, 100, L"%.*f", 2, tz);
+		transz.SetWindowText(buf);
 
-		swprintf_s(buf, 100, L"%0.2f", fovflt);
-		FOV.SetWindowText(buf);
-
-		swprintf_s(buf, 100, L"%0.2f", nearflt);
-		nearplane.SetWindowText(buf);
-
-		swprintf_s(buf, 100, L"%0.2f", farflt);
-		farplane.SetWindowText(buf);
-
-		swprintf_s(buf, 100, L"%.02f, %.02f", xminmaxvec.x, xminmaxvec.y);
-		xminmax.SetWindowText(buf);
-
-		swprintf_s(buf, 100, L"%.02f, %.02f", yminmaxvec.x, yminmaxvec.y);
-		yminmax.SetWindowText(buf);
-
-		swprintf_s(buf, 100, L"%.02f, %.02f", zminmaxvec.x, zminmaxvec.y);
-		zminmax.SetWindowText(buf);
-	
+		ZeroMemory(&lf, sizeof lf);
+		lf.lfWidth = 16;
+		wcscpy_s(lf.lfFaceName, 32, L"Ariel");
+		rgbCurrent = 0x000000FF;
 	}
 
 	LRESULT OnInitDialog(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 	{
 		// Do some initialization code
-		position = GetDlgItem(IDC_EDIT1);
-		target = GetDlgItem(IDC_EDIT2);
-		up = GetDlgItem(IDC_EDIT3);
-
-		FOV = GetDlgItem(IDC_EDIT4);
-		nearplane = GetDlgItem(IDC_EDIT5);
-		farplane = GetDlgItem(IDC_EDIT6);
-
-		xminmax = GetDlgItem(IDC_EDIT7);
-		yminmax = GetDlgItem(IDC_EDIT8);
-		zminmax = GetDlgItem(IDC_EDIT9);
-
+		sampletext = GetDlgItem(IDC_STATIC1);
+		transx = GetDlgItem(IDC_EDIT1);
+		transy = GetDlgItem(IDC_EDIT3);
+		transz = GetDlgItem(IDC_EDIT4);
 		LoadDefaults();
 		bHandled = true;
 		return 1;
@@ -70,56 +48,47 @@ public:
 	LRESULT OnBnClickedOK(WORD wNotifyCode, WORD wID, HWND hWndCtl, BOOL& bHandled)
 	{
 		WCHAR buf[1000];
-		blookat = IsDlgButtonChecked(IDC_CHECK2);
-		bperspective = IsDlgButtonChecked(IDC_CHECK3);
-		bortho = IsDlgButtonChecked(IDC_CHECK4);
-
-		if (blookat)
+		btranslate = IsDlgButtonChecked(IDC_CHECK3);
+		if (btranslate)
 		{
-			position.GetWindowText(buf, 100);
+			transx.GetWindowText(buf, 100);
 			if (buf[0] != 0)
-				swscanf_s(buf, L"%f,%f,%f", &positionvec.x, &positionvec.y, &positionvec.z);
+				tx = _wtof(buf);
 
-			target.GetWindowText(buf, 100);
+			transy.GetWindowText(buf, 100);
 			if (buf[0] != 0)
-				swscanf_s(buf, L"%f,%f,%f", &targetvec.x, &targetvec.y, &targetvec.z);
+				ty = _wtof(buf);
 
-			up.GetWindowText(buf, 100);
+			transz.GetWindowText(buf, 100);
 			if (buf[0] != 0)
-				swscanf_s(buf, L"%f,%f,%f", &upvec.x, &upvec.y, &upvec.z);
-		}
-
-		if (bperspective)
-		{
-			FOV.GetWindowText(buf, 100);
-			if (buf[0] != 0)
-				fovflt = (float)_wtof(buf);
-
-			nearplane.GetWindowText(buf, 100);
-			if (buf[0] != 0)
-				nearflt = (float)_wtof(buf);
-
-			farplane.GetWindowText(buf, 100);
-			if (buf[0] != 0)
-				farflt = (float)_wtof(buf);
-		}
-	
-		if (bortho)
-		{
-			xminmax.GetWindowText(buf, 100);
-			if (buf[0] != 0)
-				swscanf_s(buf, L"%f,%f", &xminmaxvec.x, &xminmaxvec.y);
-
-			yminmax.GetWindowText(buf, 100);
-			if (buf[0] != 0)
-				swscanf_s(buf, L"%f,%f", &yminmaxvec.x, &yminmaxvec.y);
-
-			zminmax.GetWindowText(buf, 100);
-			if (buf[0] != 0)
-				swscanf_s(buf, L"%f,%f", &zminmaxvec.x, &zminmaxvec.y);
+				tz = _wtof(buf);
 		}
 
 		::PostMessage(GetParent(), WM_COMMAND, IDOK, 0);
+		return 0;
+	}
+
+	LRESULT OnBnClickedOK3(WORD wNotifyCode, WORD wID, HWND hWndCtl, BOOL& bHandled)
+	{
+		// Initialize CHOOSEFONT
+		ZeroMemory(&cf, sizeof(cf));
+		cf.lStructSize = sizeof(cf);
+		cf.hwndOwner = sampletext.m_hWnd;
+		cf.lpLogFont = &lf;
+		cf.rgbColors = rgbCurrent;
+		cf.Flags = CF_SCREENFONTS | CF_EFFECTS;
+
+		if (ChooseFont(&cf) == TRUE)
+		{
+			HDC hdc = sampletext.GetDC();
+			HFONT hfont = CreateFontIndirect(cf.lpLogFont);
+			SelectObject(hdc, hfont);
+			rgbCurrent = cf.rgbColors;
+			SetTextColor(hdc, rgbCurrent);
+			sampletext.SetWindowText(L"");
+			TextOutA(hdc, 0, 0, "Hellow orld!", 13);
+			sampletext.ReleaseDC(hdc);
+		}
 			
 		bHandled = true;
 
@@ -134,36 +103,20 @@ public:
 		return 0;
 	};
 
-	LRESULT OnBnClickedReset(WORD wNotifyCode, WORD wID, HWND hWndCtl, BOOL& bHandled)
-	{
-		positionvec = { 0.0, 0.0, 5.0 }; targetvec = { 0.0, 0.0, 0.0 }; upvec = { 0.0, 1.0, 0.0 };
-		float fovflt = 45.0, nearflt = 1.0, farflt = 100.0;
-		xminmaxvec = { -aspectratio, aspectratio };  yminmaxvec = { -1.0, 1.0 }; zminmaxvec = { 1.0, 100.0 };
-		
-		LoadDefaults();
-		bHandled = true;
-
-		return 0;
-};
 
 
 public:
-	vec3 positionvec{ 0.0, 0.0, 5.0 }, targetvec{ 0.0, 0.0, 0.0 }, upvec{ 0.0, 1.0, 0.0 };
-	float fovflt = 45.0, nearflt = 1.0, farflt = 100.0, aspectratio = 1.0;
-	vec2 xminmaxvec{ -aspectratio, aspectratio }, yminmaxvec{ -1.0, 1.0 }, zminmaxvec{ 1.0, 100.0 };
-	BOOL blookat, bperspective, bortho;
-		
+	LOGFONT lf;
+	COLORREF rgbCurrent;
+	double tx = 0.0, ty = 0.0, tz = 0.0;
+	int  btranslate;
+
 private:
-	CWindow position;
-	CWindow target;
-	CWindow up;
+	CWindow sampletext;
+	CWindow transx;
+	CWindow transy;
+	CWindow transz;
+	CHOOSEFONT cf;
 
-	CWindow FOV;
-	CWindow nearplane;
-	CWindow farplane;
-
-	CWindow xminmax;
-	CWindow yminmax;
-	CWindow zminmax;
 };
 
