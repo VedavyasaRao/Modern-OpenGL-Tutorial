@@ -99,4 +99,9 @@ In this post understand cameras space and Perspective and Orthographic  projecti
 
 Read more about this [here](https://modernopengl-vedavyasarao.blogspot.com/2022/08/lesson-07-start-camera-and-roll.html)
 
+#### Lesson 09: Start Camera and Roll ####
+
+In this post we will discuss implementation of FPS style Camera.
+
+Read more about this [here](https://modernopengl-vedavyasarao.blogspot.com/2022/08/lesson-09-multiple-objects.html)
 

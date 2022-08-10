@@ -16,7 +16,7 @@ public:
 		//create host window and context
 		BaseScene::Init(rect, windowname);
 		//attach mouse keyboard input handler
-		mskbd = new SimpleCameraInputHandler(m_hWnd);
+		mskbd = new SimpleCamera(m_hWnd);
 
 		//Create multicolor cube
 		cube.Init();
@@ -39,8 +39,9 @@ public:
 		//get model view projection matrix. 
 		//only model is modified
 		//view and projection will be identity matrix
-		mskbd->fetchCameraData(&cube.camera);
+		mskbd->augumentModelMatrix(cube);
 		cube.Draw(false);
+		mskbd->MM.Reset();
 
 	}
 

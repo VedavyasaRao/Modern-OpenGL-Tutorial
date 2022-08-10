@@ -5,6 +5,7 @@
 #pragma include_alias( "SOIL2.h", "..\..\externals\SOIL2\src\SOIL2\SOIL2.h" )
 #pragma include_alias( "glm/glm.hpp", "..\..\externals\glm\glm\glm.hpp" )
 #pragma include_alias( "glm/gtc/matrix_transform.hpp", "..\..\externals\glm\glm\gtc\matrix_transform.hpp" )
+#pragma include_alias( "glm\gtx\transform.hpp", "..\..\externals\glm\glm\gtx\transform.hpp" )
 #pragma include_alias( "glm/gtc/type_ptr.hpp", "..\..\externals\glm\glm\gtc\type_ptr.hpp" )
 #pragma include_alias( "glm/ext/matrix_projection.hpp", "..\..\externals\glm\glm\ext\matrix_projection.hpp" )
 

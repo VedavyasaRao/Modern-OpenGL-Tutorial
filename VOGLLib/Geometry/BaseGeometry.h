@@ -26,7 +26,7 @@ public:
 	virtual void UpdateUniforms()
 	{
 		glEnable(GL_DEPTH_TEST);
-		glUniformMatrix4fv(shader.GetUniformLocation("transform"), 1, GL_FALSE, glm::value_ptr(camera.GetTransfermation()));
+		glUniformMatrix4fv(shader.GetUniformLocation("transform"), 1, GL_FALSE, glm::value_ptr(GetTransformationMatrix()));
 	}
 
 	virtual void Draw(bool bindex)
@@ -59,8 +59,16 @@ public:
 		)";
 	}
 
+	mat4 GetTransformationMatrix()
+	{
+		return ProjectionMatrix * ViewMatrix * MM.getModelMatrix();
+	}
+
 public:
-	CameraData  camera;
+	ModelMatrixData MM;
+	mat4 ViewMatrix{ 1 };
+	mat4 ProjectionMatrix{ 1 };
+
 	IGeometryMesh *mesh;
 
 protected:

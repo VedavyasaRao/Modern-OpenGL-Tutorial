@@ -25,12 +25,6 @@ public:
 		vaoutl.unbindVAO();
 	}
 
-	//draw
-	void Draw()
-	{
-		BaseGeometry::Draw(true);
-	}
-
 	//override
 	virtual string vertexShaderSource()
 	{

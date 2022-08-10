@@ -16,7 +16,7 @@ public:
 		//create host window and context
 		BaseScene::Init(rect, windowname);
 		//attach mouse keyboard input handler
-		mskbd = new SimpleCameraInputHandler(m_hWnd);
+		mskbd = new SimpleCamera(m_hWnd);
 		//Create cube an set texture filename
 		cube.Init(0, R"(..\resources\textures\bricks2.jpg)");
 		//generate vertices
@@ -40,8 +40,9 @@ public:
 		//get model view projection matrix. 
 		//only model is modified
 		//view and projection will be identity matrix
-		mskbd->fetchCameraData(&cube.camera);
+		mskbd->augumentModelMatrix(cube);
 		cube.Draw(false);
+		mskbd->MM.Reset();
 
 	}
 

@@ -1,6 +1,7 @@
 #pragma once
+#include <conio.h>
 #include "OGLAppWindow.h"
-#include "Camera\SimpleCameraInputHandler.h"
+#include "Camera\SimpleCamera.h"
 
 class BaseScene:public COGLAppWindow
 {
@@ -31,6 +32,7 @@ class BaseScene:public COGLAppWindow
 		bHandled = TRUE;
 		return 0;
 	}
+	
 
 	//Called when the window is resized
 	LRESULT OnSize(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
@@ -150,7 +152,7 @@ protected:
 		
 		if (mskbd == nullptr)
 			return;
-
+		
 		if (mskbd->OnKey(key))
 			PaintScene();
 	}
@@ -183,7 +185,7 @@ protected:
 
 protected:
 	//mouse/keyboard input handler
-	BaseCameraInputHandler* mskbd;
+	BaseCamera* mskbd;
 
 
 };

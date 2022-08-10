@@ -1,6 +1,6 @@
 #include "Scene\BaseScene.h"
 #include "..\Lessons\Lesson05\MultiColoredCube.h"
-#include "..\..\VOGLLib\Scene\Camera\PerspectiveProjectionCameraInputHandler.h"
+#include "Scene\Camera\PerspectiveProjectionCamera.h"
 #include "InputDialog.h"
 
 DWORD WINAPI ThreadFunction(LPVOID lpParam);
@@ -22,10 +22,10 @@ public:
 		//custom texture mapping
 		BaseScene::Init(rect, windowname);
 		//attach mouse keyboard input handler
-		mskbd = new PerspectiveProjectionCameraInputHandler(m_hWnd);
+		mskbd = new PerspectiveProjectionCamera(m_hWnd);
 		mskbd->updateWH();
-		dynamic_cast<PerspectiveProjectionCameraInputHandler*>(mskbd)->UpdateViewMatrix({ 0.0,0.0,5.0 }, { 0.0,0.0,0.0 }, { 0.0,1.0,0.0 });
-		dynamic_cast<PerspectiveProjectionCameraInputHandler*>(mskbd)->UpdateProjectionMatrix(1.0,100.0);
+		mskbd->VM.setViewMatrix({ 0.0,0.0,5.0 }, { 0.0,0.0,0.0 }, { 0.0,1.0,0.0 });
+		mskbd->PPM.setProjectionMatrix(1.0,100.0);
 		cube.Init();
 
 		CreateThread(NULL, 0, ThreadFunction,  this,  0, NULL);
@@ -42,15 +42,21 @@ public:
 	void DrawScene()
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		mskbd->fetchCameraData(&cube.camera);
+		mskbd->augumentModelMatrix(cube);
+		mskbd->setViewMatrix(cube);
+		if (pdlg && pdlg->bortho)
+			mskbd->setOrthographicProjectionMatrix(cube);
+		else
+			mskbd->setPerspectiveProjectionMatrix(cube);
 		cube.Draw(false);
+		mskbd->MM.Reset();
 
 	}
 
 void CreateInputDlg()
 	{
 		pdlg = new InputDlg();
-		pdlg->aspectratio = -mskbd->GetAspectRatio();
+		pdlg->aspectratio = -mskbd->PPM.AspectRatio;
 		pdlg->xminmaxvec = { -pdlg->aspectratio, pdlg->aspectratio };
 		pdlg->Create(m_hWnd);
 		pdlg->ShowWindow(SW_SHOW);
@@ -61,18 +67,18 @@ void CreateInputDlg()
 		bHandled = TRUE;
 		if (pdlg->blookat)
 		{
-			dynamic_cast<PerspectiveProjectionCameraInputHandler*>(mskbd)->UpdateViewMatrix(pdlg->positionvec, pdlg->targetvec, pdlg->upvec);
+			mskbd->VM.setViewMatrix(pdlg->positionvec, pdlg->targetvec, pdlg->upvec);
 		}
 
 		if (pdlg->bperspective)
 		{
-			dynamic_cast<PerspectiveProjectionCameraInputHandler*>(mskbd)->updateFOV(pdlg->fovflt);
-			dynamic_cast<PerspectiveProjectionCameraInputHandler*>(mskbd)->UpdateProjectionMatrix(pdlg->nearflt, pdlg->farflt);
+			mskbd->PPM.setFOV(pdlg->fovflt);
+			mskbd->PPM.setProjectionMatrix(pdlg->nearflt, pdlg->farflt);
 		}
 
 		if (pdlg->bortho)
 		{
-			dynamic_cast<PerspectiveProjectionCameraInputHandler*>(mskbd)->UpdateProjectionMatrix(pdlg->xminmaxvec, pdlg->yminmaxvec, pdlg->zminmaxvec);
+			mskbd->OPM.setProjectionMatrix(pdlg->xminmaxvec, pdlg->yminmaxvec, pdlg->zminmaxvec);
 		}
 
 		Invalidate();

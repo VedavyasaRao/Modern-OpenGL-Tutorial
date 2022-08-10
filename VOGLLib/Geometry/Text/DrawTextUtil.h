@@ -79,7 +79,7 @@ public:
 	{
 		glDisable(GL_DEPTH_TEST);
 		texutl.MakeActive(shader.GetUniformLocation("tex"));
-		glUniformMatrix4fv(shader.GetUniformLocation("transform"), 1, GL_FALSE, glm::value_ptr(glm::mat4(camera.GetTransfermation())));
+		glUniformMatrix4fv(shader.GetUniformLocation("transform"), 1, GL_FALSE, glm::value_ptr(glm::mat4(GetTransformationMatrix())));
 	}
 
 	void Cleanup()

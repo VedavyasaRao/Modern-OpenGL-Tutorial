@@ -16,7 +16,7 @@ public:
 		//create host window and context
 		BaseScene::Init(rect, windowname);
 		//attach keyboard/mouse input handler
-		mskbd = new SimpleCameraInputHandler(m_hWnd);
+		mskbd = new SimpleCamera(m_hWnd);
 
 		//Create cube an set color
 		cube.Init(glm::vec3(1.0f,0.0f,1.0f));
@@ -34,10 +34,9 @@ public:
 	void DrawScene()
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		//get Model View Projection matrix
-		mskbd->fetchCameraData(&cube.camera);
+		mskbd->augumentModelMatrix(cube);
 		cube.Draw(false);
-
+		mskbd->MM.Reset();
 	}
 
 	//Close the window

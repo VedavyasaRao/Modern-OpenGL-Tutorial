@@ -72,7 +72,7 @@ public:
 
 		BaseScene::Init(rect, windowname);
 		//attach mouse keyboard input handler
-		mskbd = new SimpleCameraInputHandler(m_hWnd);
+		mskbd = new SimpleCamera(m_hWnd);
 
 		cube.Init(0, R"(..\resources\textures\uvtemplate.tga)");
 		dynamic_cast<CubeMesh*>(cube.mesh)->updateTextureMap(texturemap);
@@ -92,8 +92,9 @@ public:
 	void DrawScene()
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		mskbd->fetchCameraData(&cube.camera);
+		mskbd->augumentModelMatrix(cube);
 		cube.Draw(false);
+		mskbd->MM.Reset();
 
 	}
 
@@ -108,16 +109,15 @@ public:
 	{
 		bHandled = TRUE;
 		if (pdlg->btranslate)
-			cube.camera.updateTranslate(glm::vec3(pdlg->tx, pdlg->ty, pdlg->tz));
+			cube.MM.Translateby = glm::vec3(pdlg->tx, pdlg->ty, pdlg->tz);
 		if (pdlg->brotate)
 		{
-			cube.camera.updatePitch(pdlg->rx);
-			cube.camera.updateYaw(pdlg->ry);
-			cube.camera.updateRoll(pdlg->rz);
+			cube.MM.Pitch = pdlg->rx;
+			cube.MM.Yaw = pdlg->ry;
+			cube.MM.Roll = pdlg->rz;
 		}
 		if (pdlg->bscale)
-			cube.camera.updateScale(glm::vec3(1.0+pdlg->sx, 1.0+pdlg->sy, 1.0+pdlg->sz));
-		mskbd->saveCameraData(&cube.camera);
+			cube.MM.Scaleby = glm::vec3(1.0+pdlg->sx, 1.0+pdlg->sy, 1.0+pdlg->sz);
 
 		Invalidate();
 		return 0;

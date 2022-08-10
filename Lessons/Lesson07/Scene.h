@@ -1,6 +1,5 @@
 #include "Scene\BaseScene.h"
-#include "..\..\VOGLLib\Scene\Camera\SimpleCameraInputHandler.h"
-#include "..\..\VOGLLib\Geometry\Text\DrawTextUtil.h"
+#include "Geometry\Text\DrawTextUtil.h"
 #include "InputDialog.h"
 
 DWORD WINAPI ThreadFunction(LPVOID lpParam);
@@ -23,7 +22,7 @@ public:
 		BaseScene::Init(rect, windowname);
 
 		//attach mouse keyboard input handler
-		mskbd = new SimpleCameraInputHandler(m_hWnd);
+		mskbd = new SimpleCamera(m_hWnd);
 		textutl.Init(GL_TEXTURE0+4, 256);
 		CreateThread(NULL, 0, ThreadFunction,  this,  0, NULL);
 		return 0;
@@ -37,8 +36,10 @@ public:
 	void DrawScene()
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		mskbd->fetchCameraData(&textutl.camera);
+		mskbd->augumentModelMatrix(textutl);
 		textutl.Drawtext({ 1.0,1.0 }, L"Hellow orld!");
+		mskbd->MM.Reset();
+		
 
 	}
 
@@ -56,8 +57,7 @@ public:
 		bHandled = TRUE;
 		if (pdlg->btranslate)
 		{
-			textutl.camera.updateTranslate(glm::vec3(pdlg->tx, pdlg->ty, pdlg->tz));
-			mskbd->saveCameraData(&textutl.camera);
+			textutl.MM.Translateby = glm::vec3(pdlg->tx, pdlg->ty, pdlg->tz);
 		}
 		textutl.UpdateFontandColor(pdlg->rgbCurrent, &pdlg->lf);
 		Invalidate();

@@ -1,38 +1,20 @@
 #pragma once
 #include <iomanip>
 #include "CameraData.h"
+#include "..\Geometry\BaseGeometry.h"
 
-class  BaseCameraInputHandler
+class  BaseCamera
 {
 public:
-	void *operator new(size_t size)
-	{
-		return _mm_malloc(size, 16);
-	}
-
-	void operator delete(void *ptr)
-	{
-		_mm_free(ptr);
-	}
-
-	BaseCameraInputHandler(HWND hwnd)
+	BaseCamera(HWND hwnd)
 	{
 		this->hwnd = hwnd;
+		MM.Reset();
 	}
 
 	virtual bool OnKey(int key)
 	{
-		switch (key)
-		{
-			case 'p':
-			case 'P':
-				OutputDebugStringA(Unproject().c_str());
-				break;
-
-			default:
-				return false;
-		}
-		return true;
+		return false;
 	}
 	
 
@@ -69,32 +51,15 @@ public:
 		return false; 
 	}
 
-	virtual wstring GetDisplayString()
-	{
-		WCHAR buf[300];
-		swprintf_s(buf, 300, L"Rotation:%d %d %d", data.pitch, data.yaw, data.roll);
-		return buf;
-	}
-
 	void updateWH()
 	{
 		GetClientRect(hwnd, &clientrect);
 		GetWindowRect(hwnd, &windowrect);
-		aspectratio = (float)clientrect.right / clientrect.bottom;
+		PPM.setAspectRatio((float)clientrect.right / clientrect.bottom);
 		mouseX = 0;
 		mouseY = 0;
 		deltaX = 0;
 		deltaY = 0;
-	}
-
-	virtual void fetchCameraData(CameraData *target)
-	{
-		*target = data;
-	}
-
-	virtual void saveCameraData(CameraData *target)
-	{
-		data = *target;
 	}
 
 	void CenterCursor()
@@ -105,8 +70,28 @@ public:
 		ClipCursor(&windowrect);
 	}
 
+	void augumentModelMatrix(BaseGeometry& geo)
+	{
+		geo.MM.augument(MM);
+	}
 
-	string Unproject()
+	void setViewMatrix(BaseGeometry& geo)
+	{
+		geo.ViewMatrix = VM.getViewMatrix();
+	}
+
+	void setPerspectiveProjectionMatrix(BaseGeometry& geo)
+	{
+		geo.ProjectionMatrix = PPM.getProjectionMatrix();
+	}
+
+	void setOrthographicProjectionMatrix(BaseGeometry& geo)
+	{
+		geo.ProjectionMatrix = OPM.getProjectionMatrix();
+	}
+
+protected:
+	string Unproject(const mat4& P)
 	{
 		auto w = clientrect.right - clientrect.left;
 		auto h = clientrect.bottom - clientrect.top;
@@ -116,16 +101,19 @@ public:
 		GLfloat depth;
 
 		glReadPixels(mouseX, h - mouseY - 1, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &depth);
+		auto M = mat4(1);// MM.getModelMatrix();
+		auto V = VM.getViewMatrix();
+
 		if (depth >= 1.0f)
 		{
 			glm::vec3 world_origin{ 0.0f, 0.0f, 0.0f };
-			glm::vec3 origin_ndc = glm::project(world_origin, data.V * data.M , data.P, vp);
+			glm::vec3 origin_ndc = glm::project(world_origin, V * M, P, vp);
 			depth = origin_ndc[2];
 		}
 
 		glm::vec3 wincoord = glm::vec3(mouseX, h - mouseY - 1, depth);
-		glm::vec3 objcoord = glm::unProject(wincoord, data.V * data.M, data.P, vp);
-		vec3 projected = glm::project(objcoord, data.V * data.M, data.P, vp);
+		glm::vec3 objcoord = glm::unProject(wincoord, V * M, P, vp);
+		vec3 projected = glm::project(objcoord, V * M, P, vp);
 
 		std::stringstream ss;
 
@@ -135,14 +123,14 @@ public:
 		return ss.str();
 	}
 
-	float GetAspectRatio()
-	{
-		return aspectratio;
-	}
+public:
+	ModelMatrixData MM;
+	ViewMatrixData  VM;
+	PerspectiveProjectionMatrixData PPM;
+	OrthographicProjectionMatrixData OPM;
 
 
 protected:
-	CameraData data;
 	HWND hwnd;
 	RECT clientrect;
 	RECT windowrect;
@@ -153,5 +141,4 @@ protected:
 	int mouseY = 0;
 	int deltaX = 0;
 	int deltaY = 0;
-	float aspectratio = 1.7f;
 };
