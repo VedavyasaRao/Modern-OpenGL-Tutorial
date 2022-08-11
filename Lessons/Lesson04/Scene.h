@@ -1,5 +1,5 @@
 #include "Scene\BaseScene.h"
-#include "TexturedCube.h"
+#include "Geometry\Cube\TexturedCube.h"
 
 class Scene:public BaseScene
 {

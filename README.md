@@ -105,3 +105,9 @@ In this post we will discuss implementation of FPS style Camera.
 
 Read more about this [here](https://modernopengl-vedavyasarao.blogspot.com/2022/08/lesson-09-multiple-objects.html)
 
+#### Lesson 10: Orbit or Arcball style Camera ####
+
+In this post we will discuss implementation of Orbit or Arcball style Camera.
+
+Read more about this [here](https://modernopengl-vedavyasarao.blogspot.com/2022/08/lesson-10-orbit-or-arc-ball-style-camera.html)
+

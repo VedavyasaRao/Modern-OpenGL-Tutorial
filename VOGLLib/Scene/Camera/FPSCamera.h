@@ -69,7 +69,7 @@ public:
 		return false;
 	}
 
-	void setViewMatrix()
+	void updateViewMatrix()
 	{
 		VM.setViewMatrix(camera_pos, camera_pos + camera_front, camera_up);
 	}

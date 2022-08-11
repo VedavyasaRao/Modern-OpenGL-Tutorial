@@ -1,5 +1,5 @@
 #include "Scene\BaseScene.h"
-#include "Scene\Camera\FPSCamera.h"
+#include "Scene\Camera\OrbitCamera.h"
 #include "Geometry\Text\DrawTextUtil.h"
 #include "Geometry\Cube\TexturedCube.h"
 
@@ -18,12 +18,13 @@ public:
 		//create host window and context
 		BaseScene::Init(rect, windowname);
 		//attach mouse keyboard input handler
-		mskbd = new FPSCamera(m_hWnd);
+		mskbd = new OrbitCamera(m_hWnd);
 		mskbd->updateWH();
 		mskbd->CenterCursor();
-		mskbd->PPM.setFOV(60.0f);
-		mskbd->PPM.setProjectionMatrix(0.1f, 10.0f);
-		cube.Init(0, R"(..\resources\textures\bricks2.jpg)");
+
+		mskbd->PPM.setFOV(45.0f);
+		mskbd->PPM.setProjectionMatrix(0.1f, 100.0f);
+		cube.Init(0, R"(..\resources\textures\vedavyasa rao.jpg)");
 		cube.MM.Translateby = glm::vec3(0.0f, 0.0f, -3.0f);
 		//generate vertices
 		cube.GenerateVertices();
@@ -56,11 +57,11 @@ public:
 	//draw the scene
 	void DrawScene()
 	{
-		glClearColor(0.0f, 0.0f, 255.0f, 0.0f);
+		glClearColor(1.0f, 0.0f, 1.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		mskbd->augumentModelMatrix(cube);
-		((FPSCamera*)mskbd)->updateViewMatrix();
+		((OrbitCamera*)mskbd)->updateViewMatrix();
 
 		mskbd->setViewMatrix(cube);
 		mskbd->setPerspectiveProjectionMatrix(cube);

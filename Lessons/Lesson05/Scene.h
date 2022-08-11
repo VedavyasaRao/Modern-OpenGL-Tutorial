@@ -1,5 +1,5 @@
 #include "Scene\BaseScene.h"
-#include "MultiColoredCube.h"
+#include "Geometry\Cube\MultiColoredCube.h"
 
 class Scene:public BaseScene
 {

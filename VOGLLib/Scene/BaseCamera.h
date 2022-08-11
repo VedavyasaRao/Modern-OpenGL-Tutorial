@@ -40,10 +40,13 @@ public:
 	{
 		mouseLeftDown = false;
 		mouseRightDown = false;
+		mouseMiddleDown = false;
 		if (button == MK_LBUTTON)
 			mouseLeftDown = TRUE;
 		else if (button == MK_RBUTTON)
 			mouseRightDown = TRUE;
+		else if (button == MK_MBUTTON)
+			mouseMiddleDown = TRUE;
 	}
 
 	virtual bool OnMouseWheel(int dir) 

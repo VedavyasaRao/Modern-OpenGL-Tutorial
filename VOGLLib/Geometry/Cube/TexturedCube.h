@@ -1,7 +1,7 @@
 #pragma once
-#include "..\..\VOGLLib\Geometry\BaseGeometry.h"
-#include "..\..\VOGLLib\Geometry\Cube\CubeMesh.h"
-#include "..\..\VOGLLib\Geometry\TextureUtil.h"
+#include "..\BaseGeometry.h"
+#include "CubeMesh.h"
+#include "..\TextureUtil.h"
 
 //implements texturedcube
 class TexturedCube:public BaseGeometry

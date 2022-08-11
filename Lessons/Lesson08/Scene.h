@@ -1,5 +1,5 @@
 #include "Scene\BaseScene.h"
-#include "..\Lessons\Lesson05\MultiColoredCube.h"
+#include "Geometry\Cube\MultiColoredCube.h"
 #include "Scene\Camera\PerspectiveProjectionCamera.h"
 #include "InputDialog.h"
 

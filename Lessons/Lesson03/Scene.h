@@ -1,5 +1,5 @@
 #include "Scene\BaseScene.h"
-#include "IndexedCube.h"
+#include "Geometry\Cube\IndexedCube.h"
 
 class Scene:public BaseScene
 {

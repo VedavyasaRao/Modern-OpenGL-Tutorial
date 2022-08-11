@@ -1,5 +1,5 @@
 #include "Scene\BaseScene.h"
-#include "..\Lessons\Lesson04\TexturedCube.h"
+#include "Geometry\Cube\TexturedCube.h"
 #include "InputDialog.h"
 
 DWORD WINAPI ThreadFunction(LPVOID lpParam);

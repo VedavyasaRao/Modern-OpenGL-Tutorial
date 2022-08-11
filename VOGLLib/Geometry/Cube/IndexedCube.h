@@ -1,6 +1,6 @@
 #pragma once
-#include "..\..\VOGLLib\Geometry\BaseGeometry.h"
-#include "..\..\VOGLLib\Geometry\Cube\CubeMesh.h"
+#include "..\BaseGeometry.h"
+#include "CubeMesh.h"
 
 //implements EBO Indexed cube
 class IndexedCube :public BaseGeometry
