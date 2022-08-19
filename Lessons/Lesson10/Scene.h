@@ -24,7 +24,7 @@ public:
 
 		mskbd->PPM.setFOV(45.0f);
 		mskbd->PPM.setProjectionMatrix(0.1f, 100.0f);
-		cube.Init(0, R"(..\resources\textures\vedavyasa rao.jpg)");
+		cube.Init(0, R"(..\resources\textures\khri$ha.jpg)");
 		cube.MM.Translateby = glm::vec3(0.0f, 0.0f, -3.0f);
 		//generate vertices
 		cube.GenerateVertices();
