@@ -22,7 +22,7 @@ public:
 		mskbd->CenterCursor();
 		mskbd->PPM.setFOV(45.0f);
 		mskbd->PPM.setProjectionMatrix(1.0f, 1000.0f);
-		dynamic_cast<FPSCamera*>(mskbd)->setViewMatrix({ 6.0f, 6.0f, 6.0f }, { 0.0f, 0.0f, -1.0f }, { 0.0f, 1.0f, 0.0f });
+		dynamic_cast<FPSCamera*>(mskbd)->setViewMatrix({ 26.0f, 6.0f, 6.0f }, { 0.0f, 0.0f, -0.5f }, { 0.0f, 1.0f, 0.0f });
 		dynamic_cast<FPSCamera*>(mskbd)->setSenseivity(0.50f, 0.01f);
 		
 		generateFloor();
@@ -62,6 +62,10 @@ public:
 	void Cleanup()
 	{
 		floor.Cleanup();
+		roof.Cleanup();
+		photo.Cleanup();
+		wall.Cleanup();
+		boxes.Cleanup();
 		delete mskbd;
 	}
 	
@@ -71,9 +75,9 @@ public:
 		glClearColor(0.0f, 0.0f, 255.0f, 0.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		mskbd->augumentModelMatrix(floor);
 		((FPSCamera*)mskbd)->updateViewMatrix();
 
+		mskbd->augumentModelMatrix(floor);
 		mskbd->setViewMatrix(floor);
 		mskbd->setPerspectiveProjectionMatrix(floor);
 		floor.Draw();
@@ -112,7 +116,7 @@ private:
 	void generateFloor()
 	{
 		vertices.clear();
-		for (float a = -10.0f; a <= 170.0f; a = a + 10.0f)
+		for (float a = -10.0f; a <= 170.0f; a += 10.0f)
 		{
 			vertices.push_back({ 0.0 + a, 0.0, 10.0 });
 			vertices.push_back({ 0.0 + a, 0.0, 0.0 });
@@ -122,7 +126,7 @@ private:
 
 		for (float b = -10.0f; b <= 320.0f; b += 10.0f)
 		{
-			for (float a = -10.0f; a <= 170.0f; a = a + 10.0f)
+			for (float a = -10.0f; a <= 170.0f; a += 10.0f)
 			{
 				vertices.push_back({ 0.0 + a, 0.0, -(b - 10.0) });
 				vertices.push_back({ 0.0 + a, 0.0, -b });
@@ -136,7 +140,7 @@ private:
 	void generateRoof()
 	{
 		vertices.clear();
-		for (float a = -10.0f; a <= 170.0f; a = a + 10.0f)
+		for (float a = -10.0f; a <= 170.0f; a += 10.0f)
 		{
 			vertices.push_back({ 0.0 + a, 50.0, 20.0 });
 			vertices.push_back({ 0.0 + a, 50.0, 0.0 });
@@ -146,7 +150,7 @@ private:
 
 		for (float b = -10.0f; b <= 320.0f; b += 10.0f)
 		{
-			for (float a = -10.0f; a <= 170.0f; a = a + 10.0f)
+			for (float a = -10.0f; a <= 170.0f; a += 10.0f)
 			{
 
 				vertices.push_back({ 0.0 + a, 50.0, -(b - 10.0) });
@@ -190,7 +194,7 @@ private:
 		//glColor3f(0.7, 0.7, 0.5);
 
 		//wall 1
-		for (float a = 0.0; a <= 180.0; a = a + 10.0)
+		for (float a = 0.0f; a <= 180.0f; a += 10.0f)
 		{
 			vertices.push_back({ -10.0 + a, 0.0, 20.0 });
 			vertices.push_back({ -10.0 + a, 50.0, 20.0 });
@@ -199,7 +203,7 @@ private:
 		}
 
 		//wall 2
-		for (float a = 0.0; a <= 320.0; a = a + 20.0)
+		for (float a = 0.0f; a <= 320.0f; a = a + 20.0f)
 		{
 			vertices.push_back({ 180.0, 0.0, 0.0 - a });
 			vertices.push_back({ 180.0, 50.0, 0.0 - a });
@@ -208,7 +212,7 @@ private:
 		}
 
 		//wall 3
-		for (float a = 0.0; a <= 180.0; a = a + 10.0)
+		for (float a = 0.0f; a <= 180.0f; a += 10.0f)
 		{
 			vertices.push_back({ 180.0 - a, 0.0, -320.0 });
 			vertices.push_back({ 180.0 - a, 50.0, -320.0 });
@@ -218,7 +222,7 @@ private:
 
 
 		//wall 4
-		for (float a = -10.0; a <= 320.0; a = a + 10.0)
+		for (float a = -10.0f; a <= 320.0f; a += 10.0f)
 		{
 			vertices.push_back({ -10.0, 0.0, 0.0 - a });
 			vertices.push_back({ -10.0, 50.0, 0.0 - a });
@@ -232,27 +236,27 @@ private:
 		vertices.clear();
 		//glColor3f(0.7, 0.6, 0.4);
 		//draw 3 wood boxes
-		for (float a = 0.0; a <= 60.0; a += 30.0)
+		for (float a = 0.0f; a <= 60.0f; a += 30.0f)
 		{
-			vertices.push_back({ 30.0 + a, 9.0, 14.0 });
-			vertices.push_back({ 40.0 + a, 9.0, 14.0 });
-			vertices.push_back({ 40.0 + a, 0.1, 14.0 });
-			vertices.push_back({ 30.0 + a, 0.1, 14.0 });
+			vertices.push_back({ 10.0 + a, 9.0, -34.0 });
+			vertices.push_back({ 20.0 + a, 9.0, -34.0 });
+			vertices.push_back({ 20.0 + a, 0.1, -34.0 });
+			vertices.push_back({ 10.0 + a, 0.1, -34.0 });
 
-			vertices.push_back({ 30.0 + a, 9.0, 14.0 });
-			vertices.push_back({ 40.0 + a, 9.0, 14.0 });
-			vertices.push_back({ 40.0 + a, 9.0, 19.8 });
-			vertices.push_back({ 30.0 + a, 9.0, 19.8 });
+			vertices.push_back({ 10.0 + a, 9.0, -34.0 });
+			vertices.push_back({ 20.0 + a, 9.0, -34.0 });
+			vertices.push_back({ 20.0 + a, 9.0, -39.8 });
+			vertices.push_back({ 10.0 + a, 9.0, -39.8 });
 
-			vertices.push_back({ 30.0 + a, 9.0, 14.0 });
-			vertices.push_back({ 30.0 + a, 9.0, 19.8 });
-			vertices.push_back({ 30.0 + a, 0.1, 19.8 });
-			vertices.push_back({ 30.0 + a, 0.1, 14.0 });
+			vertices.push_back({ 10.0 + a, 9.0, -34.0 });
+			vertices.push_back({ 10.0 + a, 9.0, -39.8 });
+			vertices.push_back({ 10.0 + a, 0.1, -39.8 });
+			vertices.push_back({ 10.0 + a, 0.1, -34.0 });
 
-			vertices.push_back({ 40.0 + a, 9.0, 14.0 });
-			vertices.push_back({ 40.0 + a, 9.0, 19.8 });
-			vertices.push_back({ 40.0 + a, 0.1, 19.8 });
-			vertices.push_back({ 40.0 + a, 0.1, 14.0 });
+			vertices.push_back({ 20.0 + a, 9.0, -34.0 });
+			vertices.push_back({ 20.0 + a, 9.0, -39.8 });
+			vertices.push_back({ 20.0 + a, 0.1, -39.8 });
+			vertices.push_back({ 20.0 + a, 0.1, -34.0 });
 		}
 	}
 

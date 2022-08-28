@@ -25,6 +25,8 @@ public:
 		mskbd->PPM.setProjectionMatrix(0.1f, 10.0f);
 		cube.Init(0, R"(..\resources\textures\bricks2.jpg)");
 		cube.MM.Translateby = glm::vec3(0.0f, 0.0f, -3.0f);
+		//cube.MM.Translateby = glm::vec3(-15.0f, 0.0f, 0.0f);
+		//cube.MM.Scaleby = glm::vec3(20.0f, 10.0f, 10.0f);
 		//generate vertices
 		cube.GenerateVertices();
 		

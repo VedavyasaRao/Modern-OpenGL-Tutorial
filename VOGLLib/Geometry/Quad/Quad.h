@@ -16,6 +16,11 @@ public:
 		this->filename = filename;
 	}
 
+	void updateTextureFile(const string& filename)
+	{
+		this->filename = filename;
+	}
+
 	void updateTextureMap(float texsize)
 	{
 		dynamic_cast<QuadMesh*>(mesh)->updateTextureMap(texsize);

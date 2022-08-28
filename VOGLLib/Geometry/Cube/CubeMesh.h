@@ -182,7 +182,6 @@ private:
 
 	std::vector < glm::vec2> texturemap =
 	{
-		
 		{ 0.0f, 1.0f },
 		{ 0.0f, 0.0f },
 		{ 1.0f, 0.0f },
