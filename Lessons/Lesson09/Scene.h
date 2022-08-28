@@ -64,7 +64,7 @@ public:
 
 		mskbd->setViewMatrix(cube);
 		mskbd->setPerspectiveProjectionMatrix(cube);
-		cube.Draw(false);
+		cube.Draw();
 		mskbd->MM.Reset();
 
 		mskbd->augumentModelMatrix(textutl);
@@ -73,7 +73,7 @@ public:
 		mskbd->augumentModelMatrix(floor);
 		mskbd->setViewMatrix(floor);
 		mskbd->setPerspectiveProjectionMatrix(floor);
-		floor.Draw(false);
+		floor.Draw();
 	}
 
 	//Close the window

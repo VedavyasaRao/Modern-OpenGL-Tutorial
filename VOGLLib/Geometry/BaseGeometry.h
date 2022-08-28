@@ -15,6 +15,8 @@ public:
 
 		shader.CreateAndLinkProgram();
 		this->mesh = mesh;
+		bindexed = false;
+
 	}
 
 	virtual void Cleanup()
@@ -29,13 +31,13 @@ public:
 		glUniformMatrix4fv(shader.GetUniformLocation("transform"), 1, GL_FALSE, glm::value_ptr(GetTransformationMatrix()));
 	}
 
-	virtual void Draw(bool bindex)
+	virtual void Draw()
 	{
 		shader.Use();
 		vaoutl.bindVAO();
 		UpdateUniforms();
 
-		if (!bindex)
+		if (!bindexed)
 			glDrawArrays(GL_TRIANGLES, 0, kount);
 		else
 			glDrawElements(GL_TRIANGLES, kount, GL_UNSIGNED_SHORT, 0);
@@ -75,6 +77,7 @@ protected:
 	ShaderUtil shader;
 	VAOUtil vaoutl;
 	GLuint kount;
+	bool bindexed;
 
 };
 /////////////////////BaseGeometry///////////////////////////////////

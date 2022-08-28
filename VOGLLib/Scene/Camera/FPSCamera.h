@@ -74,6 +74,20 @@ public:
 		VM.setViewMatrix(camera_pos, camera_pos + camera_front, camera_up);
 	}
 
+	void setViewMatrix(const vec3& camera_pos, const vec3& camera_front, const vec3&  camera_up)
+	{
+		this->camera_pos = camera_pos;
+		this->camera_front = camera_front;
+		this->camera_up = camera_up;
+		updateViewMatrix();
+	}
+
+	void setSenseivity(const float& velocity, const float& mouse_sensitivity)
+	{
+		this->velocity = velocity;
+		this->mouse_sensitivity = mouse_sensitivity;
+	}
+
 protected:
 	vec3 camera_pos = { 0.0, 0.0, 0.0 };
 	vec3 camera_front = { 0.0, 0.0, -1.0 };

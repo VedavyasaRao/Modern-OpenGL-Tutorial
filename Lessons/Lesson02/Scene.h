@@ -35,7 +35,7 @@ public:
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		mskbd->augumentModelMatrix(cube);
-		cube.Draw(false);
+		cube.Draw();
 		mskbd->MM.Reset();
 	}
 

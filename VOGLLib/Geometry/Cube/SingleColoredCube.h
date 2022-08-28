@@ -14,7 +14,7 @@ public:
 		//assign the color
 		this->color = color;
 		//Generate VBO data
-		kount = mesh->GenerateVerticesData(FALSE,VAOUtil::POS, vaoutl);
+		kount = mesh->GenerateVerticesData(VAOUtil::POS, vaoutl);
 		//Enable single vertex
 		vaoutl.SetupVBO(0, VAOUtil::POS);
 		vaoutl.unbindVAO();

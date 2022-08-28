@@ -4,11 +4,8 @@
 class TextMesh:public IGeometryMesh
 {
 public:
-	int GenerateVerticesData(bool isindexed, int att, VAOUtil& vaoutl)
+	int GenerateVerticesData(int att, VAOUtil& vaoutl)
 	{
-		if (isindexed)
-			return 0;
-
 		for (unsigned short  i = 0; i < vertices.size(); ++i)
 		{
 			if (att & VAOUtil::POS)
@@ -25,10 +22,6 @@ public:
 		return vertices.size();
 	}
 
-	int GenerateIndicesData(VAOUtil& vaoutl)
-	{
-		return 0;
-	}
 
 private:
 	/*
@@ -45,6 +38,7 @@ private:
 		{ -0.5, +0.5, 0.0 },
 		{ -0.5, -0.5, 0.0 },
 		{ +0.5,-0.5,  0.0 },
+
 		{ +0.5,-0.5,  0.0 },
 		{ +0.5,+0.5,  0.0 },
 		{ -0.5, +0.5, 0.0 },

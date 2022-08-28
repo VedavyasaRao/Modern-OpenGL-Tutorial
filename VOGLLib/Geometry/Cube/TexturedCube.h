@@ -19,7 +19,7 @@ public:
 	void GenerateVertices()
 	{
 		//generate VBOs for position and Texture coordinates
-		kount = mesh->GenerateVerticesData(false, VAOUtil::POS | VAOUtil::TEX, vaoutl);
+		kount = mesh->GenerateVerticesData(VAOUtil::POS | VAOUtil::TEX, vaoutl);
 
 		//setup vertices
 		vaoutl.SetupVBO(0, VAOUtil::POS);

@@ -40,7 +40,7 @@ public:
 		//only model is modified
 		//view and projection will be identity matrix
 		mskbd->augumentModelMatrix(cube);
-		cube.Draw(true);
+		cube.Draw();
 		mskbd->MM.Reset();
 	}
 

@@ -11,14 +11,16 @@ public:
 	{
 		//initialize
 		BaseGeometry::Init(new CubeMesh());
+		IGeometryMeshIndexed* idxmesh = dynamic_cast<IGeometryMeshIndexed*>(mesh);
+		bindexed = true;
 		//update VBO data of the vertices
-		mesh->GenerateVerticesData(true, VAOUtil::POS | VAOUtil::CLR, vaoutl);
+		idxmesh->GenerateVerticesDataIndexed(VAOUtil::POS | VAOUtil::CLR, vaoutl);
 		//setup vertex for Position
 		vaoutl.SetupVBO(0, VAOUtil::POS);
 		//setup vertex for Color
 		vaoutl.SetupVBO(1, VAOUtil::CLR);
 		//populate EBO indices
-		kount = mesh->GenerateIndicesData(vaoutl);
+		kount = idxmesh->GenerateIndicesData(vaoutl);
 		//bind VBO
 		vaoutl.SetupEBO();
 

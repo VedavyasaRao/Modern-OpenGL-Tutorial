@@ -48,7 +48,7 @@ public:
 			mskbd->setOrthographicProjectionMatrix(cube);
 		else
 			mskbd->setPerspectiveProjectionMatrix(cube);
-		cube.Draw(false);
+		cube.Draw();
 		mskbd->MM.Reset();
 
 	}

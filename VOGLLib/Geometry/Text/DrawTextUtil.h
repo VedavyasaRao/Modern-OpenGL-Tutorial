@@ -30,7 +30,7 @@ public:
 			texutl.LoadTextTextureImage(bdata.Scan0, htwd);
 
 		pbitmap->UnlockBits(&bdata);
-		Draw(false);
+		Draw();
 	}
 
 	static void Startup()
@@ -49,7 +49,7 @@ public:
 		BaseGeometry::Init(new TextMesh());
 		glDisable(GL_DEPTH_TEST);
 
-		kount = mesh->GenerateVerticesData(false, VAOUtil::POS | VAOUtil::TEX, vaoutl);
+		kount = mesh->GenerateVerticesData( VAOUtil::POS | VAOUtil::TEX, vaoutl);
 		vaoutl.SetupVBO(0, VAOUtil::POS);
 		vaoutl.SetupVBO(1, VAOUtil::TEX);
 		vaoutl.unbindVAO();

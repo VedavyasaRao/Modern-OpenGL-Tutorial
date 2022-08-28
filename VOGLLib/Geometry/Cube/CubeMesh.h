@@ -1,11 +1,11 @@
 #pragma once
-#include "..\GeometryMesh.h"
+#include "..\GeometryMeshIndexed.h"
 //Implements IGeometryMesh for Cube object
-class CubeMesh :public IGeometryMesh
+class CubeMesh :public IGeometryMeshIndexed
 {
 public:
 	//Generate VBO vertex data in non Indexed Mode for all except IDX
-	int GenerateVerticesDataNonIndexed(int att, VAOUtil& vaoutl)
+	int GenerateVerticesData(int att, VAOUtil& vaoutl)
 	{
 		int clrs_sz = clrs.size();
 		int normals_sz = normals.size();
@@ -63,16 +63,10 @@ public:
 	}
 
 
-	//Generate VBO vertex data for all except IDX
-	int GenerateVerticesData(bool isindexed, int att, VAOUtil& vaoutl)
-	{
-		return (isindexed) ? GenerateVerticesDataIndexed(att, vaoutl) : GenerateVerticesDataNonIndexed(att, vaoutl);
-	}
-
 	//Generate EBO data
 	int GenerateIndicesData(VAOUtil& vaoutl)
 	{
-		return GenerateVerticesDataNonIndexed(VAOUtil::IDX, vaoutl);
+		return GenerateVerticesData(VAOUtil::IDX, vaoutl);
 	}
 
 	//override default colors
@@ -196,4 +190,5 @@ private:
 		{ 1.0f, 1.0f },
 		{ 0.0f, 1.0f },
 	};
+
 };

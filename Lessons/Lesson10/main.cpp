@@ -4,9 +4,8 @@ Scene scene;
 
 int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd_line, int show)
 {
-	DrawTextUtil::Startup();
 
-	scene.Init(RECT{ 100, 100, 780, 500 }, L"Modern OpenGL-Tutorial - Lesson010");
+	scene.Init(RECT{ 100, 100, 780, 500 }, L"Modern OpenGL-Tutorial - Lesson10");
 	scene.ShowWindow(show);
 
 	MSG msg;
@@ -16,6 +15,5 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd_line, int show)
 		DispatchMessageA(&msg);
 	}
 
-	DrawTextUtil::Shutdown();
 	return 0;
 }

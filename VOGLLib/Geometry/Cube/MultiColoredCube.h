@@ -11,7 +11,7 @@ public:
 		//initialize opengl context
 		BaseGeometry::Init(new CubeMesh());
 		//generate vbo data
-		kount = mesh->GenerateVerticesData(false, VAOUtil::POS | VAOUtil::CLR, vaoutl);
+		kount = mesh->GenerateVerticesData(VAOUtil::POS | VAOUtil::CLR, vaoutl);
 		//setup vertices
 		vaoutl.SetupVBO(0, VAOUtil::POS);
 		vaoutl.SetupVBO(1, VAOUtil::CLR);
