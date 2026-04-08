@@ -24,11 +24,10 @@ public:
 		BaseScene::Init(rect, windowname);
 		//attach mouse keyboard input handler
 		mskbd = new DualProjectionCamera(m_hWnd);
-		SceneCamera = dynamic_cast<DualProjectionCamera*>(mskbd);
 
-		SceneCamera->updateWH();
-		SceneCamera->VM.setViewMatrix({ 0.0,0.0,5.0 }, { 0.0,0.0,0.0 }, { 0.0,1.0,0.0 });
-		SceneCamera->PPM.setProjectionMatrix(1.0,100.0);
+		SceneCamera()->updateWH();
+		SceneCamera()->VM.setViewMatrix({ 0.0,0.0,5.0 }, { 0.0,0.0,0.0 }, { 0.0,1.0,0.0 });
+		SceneCamera()->PPM.setProjectionMatrix(1.0,100.0);
 		cube.Init();
 
 		CreateThread(NULL, 0, ThreadFunction,  this,  0, NULL);
@@ -44,20 +43,20 @@ public:
 	void DrawScene()
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		SceneCamera->augumentModelMatrix(cube);
-		SceneCamera->setViewMatrix(cube);
+		SceneCamera()->augumentModelMatrix(cube);
+		SceneCamera()->setViewMatrix(cube);
 		if (pdlg && pdlg->bortho)
-			SceneCamera->setOrthographicProjectionMatrix(cube);
+			SceneCamera()->setOrthographicProjectionMatrix(cube);
 		else
-			SceneCamera->setPerspectiveProjectionMatrix(cube);
+			SceneCamera()->setPerspectiveProjectionMatrix(cube);
 		cube.Draw();
-		SceneCamera->MM.Reset();
+		SceneCamera()->MM.Reset();
 	}
 
 	void CreateInputDlg()
 	{
 		pdlg = new InputDlg();
-		pdlg->aspectratio = -SceneCamera->PPM.AspectRatio;
+		pdlg->aspectratio = -SceneCamera()->PPM.AspectRatio;
 		pdlg->xminmaxvec = { -pdlg->aspectratio, pdlg->aspectratio };
 		pdlg->Create(m_hWnd);
 		pdlg->ShowWindow(SW_SHOW);
@@ -68,18 +67,18 @@ public:
 		bHandled = TRUE;
 		if (pdlg->blookat)
 		{
-			SceneCamera->VM.setViewMatrix(pdlg->positionvec, pdlg->targetvec, pdlg->upvec);
+			SceneCamera()->VM.setViewMatrix(pdlg->positionvec, pdlg->targetvec, pdlg->upvec);
 		}
 
 		if (pdlg->bperspective)
 		{
-			SceneCamera->PPM.setFOV(pdlg->fovflt);
-			SceneCamera->PPM.setProjectionMatrix(pdlg->nearflt, pdlg->farflt);
+			SceneCamera()->PPM.setFOV(pdlg->fovflt);
+			SceneCamera()->PPM.setProjectionMatrix(pdlg->nearflt, pdlg->farflt);
 		}
 
 		if (pdlg->bortho)
 		{
-			SceneCamera->OPM.setProjectionMatrix(pdlg->xminmaxvec, pdlg->yminmaxvec, pdlg->zminmaxvec);
+			SceneCamera()->OPM.setProjectionMatrix(pdlg->xminmaxvec, pdlg->yminmaxvec, pdlg->zminmaxvec);
 		}
 
 		Invalidate();
@@ -101,13 +100,12 @@ public:
 		return 0;
 	}
 
+	inline DualProjectionCamera*  SceneCamera() { return dynamic_cast<DualProjectionCamera*>(mskbd); }
 
 private:
 	MultiColoredCube cube;
 	int IDM_INPUTDLG = 1001;
 	InputDlg *pdlg;
-	DualProjectionCamera*  SceneCamera = nullptr;
-
 };
 /////////////////////Scene0///////////////////////////////////
 

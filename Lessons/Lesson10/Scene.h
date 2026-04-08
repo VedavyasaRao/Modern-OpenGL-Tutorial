@@ -18,14 +18,13 @@ public:
 		BaseScene::Init(rect, windowname);
 		//attach mouse keyboard input handler
 		mskbd = new FPSCamera(m_hWnd);
-		SceneCamera = dynamic_cast<FPSCamera*>(mskbd);
 
-		SceneCamera->updateWH();
-		SceneCamera->CenterCursor();
-		SceneCamera->PPM.setFOV(45.0f);
-		SceneCamera->PPM.setProjectionMatrix(1.0f, 1000.0f);
-		SceneCamera->setViewMatrix2({ 26.0f, 6.0f, 6.0f }, { 0.0f, 0.0f, -0.5f }, { 0.0f, 1.0f, 0.0f });
-		SceneCamera->setSenseivity(0.50f, 0.01f);
+		SceneCamera()->updateWH();
+		SceneCamera()->CenterCursor();
+		SceneCamera()->PPM.setFOV(45.0f);
+		SceneCamera()->PPM.setProjectionMatrix(1.0f, 1000.0f);
+		SceneCamera()->setViewMatrix2({ 26.0f, 6.0f, 6.0f }, { 0.0f, 0.0f, -0.5f }, { 0.0f, 1.0f, 0.0f });
+		SceneCamera()->setSenseivity(0.50f, 0.01f);
 		
 		generateFloor();
 		floor.Init(1, R"(..\resources\textures\blocks3.bmp)");
@@ -77,30 +76,30 @@ public:
 		glClearColor(0.0f, 0.0f, 255.0f, 0.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		SceneCamera->updateViewMatrix();
-		SceneCamera->augumentModelMatrix(floor);
-		SceneCamera->setViewMatrix(floor);
-		SceneCamera->setPerspectiveProjectionMatrix(floor);
+		SceneCamera()->updateViewMatrix();
+		SceneCamera()->augumentModelMatrix(floor);
+		SceneCamera()->setViewMatrix(floor);
+		SceneCamera()->setPerspectiveProjectionMatrix(floor);
 		floor.Draw();
 
-		SceneCamera->augumentModelMatrix(roof);
-		SceneCamera->setViewMatrix(roof);
-		SceneCamera->setPerspectiveProjectionMatrix(roof);
+		SceneCamera()->augumentModelMatrix(roof);
+		SceneCamera()->setViewMatrix(roof);
+		SceneCamera()->setPerspectiveProjectionMatrix(roof);
 		roof.Draw();
 
-		SceneCamera->augumentModelMatrix(photo);
-		SceneCamera->setViewMatrix(photo);
-		SceneCamera->setPerspectiveProjectionMatrix(photo);
+		SceneCamera()->augumentModelMatrix(photo);
+		SceneCamera()->setViewMatrix(photo);
+		SceneCamera()->setPerspectiveProjectionMatrix(photo);
 		photo.Draw();
 
-		SceneCamera->augumentModelMatrix(wall);
-		SceneCamera->setViewMatrix(wall);
-		SceneCamera->setPerspectiveProjectionMatrix(wall);
+		SceneCamera()->augumentModelMatrix(wall);
+		SceneCamera()->setViewMatrix(wall);
+		SceneCamera()->setPerspectiveProjectionMatrix(wall);
 		wall.Draw();
 
-		SceneCamera->augumentModelMatrix(boxes);
-		SceneCamera->setViewMatrix(boxes);
-		SceneCamera->setPerspectiveProjectionMatrix(boxes);
+		SceneCamera()->augumentModelMatrix(boxes);
+		SceneCamera()->setViewMatrix(boxes);
+		SceneCamera()->setPerspectiveProjectionMatrix(boxes);
 		boxes.Draw();
 	}
 
@@ -261,6 +260,7 @@ private:
 		}
 	}
 
+	inline FPSCamera*  SceneCamera() { return dynamic_cast<FPSCamera*>(mskbd); }
 
 
 private:
@@ -270,5 +270,4 @@ private:
 	Quad  wall;
 	Quad  boxes;
 	vector<vec3> vertices;
-	FPSCamera*  SceneCamera = nullptr;
 };

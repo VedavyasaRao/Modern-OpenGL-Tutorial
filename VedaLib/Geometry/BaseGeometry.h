@@ -70,7 +70,6 @@ public:
 	ModelMatrixData MM;
 	mat4 ViewMatrix{ 1 };
 	mat4 ProjectionMatrix{ 1 };
-
 	IGeometryMesh *mesh;
 
 protected:

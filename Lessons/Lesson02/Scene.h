@@ -18,7 +18,6 @@ public:
 		BaseScene::Init(rect, windowname);
 		//attach keyboard/mouse input handler
 		mskbd = new ThreeDCamera(m_hWnd);
-		SceneCamera = dynamic_cast<ThreeDCamera*>(mskbd);
 
 		//Create cube an set color
 		cube.Init(glm::vec3(1.0f,0.0f,1.0f));
@@ -36,9 +35,9 @@ public:
 	void DrawScene()
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		SceneCamera->augumentModelMatrix(cube);
+		SceneCamera()->augumentModelMatrix(cube);
 		cube.Draw();
-		SceneCamera->MM.Reset();
+		SceneCamera()->MM.Reset();
 	}
 
 	//Close the window
@@ -50,9 +49,10 @@ public:
 		return 0;
 	}
 
+	inline ThreeDCamera*  SceneCamera() { return dynamic_cast<ThreeDCamera*>(mskbd); }
 
 private:
 	SingleColoredCube cube;
-	ThreeDCamera*  SceneCamera = nullptr;
+	
 
 };

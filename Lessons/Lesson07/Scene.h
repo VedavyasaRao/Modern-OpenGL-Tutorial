@@ -24,7 +24,6 @@ public:
 
 		//attach mouse keyboard input handler
 		mskbd = new ThreeDCamera(m_hWnd);
-		SceneCamera = dynamic_cast<ThreeDCamera*>(mskbd);
 		textutl.Init(GL_TEXTURE0+4, 256);
 		CreateThread(NULL, 0, ThreadFunction,  this,  0, NULL);
 		return 0;
@@ -38,9 +37,9 @@ public:
 	void DrawScene()
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		SceneCamera->augumentModelMatrix(textutl);
+		SceneCamera()->augumentModelMatrix(textutl);
 		textutl.Drawtext({ 1.0,1.0 }, L"Hello Khri$ha Rao!");
-		SceneCamera->MM.Reset();
+		SceneCamera()->MM.Reset();
 		
 
 	}
@@ -81,12 +80,12 @@ public:
 		return 0;
 	}
 
+	inline ThreeDCamera*  SceneCamera() { return dynamic_cast<ThreeDCamera*>(mskbd); }
 
 private:
 	int IDM_INPUTDLG = 1001;
 	InputDlg *pdlg;
 	DrawTextUtil  textutl;
-	ThreeDCamera*  SceneCamera = nullptr;
 
 };
 /////////////////////Scene0///////////////////////////////////

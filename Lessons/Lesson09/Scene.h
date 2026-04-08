@@ -19,11 +19,10 @@ public:
 		BaseScene::Init(rect, windowname);
 		//attach mouse keyboard input handler
 		mskbd = new FPSCamera(m_hWnd);
-		SceneCamera = dynamic_cast<FPSCamera*>(mskbd);
-		SceneCamera->updateWH();
-		SceneCamera->CenterCursor();
-		SceneCamera->PPM.setFOV(60.0f);
-		SceneCamera->PPM.setProjectionMatrix(0.1f, 10.0f);
+		SceneCamera()->updateWH();
+		SceneCamera()->CenterCursor();
+		SceneCamera()->PPM.setFOV(60.0f);
+		SceneCamera()->PPM.setProjectionMatrix(0.1f, 10.0f);
 		cube.Init(0, R"(..\resources\textures\bricks2.jpg)");
 		cube.MM.Translateby = glm::vec3(0.0f, 0.0f, -3.0f);
 		//cube.MM.Translateby = glm::vec3(-15.0f, 0.0f, 0.0f);
@@ -62,20 +61,20 @@ public:
 		glClearColor(0.0f, 0.0f, 255.0f, 0.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		SceneCamera->augumentModelMatrix(cube);
-		SceneCamera->updateViewMatrix();
+		SceneCamera()->augumentModelMatrix(cube);
+		SceneCamera()->updateViewMatrix();
 
-		SceneCamera->setViewMatrix(cube);
-		SceneCamera->setPerspectiveProjectionMatrix(cube);
+		SceneCamera()->setViewMatrix(cube);
+		SceneCamera()->setPerspectiveProjectionMatrix(cube);
 		cube.Draw();
-		SceneCamera->MM.Reset();
+		SceneCamera()->MM.Reset();
 
-		SceneCamera->augumentModelMatrix(textutl);
+		SceneCamera()->augumentModelMatrix(textutl);
 		textutl.Drawtext(PointF(0.0, 0.0), const_cast<WCHAR*>(L""));
 
-		SceneCamera->augumentModelMatrix(floor);
-		SceneCamera->setViewMatrix(floor);
-		SceneCamera->setPerspectiveProjectionMatrix(floor);
+		SceneCamera()->augumentModelMatrix(floor);
+		SceneCamera()->setViewMatrix(floor);
+		SceneCamera()->setPerspectiveProjectionMatrix(floor);
 		floor.Draw();
 	}
 
@@ -88,10 +87,11 @@ public:
 		return 0;
 	}
 
+	inline FPSCamera*  SceneCamera() { return dynamic_cast<FPSCamera*>(mskbd); }
+
 private:
 	TexturedCube cube;
 	TexturedCube floor;
 	DrawTextUtil  textutl;
 	double previousSeconds = GetTickCount() / 1000.0;
-	FPSCamera*  SceneCamera = nullptr;
 };

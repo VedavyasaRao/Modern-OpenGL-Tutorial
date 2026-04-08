@@ -18,7 +18,6 @@ public:
 		BaseScene::Init(rect, windowname);
 		//attach mouse keyboard input handler
 		mskbd = new ThreeDCamera(m_hWnd);
-		SceneCamera = dynamic_cast<ThreeDCamera*>(mskbd);
 
 		//Create cube an set color
 		cube.Init();
@@ -42,9 +41,9 @@ public:
 		//get model view projection matrix. 
 		//only model is modified
 		//view and projection will be identity matrix
-		SceneCamera->augumentModelMatrix(cube);
+		SceneCamera()->augumentModelMatrix(cube);
 		cube.Draw();
-		SceneCamera->MM.Reset();
+		SceneCamera()->MM.Reset();
 	}
 
 	//Close the window
@@ -56,9 +55,8 @@ public:
 		return 0;
 	}
 
+	inline ThreeDCamera*  SceneCamera() { return dynamic_cast<ThreeDCamera*>(mskbd); }
 
 private:
 	IndexedCube cube;
-	ThreeDCamera*  SceneCamera = nullptr;
-
 };
