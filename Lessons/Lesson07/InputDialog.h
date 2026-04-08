@@ -86,7 +86,8 @@ public:
 			rgbCurrent = cf.rgbColors;
 			SetTextColor(hdc, rgbCurrent);
 			sampletext.SetWindowText(L"");
-			TextOutA(hdc, 0, 0, "Hellow orld!", 13);
+			wstring display_string (L"Hello Khri$ha Rao!");
+			TextOut(hdc, 0, 0, display_string.c_str(), display_string.length());
 			sampletext.ReleaseDC(hdc);
 		}
 			

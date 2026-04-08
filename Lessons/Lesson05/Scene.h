@@ -1,4 +1,5 @@
 #include "Scene\BaseScene.h"
+#include "Scene\Camera\ThreeDCamera.h"
 #include "Geometry\Cube\MultiColoredCube.h"
 
 class Scene:public BaseScene
@@ -16,7 +17,8 @@ public:
 		//create host window and context
 		BaseScene::Init(rect, windowname);
 		//attach mouse keyboard input handler
-		mskbd = new SimpleCamera(m_hWnd);
+		mskbd = new ThreeDCamera(m_hWnd);
+		SceneCamera = dynamic_cast<ThreeDCamera*>(mskbd);
 
 		//Create multicolor cube
 		cube.Init();
@@ -39,9 +41,9 @@ public:
 		//get model view projection matrix. 
 		//only model is modified
 		//view and projection will be identity matrix
-		mskbd->augumentModelMatrix(cube);
+		SceneCamera->augumentModelMatrix(cube);
 		cube.Draw();
-		mskbd->MM.Reset();
+		SceneCamera->MM.Reset();
 
 	}
 
@@ -57,4 +59,6 @@ public:
 
 private:
 	MultiColoredCube cube;
+	ThreeDCamera*  SceneCamera = nullptr;
+
 };

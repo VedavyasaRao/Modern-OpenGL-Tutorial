@@ -1,4 +1,5 @@
 #include "Scene\BaseScene.h"
+#include "Scene\Camera\ThreeDCamera.h"
 #include "Geometry\Cube\TexturedCube.h"
 
 class Scene:public BaseScene
@@ -16,7 +17,9 @@ public:
 		//create host window and context
 		BaseScene::Init(rect, windowname);
 		//attach mouse keyboard input handler
-		mskbd = new SimpleCamera(m_hWnd);
+		mskbd = new ThreeDCamera(m_hWnd);
+		SceneCamera = dynamic_cast<ThreeDCamera*>(mskbd);
+
 		//Create cube an set texture filename
 		cube.Init(0, R"(..\resources\textures\bricks2.jpg)");
 		//generate vertices
@@ -40,9 +43,9 @@ public:
 		//get model view projection matrix. 
 		//only model is modified
 		//view and projection will be identity matrix
-		mskbd->augumentModelMatrix(cube);
+		SceneCamera->augumentModelMatrix(cube);
 		cube.Draw();
-		mskbd->MM.Reset();
+		SceneCamera->MM.Reset();
 
 	}
 
@@ -58,4 +61,6 @@ public:
 
 private:
 	TexturedCube cube;
+	ThreeDCamera*  SceneCamera = nullptr;
+
 };

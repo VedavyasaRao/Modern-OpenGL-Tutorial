@@ -1,4 +1,5 @@
 #include "Scene\BaseScene.h"
+#include "Scene\Camera\ThreeDCamera.h"
 #include "Geometry\Cube\TexturedCube.h"
 #include "InputDialog.h"
 
@@ -72,8 +73,8 @@ public:
 
 		BaseScene::Init(rect, windowname);
 		//attach mouse keyboard input handler
-		mskbd = new SimpleCamera(m_hWnd);
-
+		mskbd = new ThreeDCamera(m_hWnd);
+		SceneCamera = dynamic_cast<ThreeDCamera*>(mskbd);
 		cube.Init(0, R"(..\resources\textures\uvtemplate.tga)");
 		dynamic_cast<CubeMesh*>(cube.mesh)->updateTextureMap(texturemap);
 		cube.GenerateVertices();
@@ -92,9 +93,9 @@ public:
 	void DrawScene()
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		mskbd->augumentModelMatrix(cube);
+		SceneCamera->augumentModelMatrix(cube);
 		cube.Draw();
-		mskbd->MM.Reset();
+		SceneCamera->MM.Reset();
 
 	}
 
@@ -143,6 +144,8 @@ private:
 	TexturedCube cube;
 	int IDM_INPUTDLG = 1001;
 	InputDlg *pdlg;
+	ThreeDCamera*  SceneCamera = nullptr;
+
 };
 /////////////////////Scene0///////////////////////////////////
 

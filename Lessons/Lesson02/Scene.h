@@ -1,4 +1,5 @@
 #include "Scene\BaseScene.h"
+#include "Scene\Camera\ThreeDCamera.h"
 #include "Geometry\Cube\SingleColoredCube.h"
 
 class Scene:public BaseScene
@@ -16,7 +17,8 @@ public:
 		//create host window and context
 		BaseScene::Init(rect, windowname);
 		//attach keyboard/mouse input handler
-		mskbd = new SimpleCamera(m_hWnd);
+		mskbd = new ThreeDCamera(m_hWnd);
+		SceneCamera = dynamic_cast<ThreeDCamera*>(mskbd);
 
 		//Create cube an set color
 		cube.Init(glm::vec3(1.0f,0.0f,1.0f));
@@ -34,9 +36,9 @@ public:
 	void DrawScene()
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		mskbd->augumentModelMatrix(cube);
+		SceneCamera->augumentModelMatrix(cube);
 		cube.Draw();
-		mskbd->MM.Reset();
+		SceneCamera->MM.Reset();
 	}
 
 	//Close the window
@@ -51,4 +53,6 @@ public:
 
 private:
 	SingleColoredCube cube;
+	ThreeDCamera*  SceneCamera = nullptr;
+
 };

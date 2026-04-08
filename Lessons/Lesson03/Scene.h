@@ -1,4 +1,5 @@
 #include "Scene\BaseScene.h"
+#include "Scene\Camera\ThreeDCamera.h"
 #include "Geometry\Cube\IndexedCube.h"
 
 class Scene:public BaseScene
@@ -16,7 +17,8 @@ public:
 		//create host window and context
 		BaseScene::Init(rect, windowname);
 		//attach mouse keyboard input handler
-		mskbd = new SimpleCamera(m_hWnd);
+		mskbd = new ThreeDCamera(m_hWnd);
+		SceneCamera = dynamic_cast<ThreeDCamera*>(mskbd);
 
 		//Create cube an set color
 		cube.Init();
@@ -35,13 +37,14 @@ public:
 	//draw the scene
 	void DrawScene()
 	{
+		auto threedcamera = dynamic_cast<ThreeDCamera*>(mskbd);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		//get model view projection matrix. 
 		//only model is modified
 		//view and projection will be identity matrix
-		mskbd->augumentModelMatrix(cube);
+		SceneCamera->augumentModelMatrix(cube);
 		cube.Draw();
-		mskbd->MM.Reset();
+		SceneCamera->MM.Reset();
 	}
 
 	//Close the window
@@ -56,4 +59,6 @@ public:
 
 private:
 	IndexedCube cube;
+	ThreeDCamera*  SceneCamera = nullptr;
+
 };

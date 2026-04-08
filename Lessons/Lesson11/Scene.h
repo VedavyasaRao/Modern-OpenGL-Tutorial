@@ -19,11 +19,13 @@ public:
 		BaseScene::Init(rect, windowname);
 		//attach mouse keyboard input handler
 		mskbd = new OrbitCamera(m_hWnd);
-		mskbd->updateWH();
-		mskbd->CenterCursor();
+		SceneCamera = dynamic_cast<OrbitCamera*>(mskbd);
 
-		mskbd->PPM.setFOV(45.0f);
-		mskbd->PPM.setProjectionMatrix(0.1f, 100.0f);
+		SceneCamera->updateWH();
+		SceneCamera->CenterCursor();
+
+		SceneCamera->PPM.setFOV(45.0f);
+		SceneCamera->PPM.setProjectionMatrix(0.1f, 100.0f);
 		cube.Init(0, R"(..\resources\textures\rocks2.bmp)");
 		cube.MM.Translateby = glm::vec3(0.0f, 0.0f, -3.0f);
 		//generate vertices
@@ -60,20 +62,20 @@ public:
 		glClearColor(1.0f, 0.0f, 1.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		mskbd->augumentModelMatrix(cube);
-		((OrbitCamera*)mskbd)->updateViewMatrix();
+		SceneCamera->augumentModelMatrix(cube);
+		SceneCamera->updateViewMatrix();
 
-		mskbd->setViewMatrix(cube);
-		mskbd->setPerspectiveProjectionMatrix(cube);
+		SceneCamera->setViewMatrix(cube);
+		SceneCamera->setPerspectiveProjectionMatrix(cube);
 		cube.Draw();
-		mskbd->MM.Reset();
+		SceneCamera->MM.Reset();
 
-		mskbd->augumentModelMatrix(textutl);
+		SceneCamera->augumentModelMatrix(textutl);
 		textutl.Drawtext(PointF(0.0, 0.0), const_cast<WCHAR*>(L""));
 
-		mskbd->augumentModelMatrix(floor);
-		mskbd->setViewMatrix(floor);
-		mskbd->setPerspectiveProjectionMatrix(floor);
+		SceneCamera->augumentModelMatrix(floor);
+		SceneCamera->setViewMatrix(floor);
+		SceneCamera->setPerspectiveProjectionMatrix(floor);
 		floor.Draw();
 	}
 
@@ -91,4 +93,5 @@ private:
 	TexturedCube floor;
 	DrawTextUtil  textutl;
 	double previousSeconds = GetTickCount() / 1000.0;
+	OrbitCamera*  SceneCamera = nullptr;
 };
