@@ -23,7 +23,7 @@ public:
 		//custom texture mapping
 		BaseScene::Init(rect, windowname);
 		//attach mouse keyboard input handler
-		mskbd = new DualProjectionCamera(m_hWnd);
+		camera = new DualProjectionCamera(m_hWnd);
 
 		SceneCamera()->updateWH();
 		SceneCamera()->VM.setViewMatrix({ 0.0,0.0,5.0 }, { 0.0,0.0,0.0 }, { 0.0,1.0,0.0 });
@@ -100,7 +100,11 @@ public:
 		return 0;
 	}
 
-	inline DualProjectionCamera*  SceneCamera() { return dynamic_cast<DualProjectionCamera*>(mskbd); }
+	inline DualProjectionCamera*  SceneCamera()
+	{
+		static auto ret = dynamic_cast<DualProjectionCamera*>(camera);
+		return ret;
+	}
 
 private:
 	MultiColoredCube cube;

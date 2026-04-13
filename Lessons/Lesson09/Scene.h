@@ -18,7 +18,7 @@ public:
 		//create host window and context
 		BaseScene::Init(rect, windowname);
 		//attach mouse keyboard input handler
-		mskbd = new FPSCamera(m_hWnd);
+		camera = new FPSCamera(m_hWnd);
 		SceneCamera()->updateWH();
 		SceneCamera()->CenterCursor();
 		SceneCamera()->PPM.setFOV(60.0f);
@@ -52,7 +52,7 @@ public:
 		cube.Cleanup();
 		floor.Cleanup();
 		textutl.Cleanup();
-		delete mskbd;
+		delete camera;
 	}
 	
 	//draw the scene
@@ -87,7 +87,11 @@ public:
 		return 0;
 	}
 
-	inline FPSCamera*  SceneCamera() { return dynamic_cast<FPSCamera*>(mskbd); }
+	inline FPSCamera*  SceneCamera()
+	{
+		static auto ret = dynamic_cast<FPSCamera*>(camera);
+		return ret;
+	}
 
 private:
 	TexturedCube cube;

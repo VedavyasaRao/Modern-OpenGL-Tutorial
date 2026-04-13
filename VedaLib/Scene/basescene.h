@@ -136,9 +136,9 @@ protected:
 	//window resize handler
 	virtual void HandleResize(int w, int h)
 	{
-		if (mskbd == nullptr)
+		if (camera == nullptr)
 			return;
-		mskbd->updateWH();
+		camera->updateWH();
 	}
 
 	//keyboard input handler. calls mousekeyboardinput handler if assigned
@@ -150,42 +150,42 @@ protected:
 			return;
 		}
 		
-		if (mskbd == nullptr)
+		if (camera == nullptr)
 			return;
 		
-		if (mskbd->OnKey(key))
+		if (camera->OnKey(key))
 			PaintScene();
 	}
 
 	//mouse left button click handler
 	virtual void  HandleMouseBtnClick(int button, int x, int y)
 	{
-		if (mskbd == nullptr)
+		if (camera == nullptr)
 			return;
-		mskbd->OnMouseBtnDown(button, x, y);
+		camera->OnMouseBtnDown(button, x, y);
 	}
 
 	//mouse move click handler
 	virtual void HandleMouseMove(int button, int x, int y)
 	{
-		if (mskbd == nullptr)
+		if (camera == nullptr)
 			return;
-		if (mskbd->OnMouseMove(button, x, y))
+		if (camera->OnMouseMove(button, x, y))
 			PaintScene();
 	}
 
 	//mouse wheel handler
 	virtual void HandleMouseWheel(int dir)
 	{
-		if (mskbd == nullptr)
+		if (camera == nullptr)
 			return;
-		if (mskbd->OnMouseWheel(dir))
+		if (camera->OnMouseWheel(dir))
 			PaintScene();
 	}
 
 protected:
 	//mouse/keyboard input handler
-	BaseCamera* mskbd;
+	BaseCamera* camera;
 
 
 };

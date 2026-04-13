@@ -17,7 +17,7 @@ public:
 		//create host window and context
 		BaseScene::Init(rect, windowname);
 		//attach keyboard/mouse input handler
-		mskbd = new ThreeDCamera(m_hWnd);
+		camera = new ThreeDCamera(m_hWnd);
 
 		//Create cube an set color
 		cube.Init(glm::vec3(1.0f,0.0f,1.0f));
@@ -28,7 +28,7 @@ public:
 	void Cleanup()
 	{
 		cube.Cleanup();
-		delete mskbd;
+		delete camera;
 	}
 	
 	//draw the scene
@@ -49,7 +49,11 @@ public:
 		return 0;
 	}
 
-	inline ThreeDCamera*  SceneCamera() { return dynamic_cast<ThreeDCamera*>(mskbd); }
+	inline ThreeDCamera*  SceneCamera() 
+	{ 
+		static auto ret = dynamic_cast<ThreeDCamera*>(camera); 
+		return ret;
+	}
 
 private:
 	SingleColoredCube cube;

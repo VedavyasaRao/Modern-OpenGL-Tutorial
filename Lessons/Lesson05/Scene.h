@@ -17,7 +17,7 @@ public:
 		//create host window and context
 		BaseScene::Init(rect, windowname);
 		//attach mouse keyboard input handler
-		mskbd = new ThreeDCamera(m_hWnd);
+		camera = new ThreeDCamera(m_hWnd);
 
 		//Create multicolor cube
 		cube.Init();
@@ -29,7 +29,7 @@ public:
 	void Cleanup()
 	{
 		cube.Cleanup();
-		delete mskbd;
+		delete camera;
 		
 	}
 	
@@ -55,7 +55,11 @@ public:
 		return 0;
 	}
 
-	inline ThreeDCamera*  SceneCamera() { return dynamic_cast<ThreeDCamera*>(mskbd); }
+	inline ThreeDCamera*  SceneCamera()
+	{
+		static auto ret = dynamic_cast<ThreeDCamera*>(camera);
+		return ret;
+	}
 
 private:
 	MultiColoredCube cube;

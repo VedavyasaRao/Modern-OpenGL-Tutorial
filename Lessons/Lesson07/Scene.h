@@ -23,7 +23,7 @@ public:
 		BaseScene::Init(rect, windowname);
 
 		//attach mouse keyboard input handler
-		mskbd = new ThreeDCamera(m_hWnd);
+		camera = new ThreeDCamera(m_hWnd);
 		textutl.Init(GL_TEXTURE0+4, 256);
 		CreateThread(NULL, 0, ThreadFunction,  this,  0, NULL);
 		return 0;
@@ -80,7 +80,11 @@ public:
 		return 0;
 	}
 
-	inline ThreeDCamera*  SceneCamera() { return dynamic_cast<ThreeDCamera*>(mskbd); }
+	inline ThreeDCamera*  SceneCamera()
+	{
+		static auto ret = dynamic_cast<ThreeDCamera*>(camera);
+		return ret;
+	}
 
 private:
 	int IDM_INPUTDLG = 1001;

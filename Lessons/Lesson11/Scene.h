@@ -18,7 +18,7 @@ public:
 		//create host window and context
 		BaseScene::Init(rect, windowname);
 		//attach mouse keyboard input handler
-		mskbd = new OrbitCamera(m_hWnd);
+		camera = new OrbitCamera(m_hWnd);
 
 		SceneCamera()->updateWH();
 		SceneCamera()->CenterCursor();
@@ -52,7 +52,7 @@ public:
 		cube.Cleanup();
 		floor.Cleanup();
 		textutl.Cleanup();
-		delete mskbd;
+		delete camera;
 	}
 	
 	//draw the scene
@@ -87,7 +87,11 @@ public:
 		return 0;
 	}
 
-	inline OrbitCamera*  SceneCamera() { return dynamic_cast<OrbitCamera*>(mskbd); }
+	inline OrbitCamera*  SceneCamera()
+	{
+		static auto ret = dynamic_cast<OrbitCamera*>(camera);
+		return ret;
+	}
 
 private:
 	TexturedCube cube;

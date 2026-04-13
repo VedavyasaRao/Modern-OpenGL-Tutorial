@@ -17,7 +17,7 @@ public:
 		//create host window and context
 		BaseScene::Init(rect, windowname);
 		//attach mouse keyboard input handler
-		mskbd = new ThreeDCamera(m_hWnd);
+		camera = new ThreeDCamera(m_hWnd);
 
 		//Create cube an set color
 		cube.Init();
@@ -29,14 +29,13 @@ public:
 	void Cleanup()
 	{
 		cube.Cleanup();
-		delete mskbd;
+		delete camera;
 		
 	}
 	
 	//draw the scene
 	void DrawScene()
 	{
-		auto threedcamera = dynamic_cast<ThreeDCamera*>(mskbd);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		//get model view projection matrix. 
 		//only model is modified
@@ -55,7 +54,11 @@ public:
 		return 0;
 	}
 
-	inline ThreeDCamera*  SceneCamera() { return dynamic_cast<ThreeDCamera*>(mskbd); }
+	inline ThreeDCamera*  SceneCamera()
+	{
+		static auto ret = dynamic_cast<ThreeDCamera*>(camera);
+		return ret;
+	}
 
 private:
 	IndexedCube cube;

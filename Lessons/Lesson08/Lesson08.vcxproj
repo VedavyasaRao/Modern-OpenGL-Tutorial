@@ -66,10 +66,10 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>..\..\VOGLLib;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)bin\</OutDir>
-    <LinkIncremental>false</LinkIncremental>
+    <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LinkIncremental>false</LinkIncremental>
+    <LinkIncremental>true</LinkIncremental>
     <IncludePath>..\..\VOGLLib;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)bin\</OutDir>
   </PropertyGroup>
