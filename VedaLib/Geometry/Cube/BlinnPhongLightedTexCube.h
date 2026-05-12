@@ -2,16 +2,18 @@
 #include "TexturedCube.h"
 
 
-__declspec(dllexport) class BlinnPhongLightedTexCube :public TexturedCube
+class BlinnPhongLightedTexCube :public TexturedCube
 {
 public:
-	void Init()
+	void Init(GLushort	texunit, const string& filename)
 	{
-		TexturedCube::Init(0,R"(..\resources\textures\bricks2.jpg)");
+		TexturedCube::Init(0, filename);
 
 		vaoutl.bindVAO();
-		kount = mesh->GenerateVertices(VAOUtil::NOR, vaoutl);
-		vaoutl.SetupAttribute(2, VAOUtil::NOR);
+		kount = mesh->GenerateVerticesData(VAOUtil::NOR, vaoutl);
+
+		vaoutl.SetupVBO(2, VAOUtil::NOR);
+
 		vaoutl.unbindVAO();
 	}
 
@@ -87,7 +89,7 @@ public:
 	}
 
 private:
-	BlinnPhongLightingUtil light;
+	PhongLightingUtil light;
 	glm::vec3 cameraPosition;
 };
 

@@ -11,14 +11,19 @@ public:
 	{
 		//setup with a cube and Compile and link shaders
 		BaseGeometry::Init(new CubeMesh());
+
 		//assign the color
 		this->color = color;
+
 		//Generate VBO data
 		kount = mesh->GenerateVerticesData(VAOUtil::POS, vaoutl);
+
 		//Enable single vertex
 		vaoutl.SetupVBO(0, VAOUtil::POS);
+
 		vaoutl.unbindVAO();
 	}
+
 	//Override to supply color of the cube
 	void UpdateUniforms()
 	{

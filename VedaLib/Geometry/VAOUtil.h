@@ -6,7 +6,7 @@
 class VAOUtil
 {
 public:
-	enum VtxAts { POS = 1, CLR = 2, NOR = 4, TEX = 8, IDX = 16 };
+	enum VtxAts { POS = 1, CLR = 2, NOR = 4, TEX = 8 };
 
 	//vertex 3d coordinate in  x,y,z
 	void AddPosition(const vec3& val)

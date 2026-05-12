@@ -12,12 +12,7 @@ public:
 	{
 		//create mesh and the window
 		BaseGeometry::Init(new CubeMesh());
-		texutl.Init(texunit);
-		this->filename = filename;
-	}
 
-	void GenerateVertices()
-	{
 		//generate VBOs for position and Texture coordinates
 		kount = mesh->GenerateVerticesData(VAOUtil::POS | VAOUtil::TEX, vaoutl);
 
@@ -27,9 +22,13 @@ public:
 
 		vaoutl.unbindVAO();
 
+		texutl.Init(texunit);
+		this->filename = filename;
+
 		//Load Texture from the file
 		texutl.LoadTexture(filename);
 	}
+
 
 	//update uniforms
 	void UpdateUniforms()

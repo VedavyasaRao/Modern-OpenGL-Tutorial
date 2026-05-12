@@ -46,6 +46,7 @@ public:
 		glVertexAttribPointer(location, valsize, valtype, GL_FALSE, 0, 0);
 		glEnableVertexAttribArray(location);
 	}
+
 	//cleanup
 	void cleanup()
 	{

@@ -4,7 +4,7 @@
 class CubeMesh :public IGeometryMeshIndexed
 {
 public:
-	//Generate VBO vertex data in non Indexed Mode for all except IDX
+	//Generate VBO vertex data in non Indexed Mode 
 	int GenerateVerticesData(int att, VAOUtil& vaoutl)
 	{
 		int clrs_sz = clrs.size();
@@ -32,20 +32,14 @@ public:
 			{
 				vaoutl.AddTexCord(texturemap[i % texturemap_sz]);
 			}
-
-			if (att & VAOUtil::IDX)
-			{
-				vaoutl.AddIndex(faces[i]);
-			}
 		}
 		return faces.size();
 	}
 
-	//Generate VBO vertex data in Indexed Mode for all 
+	//Generate VBO vertex data in Indexed Mode
 	int GenerateVerticesDataIndexed(int att, VAOUtil& vaoutl)
 	{
 		int clrs_sz = clrs.size();
-
 		for (unsigned short i = 0; i < vertices.size(); ++i)
 		{
 			if (att & VAOUtil::POS)
@@ -57,8 +51,7 @@ public:
 			{
 				vaoutl.AddColor(clrs[i % clrs_sz]);
 			}
-
-		}
+			}
 		return vertices.size();
 	}
 
@@ -66,7 +59,11 @@ public:
 	//Generate EBO data
 	int GenerateIndicesData(VAOUtil& vaoutl)
 	{
-		return GenerateVerticesData(VAOUtil::IDX, vaoutl);
+		for (unsigned short i = 0; i < faces.size(); ++i)
+		{
+			vaoutl.AddIndex(faces[i]);
+		}
+		return faces.size();
 	}
 
 	//override default colors
@@ -104,6 +101,26 @@ private:
 	*/
 
 	std::vector < glm::vec3>  vertices =
+	{
+		//0
+		{ -0.5,+0.5,-0.5 },
+		//1
+		{ -0.5,-0.5,-0.5 },
+		//2
+		{ +0.5,-0.5,-0.5 },
+		//3
+		{ +0.5,+0.5,-0.5 },
+		//4
+		{ -0.5,+0.5,+0.5 },
+		//5
+		{ -0.5,-0.5,+0.5 },
+		//6
+		{ +0.5,-0.5,+0.5 },
+		//7
+		{ +0.5,+0.5,+0.5 },
+	};
+
+	std::vector < glm::vec3>  vertices2 =
 	{
 		//0
 		{ -0.5,+0.5,-0.5 },
