@@ -1,6 +1,6 @@
 #include "Scene\BaseScene.h"
 #include "Scene\Camera\ThreeDCamera.h"
-#include "Geometry\LightingUtil.h"
+#include "Geometry\Lighting\LightingUtil.h"
 #include "Geometry\Cube\LightedTexCube.h"
 #include "InputDlg.h"
 

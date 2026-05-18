@@ -5,9 +5,9 @@
 #include <windows.h>
 #include <gdiplus.h>
 #include <gdiplusheaders.h>
-#include "..\TextureUtil.h"
+#include "..\Texture\TextureUtil.h"
 #include "textmesh.h"
-#include "..\BaseGeometry.h"
+#include "..\Base\BaseGeometry.h"
 
 using namespace Gdiplus;
 

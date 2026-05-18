@@ -1,5 +1,5 @@
 #pragma once
-#include "..\GeometryMeshIndexed.h"
+#include "..\Base\GeometryMeshIndexed.h"
 //Implements IGeometryMesh for Cube object
 class CubeMesh :public IGeometryMeshIndexed
 {

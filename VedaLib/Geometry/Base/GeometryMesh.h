@@ -1,5 +1,5 @@
 #pragma once
-#include "VAOUtil.h"
+#include "..\VAO\VAOUtil.h"
 
 //Abstract interface for generating VBO based vertex data
 struct IGeometryMesh

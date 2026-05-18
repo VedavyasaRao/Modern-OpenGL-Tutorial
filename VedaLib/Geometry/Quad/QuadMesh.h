@@ -1,5 +1,5 @@
 #pragma once
-#include "..\GeometryMesh.h"
+#include "..\Base\GeometryMesh.h"
 //Implements IGeometryMesh for Cube object
 class QuadMesh :public IGeometryMesh
 {

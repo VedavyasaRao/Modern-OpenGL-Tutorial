@@ -2,7 +2,7 @@
 #include <iomanip>
 
 #include "CameraData.h"
-#include "..\Geometry\BaseGeometry.h"
+#include "..\Geometry\Base\BaseGeometry.h"
 
 class  BaseCamera
 {

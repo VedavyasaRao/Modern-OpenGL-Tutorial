@@ -1,7 +1,7 @@
 #pragma once
-#include "..\BaseGeometry.h"
+#include "..\Base\BaseGeometry.h"
 #include "CubeMesh.h"
-#include "..\TextureUtil.h"
+#include "..\Texture\TextureUtil.h"
 
 //implements texturedcube
 class TexturedCube:public BaseGeometry

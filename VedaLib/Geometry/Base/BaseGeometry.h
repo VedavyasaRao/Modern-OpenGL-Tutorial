@@ -1,8 +1,8 @@
 #pragma once
 #include "GeometryMesh.h"
-#include "..\Scene\CameraData.h"
-#include "ShaderUtil.h"
-#include "VAOUtil.h"
+#include "..\..\Scene\CameraData.h"
+#include "..\VAO\VAOUtil.h"
+#include "..\Shader\ShaderUtil.h"
 
 /////////////////////BaseGeometry///////////////////////////////////
 class BaseGeometry

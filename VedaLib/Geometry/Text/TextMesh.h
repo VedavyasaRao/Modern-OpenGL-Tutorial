@@ -1,5 +1,5 @@
 #pragma once
-#include "..\GeometryMesh.h"
+#include "..\Base\GeometryMesh.h"
 
 class TextMesh:public IGeometryMesh
 {

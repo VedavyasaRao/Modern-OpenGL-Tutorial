@@ -1,6 +1,6 @@
 #pragma once
-#include "..\BaseGeometry.h"
-#include "..\TextureUtil.h"
+#include "..\Base\BaseGeometry.h"
+#include "..\Texture\TextureUtil.h"
 #include "QuadMesh.h"
 
 //implements texturedcube

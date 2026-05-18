@@ -1,5 +1,5 @@
 #pragma once
-#include "..\BaseGeometry.h"
+#include "..\Base\BaseGeometry.h"
 #include "CubeMesh.h"
 
 //implements EBO Indexed cube
