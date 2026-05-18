@@ -47,6 +47,15 @@ public:
 		shader.Release();
 	}
 
+	void ReloadShader()
+	{
+		shader.Cleanup();
+		shader.LoadFromString(GL_VERTEX_SHADER, vertexShaderSource().c_str());
+		shader.LoadFromString(GL_FRAGMENT_SHADER, fragmentShaderSource().c_str());
+
+		shader.CreateAndLinkProgram();
+	}
+
 	virtual string vertexShaderSource()
 	{
 		return R"(

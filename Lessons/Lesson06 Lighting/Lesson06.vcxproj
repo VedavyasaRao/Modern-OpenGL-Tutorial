@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{F4564DEC-6D8E-4450-8C3D-A11E6CC97FDA}</ProjectGuid>
+    <ProjectGuid>{FEE422D3-B01D-4D00-865F-63E091D4D2F2}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Lesson04</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
@@ -92,7 +92,12 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="InputDlg.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Scene.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Lesson06.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

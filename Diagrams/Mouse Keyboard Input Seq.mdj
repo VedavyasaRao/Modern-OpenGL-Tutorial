@@ -45,9 +45,9 @@
 											},
 											"fillColor": "#d5c8c8",
 											"font": "Arial;13;0",
-											"left": 24.72998046875,
+											"left": 22.55908203125,
 											"top": 5,
-											"width": 158.548828125,
+											"width": 144.33642578125,
 											"height": 13,
 											"text": "Mouse Keyboard Input Seq"
 										},
@@ -61,7 +61,7 @@
 											"font": "Arial;13;1",
 											"left": 5,
 											"top": 5,
-											"width": 14.72998046875,
+											"width": 12.55908203125,
 											"height": 13,
 											"text": "sd"
 										}
@@ -24421,7 +24421,7 @@
 											"top": 455,
 											"width": 141.30517578125,
 											"height": 13,
-											"text": "PhongLightedTexCube"
+											"text": "LightedTexCube"
 										},
 										{
 											"_type": "LabelView",
@@ -24607,7 +24607,7 @@
 											"top": 359,
 											"width": 112.6328125,
 											"height": 13,
-											"text": "PhongLightingUtil"
+											"text": "LightingUtil"
 										},
 										{
 											"_type": "LabelView",
@@ -25910,7 +25910,7 @@
 					"_parent": {
 						"$ref": "AAAAAAGdYvbtj4x+OcY="
 					},
-					"name": "PhongLightedTexCube",
+					"name": "LightedTexCube",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",
@@ -26004,7 +26004,7 @@
 					"_parent": {
 						"$ref": "AAAAAAGdYvbtj4x+OcY="
 					},
-					"name": "PhongLightingUtil"
+					"name": "LightingUtil"
 				}
 			]
 		},

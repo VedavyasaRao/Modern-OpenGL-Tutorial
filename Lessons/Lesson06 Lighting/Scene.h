@@ -1,7 +1,7 @@
 #include "Scene\BaseScene.h"
 #include "Scene\Camera\ThreeDCamera.h"
-#include "Ligting\LightingUtil.h"
-#include "Geometry\Cube\PhongLightedTexCube.h"
+#include "Geometry\LightingUtil.h"
+#include "Geometry\Cube\LightedTexCube.h"
 #include "InputDlg.h"
 
 DWORD WINAPI ThreadFunction(LPVOID lpParam);
@@ -18,38 +18,56 @@ public:
 	END_MSG_MAP()
 
 
-
 	//override
 	int Init(RECT rect, WCHAR *windowname)
 	{
 		//create host window and context
 		BaseScene::Init(rect, windowname);
 
+		CreateThread(NULL, 0, ThreadFunction, this, 0, NULL);
+
 		//attach mouse keyboard input handler
 		camera = new ThreeDCamera(m_hWnd);
-		CreateThread(NULL, 0, ThreadFunction, this, 0, NULL);
 		::Sleep(500);
+		updatecube();
 
-		pdlg->update(&cube.light);
-
-		//Create cube an set texture filename
-		cube.Init(true, 0, R"(..\resources\textures\rocks2.bmp)");
-		
 		return 0;
+	}
+
+	void updatecube()
+	{
+		if (pcube != nullptr)
+		{
+			auto src = pcube->light.lightsrc.src;
+			pdlg->update(&pcube->light);
+			if (src != pcube->light.lightsrc.src)
+			{
+				pcube->Cleanup();
+				delete pcube;
+				pcube = nullptr;
+			}
+		}
+
+		if (pcube == nullptr)
+		{
+			pcube = new LightedTexCube();
+			pdlg->update(&pcube->light);
+			pcube->Init(0, R"(..\resources\textures\rocks2.bmp)");
+		}
 	}
 
 	//release resources
 	void Cleanup()
 	{
-		cube.Cleanup();
+		pcube->Cleanup();
 		delete camera;
-		
 	}
-	
+
+
 	LRESULT OnDoRefresh(WORD wParam, WORD wParam2, HWND lParam, BOOL& bHandled)
 	{
 		bHandled = TRUE;
-		pdlg->update(&cube.light);
+		updatecube();
 		Invalidate();
 		return 0;
 	}
@@ -64,11 +82,11 @@ public:
 	void DrawScene()
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		//get model view projection matrix. 
-		//only model is modified
-		//view and projection will be identity matrix
-		SceneCamera()->augumentModelMatrix(cube);
-		cube.Draw();
+
+		SceneCamera()->augumentModelMatrix(*pcube);
+		wstring wcap = L"Lighting Settings - " + pcube->getangless();
+		SetWindowTextW(wcap.c_str());
+		pcube->Draw();
 		SceneCamera()->MM.Reset();
 	}
 
@@ -95,9 +113,8 @@ public:
 		Invalidate();
 	}
 
-
 private:
-	PhongLightedTexCube cube;
+	LightedTexCube *pcube = nullptr;
 	int IDM_INPUTDLG = 1001;
 	InputDlg* pdlg;
 
