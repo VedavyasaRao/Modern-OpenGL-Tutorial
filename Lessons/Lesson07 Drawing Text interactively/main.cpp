@@ -1,14 +1,17 @@
 #include "Scene.h"
 
 int ghWnd = 0;
-const int WIDTH = 680;
-const int HEIGHT = 400;
+const int WIDTH = 600;
+const int HEIGHT = 600;
 Scene scene;
 
 int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd_line, int show)
 {
-	DrawTextUtil::Startup();
-	scene.Init(RECT{ 100, 100, 100+WIDTH, 100+HEIGHT }, L"Lesson07: Drawing Text");
+	TextImageSketcher::Startup();
+	scene.Init(RECT{ 100, 100, 780, 500 }, L"Lesson07: Drawing Text Interactively");
+	
+
+	
 	scene.ShowWindow(show);
 
 	MSG msg;
@@ -17,7 +20,7 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd_line, int show)
 		TranslateMessage(&msg);
 		DispatchMessageA(&msg);
 	}
-	DrawTextUtil::Shutdown();
+	TextImageSketcher::Shutdown();
 
 	return 0;
 }

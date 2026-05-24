@@ -1,6 +1,6 @@
-#include "Scene\BaseScene.h"
+﻿#include "Scene\BaseScene.h"
 #include "Scene\Camera\ThreeDCamera.h"
-#include "Geometry\Text\DrawTextUtil.h"
+#include "Geometry\TextImage\TextImageSketcher.h"
 #include "InputDialog.h"
 
 DWORD WINAPI ThreadFunction(LPVOID lpParam);
@@ -16,32 +16,43 @@ public:
 		CHAIN_MSG_MAP(BaseScene)
 	END_MSG_MAP()
 
+	void createnew()
+	{
+		if (ptextutl)
+		{
+			ptextutl->Cleanup();
+			delete ptextutl;
+		}
+
+		ptextutl = new TextImageSketcher();
+		ptextutl->Init(GL_TEXTURE0 + 4, pdlg->wd, pdlg->ht);
+	}
 
 	int Init(RECT rect, WCHAR *windowname)
 	{
 		//custom texture mapping
 		BaseScene::Init(rect, windowname);
-
-		//attach mouse keyboard input handler
-		camera = new ThreeDCamera(m_hWnd);
-		textutl.Init(GL_TEXTURE0+4, 256);
-		CreateThread(NULL, 0, ThreadFunction,  this,  0, NULL);
+		camera = nullptr;
+		CreateThread(NULL, 0, ThreadFunction, this, 0, NULL);
+		::Sleep(500);
+		createnew();
 		return 0;
 	}
 
 	void Cleanup()
 	{
-		textutl.Cleanup();
+		ptextutl->Cleanup();
+		delete ptextutl;
 	}
 	
 	void DrawScene()
 	{
+		glClearColor(0, 1, 1, 0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		SceneCamera()->augumentModelMatrix(textutl);
-		textutl.Drawtext({ 1.0,1.0 }, L"Hello Khri$ha Rao!");
-		SceneCamera()->MM.Reset();
-		
-
+		ptextutl->ClearCanvas(true);
+		ptextutl->Drawtext({ pdlg->txtx,pdlg->txty }, pdlg->text,pdlg->hf, &pdlg->fmt, pdlg->pbrush);
+		ptextutl->Drawimage({ pdlg->imgx,pdlg->imgy }, pdlg->imagfilename, pdlg->imgclipwd, pdlg->imgclipht);
+		ptextutl->DrawCanvas();
 	}
 
 	void CreateInputDlg()
@@ -49,18 +60,15 @@ public:
 		pdlg = new InputDlg();
 		pdlg->Create(m_hWnd);
 		pdlg->ShowWindow(SW_SHOW);
-		textutl.UpdateFontandColor(pdlg->rgbCurrent, &pdlg->lf);
-		Invalidate();
 	}
 
 	LRESULT OnDoRefresh(WORD wParam, WORD wParam2, HWND lParam, BOOL& bHandled)
 	{
 		bHandled = TRUE;
-		if (pdlg->btranslate)
+		if ((LPARAM)lParam == 0)
 		{
-			textutl.MM.Translateby = glm::vec3(pdlg->tx, pdlg->ty, pdlg->tz);
+			createnew();
 		}
-		textutl.UpdateFontandColor(pdlg->rgbCurrent, &pdlg->lf);
 		Invalidate();
 		return 0;
 	}
@@ -89,7 +97,8 @@ public:
 private:
 	int IDM_INPUTDLG = 1001;
 	InputDlg *pdlg;
-	DrawTextUtil  textutl;
+	TextImageSketcher *ptextutl;
+
 
 };
 /////////////////////Scene0///////////////////////////////////

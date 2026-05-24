@@ -105,7 +105,6 @@ public:
 		lightsrctypecmbctl.SendMessageW(CB_ADDSTRING, 0, (LPARAM)lighttypestrings[1].c_str());
 		lightsrctypecmbctl.SendMessageW(CB_ADDSTRING, 0, (LPARAM)lighttypestrings[2].c_str());
 		lightsrctypecmbctl.SendMessageW(CB_ADDSTRING, 0, (LPARAM)lighttypestrings[3].c_str());
-		lightsrctypecmbctl.SendMessageW(CB_SETCURSEL, (WPARAM)0, (LPARAM)0);
 		
 		RECT rect;
 		lightsrctypecmbctl.GetWindowRect(&rect);
