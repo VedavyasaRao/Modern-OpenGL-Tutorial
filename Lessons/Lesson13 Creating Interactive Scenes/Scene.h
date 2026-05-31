@@ -1,6 +1,6 @@
-#include "Scene\BaseScene.h"
-#include "Scene\Camera\FPSCamera.h"
-#include "Geometry\Quad\Quad.h"
+#include "Canvas\Scene\Base\BaseScene.h"
+#include "Canvas\Camera\FPSCamera.h"
+#include "Geometry\Objects\Quad\Quad.h"
 
 class Scene:public BaseScene
 {

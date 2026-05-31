@@ -1,7 +1,7 @@
-#include "Scene\BaseScene.h"
-#include "Scene\Camera\ThreeDCamera.h"
-#include "Geometry\Cube\MultiColoredCube.h"
-#include "Scene\Camera\DualProjectionCamera.h"
+#include "Canvas\Scene\Base\BaseScene.h"
+#include "Canvas\Camera\ThreeDCamera.h"
+#include "Geometry\Objects\Cube\MultiColoredCube.h"
+#include "Canvas\Camera\DualProjectionCamera.h"
 #include "InputDialog.h"
 
 DWORD WINAPI ThreadFunction(LPVOID lpParam);

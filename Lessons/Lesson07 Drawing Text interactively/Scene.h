@@ -1,6 +1,6 @@
-﻿#include "Scene\BaseScene.h"
-#include "Scene\Camera\ThreeDCamera.h"
-#include "Geometry\TextImage\TextImageSketcher.h"
+﻿#include "Canvas\Scene\Base\BaseScene.h"
+#include "Canvas\Camera\ThreeDCamera.h"
+#include "Geometry\Objects\TextImage\TextImageSketcher.h"
 #include "InputDialog.h"
 
 DWORD WINAPI ThreadFunction(LPVOID lpParam);

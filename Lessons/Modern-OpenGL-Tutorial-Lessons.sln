@@ -3,29 +3,31 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.37012.4
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson01", "Lesson01 Initializing OpenGL Context\Lesson01.vcxproj", "{F5CE6739-9145-425E-BB91-A3CDD61C244C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson01 Initializing OpenGL Context", "Lesson01 Initializing OpenGL Context\Lesson01.vcxproj", "{F5CE6739-9145-425E-BB91-A3CDD61C244C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson02", "Lesson02 Single Colored cube\Lesson02.vcxproj", "{254608E9-0EA6-4540-B531-72E7B5520359}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson02 Single Colored cube", "Lesson02 Single Colored cube\Lesson02.vcxproj", "{254608E9-0EA6-4540-B531-72E7B5520359}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson03", "Lesson03 Multi-Colored Cube\Lesson03.vcxproj", "{7B565C5C-1792-4479-B5D7-DDE2E499DB86}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson03 Multi-Colored Cube", "Lesson03 Multi-Colored Cube\Lesson03.vcxproj", "{7B565C5C-1792-4479-B5D7-DDE2E499DB86}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson04", "Lesson04 Indexed Cube with interpolated colors\Lesson04.vcxproj", "{AC2108E1-FD91-42D5-8776-8BBF4912AD0C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson04 Indexed Cube with interpolated colors", "Lesson04 Indexed Cube with interpolated colors\Lesson04.vcxproj", "{AC2108E1-FD91-42D5-8776-8BBF4912AD0C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson05", "Lesson05 Textured Cube\Lesson05.vcxproj", "{17D5F4D1-305E-4161-8D39-EF331CA4680C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson05 Textured Cube", "Lesson05 Textured Cube\Lesson05.vcxproj", "{17D5F4D1-305E-4161-8D39-EF331CA4680C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson09", "Lesson09 Understanding Affine Transformation interactively\Lesson09.vcxproj", "{1D7E82DB-0564-4275-ACB7-98FFBB0B90D4}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson09 Understanding Affine Transformation interactively", "Lesson09 Understanding Affine Transformation interactively\Lesson09.vcxproj", "{1D7E82DB-0564-4275-ACB7-98FFBB0B90D4}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson10", "Lesson10 Start Camera and Roll\Lesson10.vcxproj", "{16993FAA-CEDC-406B-8F5D-1E141B9D5D62}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson10 Start Camera and Roll", "Lesson10 Start Camera and Roll\Lesson10.vcxproj", "{16993FAA-CEDC-406B-8F5D-1E141B9D5D62}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson11", "Lesson11 Interactive First Person Shooter or FPS style Camera\Lesson11.vcxproj", "{5B8E6718-A255-4481-8A14-74549D4F0405}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson11 Interactive First Person Shooter or FPS style Camera", "Lesson11 Interactive First Person Shooter or FPS style Camera\Lesson11.vcxproj", "{5B8E6718-A255-4481-8A14-74549D4F0405}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson12", "Lesson12 Interactive Orbit or Arcball style Camera\Lesson12.vcxproj", "{13BA884F-D0D3-4051-A107-B05D570B4502}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson12 Interactive Orbit or Arcball style Camera", "Lesson12 Interactive Orbit or Arcball style Camera\Lesson12.vcxproj", "{13BA884F-D0D3-4051-A107-B05D570B4502}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson13", "Lesson13 Creating Interactive Scenes\Lesson13.vcxproj", "{33394E93-2E78-41BF-8724-4530A7E063F3}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson13 Creating Interactive Scenes", "Lesson13 Creating Interactive Scenes\Lesson13.vcxproj", "{33394E93-2E78-41BF-8724-4530A7E063F3}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson07", "Lesson07 Drawing Text interactively\Lesson07.vcxproj", "{ABABF494-0579-4A51-80DC-51789A1C9A1A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson07 Drawing Text interactively", "Lesson07 Drawing Text interactively\Lesson07.vcxproj", "{ABABF494-0579-4A51-80DC-51789A1C9A1A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson06", "Lesson06 Lighting\Lesson06.vcxproj", "{FEE422D3-B01D-4D00-865F-63E091D4D2F2}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson06 Lighting", "Lesson06 Lighting\Lesson06.vcxproj", "{FEE422D3-B01D-4D00-865F-63E091D4D2F2}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson08 Loading OBJ files", "Lesson08 Loading OBJ files\Lesson08.vcxproj", "{9AE87CCF-5CCF-4A18-BFE1-EC9B9E08EDD0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +83,10 @@ Global
 		{FEE422D3-B01D-4D00-865F-63E091D4D2F2}.Debug|x86.Build.0 = Debug|Win32
 		{FEE422D3-B01D-4D00-865F-63E091D4D2F2}.Release|x86.ActiveCfg = Release|Win32
 		{FEE422D3-B01D-4D00-865F-63E091D4D2F2}.Release|x86.Build.0 = Release|Win32
+		{9AE87CCF-5CCF-4A18-BFE1-EC9B9E08EDD0}.Debug|x86.ActiveCfg = Debug|Win32
+		{9AE87CCF-5CCF-4A18-BFE1-EC9B9E08EDD0}.Debug|x86.Build.0 = Debug|Win32
+		{9AE87CCF-5CCF-4A18-BFE1-EC9B9E08EDD0}.Release|x86.ActiveCfg = Release|Win32
+		{9AE87CCF-5CCF-4A18-BFE1-EC9B9E08EDD0}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,7 +1,7 @@
-#include "Scene\BaseScene.h"
-#include "Scene\Camera\ThreeDCamera.h"
-#include "Geometry\Lighting\LightingUtil.h"
-#include "Geometry\Cube\LightedTexCube.h"
+#include "Canvas\Scene\Base\BaseScene.h"
+#include "Canvas\Camera\ThreeDCamera.h"
+#include "Geometry\Utils\Lighting\LightingUtil.h"
+#include "Geometry\Objects\Cube\LightedTexCube.h"
 #include "InputDlg.h"
 
 DWORD WINAPI ThreadFunction(LPVOID lpParam);

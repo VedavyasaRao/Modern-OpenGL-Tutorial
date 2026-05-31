@@ -1,4 +1,4 @@
-#include "Scene\BaseScene.h"
+#include "Canvas\Scene\Base\BaseScene.h"
 
 class Scene:public BaseScene
 {

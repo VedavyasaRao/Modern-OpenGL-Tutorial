@@ -1,6 +1,7 @@
-#include "Scene\BaseScene.h"
-#include "Scene\Camera\ThreeDCamera.h"
-#include "Geometry\Cube\TexturedCube.h"
+#include "Canvas\Scene\Base\BaseScene.h"
+#include "Canvas\Camera\ThreeDCamera.h"
+#include "Geometry\Objects\Cube\TexturedCube.h"
+
 
 class Scene:public BaseScene
 {
@@ -22,8 +23,7 @@ public:
 
 		//Create cube an set texture filename
 		cube.Init(0, R"(..\resources\textures\bricks2.jpg)");
-		
-		
+				
 		return 0;
 	}
 

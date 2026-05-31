@@ -1,7 +1,7 @@
-#include "Scene\BaseScene.h"
-#include "Scene\Camera\FPSCamera.h"
-#include "Geometry\Text\DrawTextUtil.h"
-#include "Geometry\Cube\TexturedCube.h"
+#include "Canvas\Scene\Base\BaseScene.h"
+#include "Canvas\Camera\FPSCamera.h"
+#include "Geometry\Objects\TextImage\TextImageSketcher.h"
+#include "Geometry\Objects\Cube\TexturedCube.h"
 
 class Scene:public BaseScene
 {
@@ -37,9 +37,10 @@ public:
 		ZeroMemory(&lf, sizeof lf);
 		lf.lfWidth = 16;
 		wcscpy_s(lf.lfFaceName, 32, L"Ariel");
-		textutl.Init(GL_TEXTURE0 + 4, 256);
+		hfont = CreateFontIndirect(&lf);
+		pbrush = new SolidBrush(RGB(0, 0, 255));
+		textutl.Init(GL_TEXTURE0 + 4, 256,256);
 		textutl.MM.Translateby = glm::vec3(-0.2f, 0.3f, 0.0f);
-		textutl.UpdateFontandColor(0x000000FF, &lf);
 
 		return 0;
 	}
@@ -51,11 +52,14 @@ public:
 		floor.Cleanup();
 		textutl.Cleanup();
 		delete camera;
+		delete pbrush;
+		DeleteObject(hfont);
 	}
 	
 	//draw the scene
 	void DrawScene()
 	{
+		
 		glClearColor(0.0f, 0.0f, 255.0f, 0.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -68,7 +72,7 @@ public:
 		SceneCamera()->MM.Reset();
 
 		SceneCamera()->augumentModelMatrix(textutl);
-		textutl.Drawtext(PointF(0.0, 0.0), const_cast<WCHAR*>(L""));
+		textutl.Drawtext(PointF(0.0, 0.0), ss.substr(), hfont, &fmt, pbrush);
 
 		SceneCamera()->augumentModelMatrix(floor);
 		SceneCamera()->setViewMatrix(floor);
@@ -94,6 +98,10 @@ public:
 private:
 	TexturedCube cube;
 	TexturedCube floor;
-	DrawTextUtil  textutl;
+	TextImageSketcher  textutl;
+	HFONT  hfont;
+	StringFormat fmt;
+	SolidBrush* pbrush;
 	double previousSeconds = GetTickCount() / 1000.0;
+	wstring ss = L"Khri$ha";
 };
