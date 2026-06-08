@@ -1,4 +1,7 @@
 #pragma once
+#include <string>
+#include <iterator>
+#include <locale>
 #include "..\Base\BaseGeometry.h"
 #include "..\..\Mesh\CubeMesh.h"
 #include "..\..\Utils\Texture\TextureUtil.h"
@@ -8,7 +11,7 @@ class TexturedCube:public BaseGeometry
 {
 public:
 	//initialize
-	void Init(GLushort	texunit, const string& filename)
+	void Init(const TextureUtil::TexInfo& texinfo)
 	{
 		//create mesh and the window
 		BaseGeometry::Init(new CubeMesh());
@@ -22,11 +25,9 @@ public:
 
 		vaoutl.unbindVAO();
 
-		texutl.Init(texunit);
-		this->filename = filename;
+		texutl.Init(texinfo);
 
-		//Load Texture from the file
-		texutl.LoadTexture(filename);
+		texutl.LoadTexture();
 	}
 
 
@@ -79,6 +80,5 @@ public:
 
 private:
 	TextureUtil  texutl;
-	string filename;
 };
 

@@ -71,7 +71,7 @@ public:
 		GdiplusShutdown(gdiplusToken);
 	}
 
-	void Init(GLushort texunit, int wd, int ht)
+	void Init(const TextureUtil::TexInfo& texinfo, int wd, int ht)
 	{
 		BaseGeometry::Init(new TextMesh());
 		glDisable(GL_DEPTH_TEST);
@@ -80,7 +80,7 @@ public:
 		vaoutl.SetupVBO(0, VAOUtil::POS);
 		vaoutl.SetupVBO(1, VAOUtil::TEX);
 		vaoutl.unbindVAO();
-		texutl.Init(texunit);
+		texutl.Init(texinfo);
 
 		this->wd = wd;
 		this->ht = ht;

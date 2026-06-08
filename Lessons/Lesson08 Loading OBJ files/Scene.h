@@ -21,7 +21,7 @@ public:
 		camera = new ThreeDCamera(m_hWnd);
 
 		//Create shape an set color
-		shape.Init(glm::vec3(1.0f,0.0f,1.0f), R"(..\resources\WFObj\crate.obj)");
+		shape.Init(glm::vec3(1.0f,0.0f,1.0f), R"(..\resources\WFObj\bunny.obj)");
 		return 0;
 	}
 

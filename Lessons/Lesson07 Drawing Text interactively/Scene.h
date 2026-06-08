@@ -23,9 +23,13 @@ public:
 			ptextutl->Cleanup();
 			delete ptextutl;
 		}
+		TextureUtil::TexInfo texinfo;
+		texinfo.texunit = GL_TEXTURE0 + 4;
+		texinfo.swrap = texinfo.twrap = GL_REPEAT;
+		texinfo.minfilter = texinfo.magfilter = GL_LINEAR;
 
 		ptextutl = new TextImageSketcher();
-		ptextutl->Init(GL_TEXTURE0 + 4, pdlg->wd, pdlg->ht);
+		ptextutl->Init(texinfo, pdlg->wd, pdlg->ht);
 	}
 
 	int Init(RECT rect, WCHAR *windowname)
