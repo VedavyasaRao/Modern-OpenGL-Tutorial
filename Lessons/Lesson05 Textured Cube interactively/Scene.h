@@ -32,9 +32,6 @@ public:
 
 		updatecube();
 
-		//Create cube an set texture filename
-		pcube->Init(texinfo);
-				
 		return 0;
 	}
 
@@ -64,8 +61,7 @@ public:
 		if (pcube == nullptr)
 		{
 			pcube = new TexturedCube();
-			pdlg->update(&texinfo);
-			pcube->Init(texinfo);
+			pcube->Init(pdlg->getdata());
 		}
 	}
 
@@ -121,7 +117,6 @@ public:
 
 private:
 	InputDlg* pdlg;
-	TextureUtil::TexInfo texinfo;
 	TexturedCube* pcube = nullptr;
 
 };

@@ -93,21 +93,8 @@ public:
 		return 0;
 	};
 
-	void update(TextureUtil::TexInfo* ptexinfo)
-	{
-		getdata();
 
-		ptexinfo->filename = getfilename();
-		ptexinfo->channels = channelscmb;
-		ptexinfo->flags = flagslst;
-		ptexinfo->swrap = swrapcmb;
-		ptexinfo->twrap = twrapcmb;
-		ptexinfo->minfilter = minfiltercmb;
-		ptexinfo->magfilter = magfiltercmb;
-		ptexinfo->texunit = texunit;
-	}
-
-	void getdata()
+	TextureUtil::TexInfo   getdata()
 	{
 		filenamectl.GetWindowText((LPTSTR)filename.data(), 500);
 
@@ -125,6 +112,7 @@ public:
 		texunitctl.GetWindowTextW((LPTSTR)buf.data(), 100);
 		texunit = stoi(buf);
 
+		return TextureUtil::TexInfo(texunit, getfilename(), channelscmb, flagslst, swrapcmb, twrapcmb, minfiltercmb, magfiltercmb);
 	}
 
 	void SetDefaultValues()

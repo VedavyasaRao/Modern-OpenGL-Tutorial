@@ -8,17 +8,16 @@ class Quad :public BaseGeometry
 {
 public:
 	//initialize
-	void Init(GLushort	texunit, const string& filename)
+	void Init(TextureUtil::TexInfo texinfo)
 	{
 		//create mesh and the window
 		BaseGeometry::Init(new QuadMesh());
-		texutl.Init(texunit);
-		this->filename = filename;
+		texutl.Init(texinfo);
 	}
 
 	void updateTextureFile(const string& filename)
 	{
-		this->filename = filename;
+		texutl.texinfo.updatefilename(filename);
 	}
 
 	void updateTextureMap(float texsize)
@@ -43,7 +42,7 @@ public:
 		vaoutl.unbindVAO();
 
 		//Load Texture from the file
-		texutl.LoadTexture(filename);
+		texutl.LoadTexture();
 	}
 
 	//update uniforms
@@ -95,6 +94,5 @@ public:
 
 private:
 	TextureUtil  texutl;
-	std::string filename;
 };
 

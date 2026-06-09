@@ -27,32 +27,32 @@ public:
 		SceneCamera()->setSenseivity(0.50f, 0.01f);
 		
 		generateFloor();
-		floor.Init(1, R"(..\resources\textures\blocks3.bmp)");
+		floor.Init(TextureUtil::TexInfo(1, R"(..\resources\textures\blocks3.bmp)"));
 		floor.updateTextureMap(6.0f);
 		floor.updateVertices(vertices);
 		floor.GenerateVertices();
 
 
 		generateRoof();
-		roof.Init(2, R"(..\resources\textures\plain.bmp)");
+		roof.Init(TextureUtil::TexInfo(2, R"(..\resources\textures\plain.bmp)"));
 		roof.updateTextureMap(2.0f);
 		roof.updateVertices(vertices);
 		roof.GenerateVertices();
 
 		generatePhoto();
-		photo.Init(3, R"(..\resources\textures\Khri$ha.jpg)");
+		photo.Init(TextureUtil::TexInfo(3, R"(..\resources\textures\Khri$ha.jpg)"));
 		photo.updateTextureMap(1.0f);
 		photo.updateVertices(vertices);
 		photo.GenerateVertices();
 
 		generateOuterWall();
-		wall.Init(4, R"(..\resources\textures\plain2.bmp)");
+		wall.Init(TextureUtil::TexInfo(4, R"(..\resources\textures\plain2.bmp)"));
 		wall.updateTextureMap(1.0f);
 		wall.updateVertices(vertices);
 		wall.GenerateVertices();
 
 		generateWoodBoxes();
-		boxes.Init(5, R"(..\resources\textures\rocks2.bmp)");
+		boxes.Init(TextureUtil::TexInfo(5, R"(..\resources\textures\rocks2.bmp)"));
 		boxes.updateTextureMap(1.0f);
 		boxes.updateVertices(vertices);
 		boxes.GenerateVertices();

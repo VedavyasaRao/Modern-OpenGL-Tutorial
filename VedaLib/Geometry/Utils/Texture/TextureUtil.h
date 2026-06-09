@@ -3,7 +3,7 @@
 class TextureUtil
 {
 public:
-	struct TexInfo;
+	class TexInfo;
 
 	//Load textures  for 3D Objects
 	virtual void LoadTexture()
@@ -73,16 +73,44 @@ public:
 	}
 
 public:
-	struct TexInfo
+	class TexInfo
 	{
-		GLushort	texunit;
+	public:
+		class InputDlg;
+		TexInfo(GLushort texunit=0, 
+			const string& filename="", 
+			uint channels = SOIL_LOAD_AUTO, 
+			uint flags = SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y,
+			uint swrap = GL_REPEAT,
+			uint twrap = GL_REPEAT,
+			uint minfilter = GL_LINEAR,
+			uint magfilter = GL_LINEAR
+			)
+		{
+			this->texunit = texunit;
+			this->filename = filename;
+			this->channels = channels;
+			this->flags = flags;
+			this->swrap = swrap;
+			this->twrap = twrap;
+			this->minfilter = minfilter;
+			this->magfilter = magfilter;
+		}
 
+		void updatefilename(const string& filename)
+		{
+			this->filename = filename;
+		}
+	
+	private:
+		GLushort	texunit;
 		GLuint		textureID;
 		string		filename;
 		uint		channels;
 		uint		flags;
 		uint		swrap, twrap;
 		uint		minfilter, magfilter;
+		friend		TextureUtil;
 	}texinfo;
 
 };
