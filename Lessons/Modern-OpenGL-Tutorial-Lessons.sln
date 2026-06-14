@@ -27,7 +27,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson06 Lighting Cube inte
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson05 Apply Texture to a Cube Interactively", "Lesson05 Apply Texture to a Cube Interactively\Lesson05.vcxproj", "{17D5F4D1-305E-4161-8D39-EF331CA4680C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson08 Importing WaveFront OBJ Models", "Lesson08 Importing WaveFront OBJ Models\Lesson08.vcxproj", "{9AE87CCF-5CCF-4A18-BFE1-EC9B9E08EDD0}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson08 Importing WaveFront OBJ Models", "Lesson08 Importing WaveFront OBJ Models  interactively\Lesson08.vcxproj", "{9AE87CCF-5CCF-4A18-BFE1-EC9B9E08EDD0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
