@@ -76,7 +76,6 @@ public:
 	class TexInfo
 	{
 	public:
-		class InputDlg;
 		TexInfo(GLushort texunit=0, 
 			const string& filename="", 
 			uint channels = SOIL_LOAD_AUTO, 
@@ -100,6 +99,12 @@ public:
 		void updatefilename(const string& filename)
 		{
 			this->filename = filename;
+		}
+
+		
+		operator bool() const
+		{
+			return !(filename[0] == '\0');
 		}
 	
 	private:

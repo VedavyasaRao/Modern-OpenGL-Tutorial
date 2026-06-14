@@ -23,11 +23,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson13 Creating Interacti
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson07 Drawing Text interactively", "Lesson07 Drawing Text interactively\Lesson07.vcxproj", "{ABABF494-0579-4A51-80DC-51789A1C9A1A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson08 Loading OBJ files", "Lesson08 Loading OBJ files\Lesson08.vcxproj", "{9AE87CCF-5CCF-4A18-BFE1-EC9B9E08EDD0}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson06 Lighting Cube interactively", "Lesson06 Lighting Cube interactively\Lesson06.vcxproj", "{FEE422D3-B01D-4D00-865F-63E091D4D2F2}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson05 Textured Cube", "Lesson05 Textured Cube interactively\Lesson05.vcxproj", "{17D5F4D1-305E-4161-8D39-EF331CA4680C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson05 Apply Texture to a Cube Interactively", "Lesson05 Apply Texture to a Cube Interactively\Lesson05.vcxproj", "{17D5F4D1-305E-4161-8D39-EF331CA4680C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson06 Lighting", "Lesson06 Lighting interactively\Lesson06.vcxproj", "{FEE422D3-B01D-4D00-865F-63E091D4D2F2}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson08 Importing WaveFront OBJ Models", "Lesson08 Importing WaveFront OBJ Models\Lesson08.vcxproj", "{9AE87CCF-5CCF-4A18-BFE1-EC9B9E08EDD0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,18 +75,18 @@ Global
 		{ABABF494-0579-4A51-80DC-51789A1C9A1A}.Debug|x86.Build.0 = Debug|Win32
 		{ABABF494-0579-4A51-80DC-51789A1C9A1A}.Release|x86.ActiveCfg = Release|Win32
 		{ABABF494-0579-4A51-80DC-51789A1C9A1A}.Release|x86.Build.0 = Release|Win32
-		{9AE87CCF-5CCF-4A18-BFE1-EC9B9E08EDD0}.Debug|x86.ActiveCfg = Debug|Win32
-		{9AE87CCF-5CCF-4A18-BFE1-EC9B9E08EDD0}.Debug|x86.Build.0 = Debug|Win32
-		{9AE87CCF-5CCF-4A18-BFE1-EC9B9E08EDD0}.Release|x86.ActiveCfg = Release|Win32
-		{9AE87CCF-5CCF-4A18-BFE1-EC9B9E08EDD0}.Release|x86.Build.0 = Release|Win32
-		{17D5F4D1-305E-4161-8D39-EF331CA4680C}.Debug|x86.ActiveCfg = Debug|Win32
-		{17D5F4D1-305E-4161-8D39-EF331CA4680C}.Debug|x86.Build.0 = Debug|Win32
-		{17D5F4D1-305E-4161-8D39-EF331CA4680C}.Release|x86.ActiveCfg = Release|Win32
-		{17D5F4D1-305E-4161-8D39-EF331CA4680C}.Release|x86.Build.0 = Release|Win32
 		{FEE422D3-B01D-4D00-865F-63E091D4D2F2}.Debug|x86.ActiveCfg = Debug|Win32
 		{FEE422D3-B01D-4D00-865F-63E091D4D2F2}.Debug|x86.Build.0 = Debug|Win32
 		{FEE422D3-B01D-4D00-865F-63E091D4D2F2}.Release|x86.ActiveCfg = Release|Win32
 		{FEE422D3-B01D-4D00-865F-63E091D4D2F2}.Release|x86.Build.0 = Release|Win32
+		{17D5F4D1-305E-4161-8D39-EF331CA4680C}.Debug|x86.ActiveCfg = Debug|Win32
+		{17D5F4D1-305E-4161-8D39-EF331CA4680C}.Debug|x86.Build.0 = Debug|Win32
+		{17D5F4D1-305E-4161-8D39-EF331CA4680C}.Release|x86.ActiveCfg = Release|Win32
+		{17D5F4D1-305E-4161-8D39-EF331CA4680C}.Release|x86.Build.0 = Release|Win32
+		{9AE87CCF-5CCF-4A18-BFE1-EC9B9E08EDD0}.Debug|x86.ActiveCfg = Debug|Win32
+		{9AE87CCF-5CCF-4A18-BFE1-EC9B9E08EDD0}.Debug|x86.Build.0 = Debug|Win32
+		{9AE87CCF-5CCF-4A18-BFE1-EC9B9E08EDD0}.Release|x86.ActiveCfg = Release|Win32
+		{9AE87CCF-5CCF-4A18-BFE1-EC9B9E08EDD0}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

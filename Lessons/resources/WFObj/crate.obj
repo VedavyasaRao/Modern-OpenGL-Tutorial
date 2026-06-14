@@ -1,6 +1,6 @@
 # Blender v3.0.0 OBJ File: ''
 # www.blender.org
-mtllib crate2.mtl
+mtllib crate.mtl
 o crate
 v 0.467223 -0.137344 -0.716128
 v -0.334052 -0.667593 -0.439009
