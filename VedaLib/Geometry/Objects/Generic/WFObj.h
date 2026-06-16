@@ -1,11 +1,11 @@
 #pragma once
 #include "..\Base\BaseGeometry.h"
 #include "..\..\Utils\Texture\TextureUtil.h"
-#include "..\..\Mesh\WaveFrontObjMesh.h"
+#include "..\..\Mesh\WFObjMesh.h"
 #include <regex>
 
 //Implements singled colored cube 
-class WaveFrontObj :public BaseGeometry
+class WFObj :public BaseGeometry
 {
 public:
 	class  WFOBJInfo;
@@ -42,10 +42,6 @@ public:
 
 	void UpdateUniformsLightMat(ShaderUtil& shader)
 	{
-		//auto viewerpos = vec3(2.0, 0.0, -4.0);
-		//auto ambientCoefficient = 0.05f;
-		//auto Position = vec3(0.0, 3.0, -9.0);
-		//auto Color = vec3(1.0, 1.0, 1.0);
 
 		glUniform3fv(shader.GetUniformLocation("viewerPosition"), 1, glm::value_ptr(shapeinf.viewerpos));
 
@@ -95,7 +91,7 @@ public:
 		vec3 viewerpos;
 		Light light;
 
-		friend class WaveFrontObj;
+		friend class WFObj;
 	};
 
 private:

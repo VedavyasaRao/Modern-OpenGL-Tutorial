@@ -1,6 +1,6 @@
 #include "Canvas\Scene\Base\BaseScene.h"
 #include "Canvas\Camera\ThreeDCamera.h"
-#include "Geometry\Objects\Generic\WaveFrontObj.h"
+#include "Geometry\Objects\Generic\WFObj.h"
 #include "InputDlg.h"
 
 DWORD WINAPI ThreadFunction(LPVOID lpParam);
@@ -61,7 +61,7 @@ public:
 		if (pshape == nullptr)
 		{
 			auto shapeinf = pdlg->getdata();
-			pshape = new WaveFrontObj();
+			pshape = new WFObj();
 			pshape->Init(shapeinf);
 		}
 	}
@@ -115,7 +115,7 @@ public:
 	}
 
 private:
-	WaveFrontObj *pshape;
+	WFObj *pshape;
 	InputDlg* pdlg;
 
 

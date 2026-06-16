@@ -1,11 +1,11 @@
 #pragma once
 #include "..\Base\BaseGeometry.h"
 #include "..\..\Utils\Texture\TextureUtil.h"
-#include "..\..\Mesh\WaveFrontObjMesh.h"
+#include "..\..\Mesh\WFObjMesh.h"
 #include <regex>
 
 //Implements singled colored cube 
-class WaveFrontObj :public BaseGeometry
+class WFObj :public BaseGeometry
 {
 public:
 	class  WFOBJInfo;
@@ -99,7 +99,7 @@ public:
 		string objfilename;
 		string mtlfilename;
 		TextureUtil::TexInfo txtinf;
-		friend class WaveFrontObj;
+		friend class WFObj;
 	};
 
 private:
