@@ -5,6 +5,7 @@
 
 DWORD WINAPI ThreadFunction(LPVOID lpParam);
 
+
 class Scene:public BaseScene
 {
 public:
@@ -101,6 +102,7 @@ public:
 	{
 		pdlg = new InputDlg();
 		pdlg->Create(m_hWnd);
+		pdlg->pMM = &cube.MM;
 		pdlg->ShowWindow(SW_SHOW);
 	}
 
@@ -111,12 +113,12 @@ public:
 			cube.MM.Translateby = glm::vec3(pdlg->tx, pdlg->ty, pdlg->tz);
 		if (pdlg->brotate)
 		{
-			cube.MM.Pitch = pdlg->rx;
-			cube.MM.Yaw = pdlg->ry;
-			cube.MM.Roll = pdlg->rz;
+			cube.MM.Pitch += pdlg->rx;
+			cube.MM.Yaw += pdlg->ry;
+			cube.MM.Roll += pdlg->rz;
 		}
 		if (pdlg->bscale)
-			cube.MM.Scaleby = glm::vec3(1.0+pdlg->sx, 1.0+pdlg->sy, 1.0+pdlg->sz);
+			cube.MM.Scaleby = glm::vec3(pdlg->sx, pdlg->sy, pdlg->sz);
 
 		Invalidate();
 		return 0;

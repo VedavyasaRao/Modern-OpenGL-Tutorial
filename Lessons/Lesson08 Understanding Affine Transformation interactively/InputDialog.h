@@ -123,11 +123,10 @@ public:
 				rz += _wtol(buf);
 		}
 
-
 		::PostMessage(GetParent(), WM_COMMAND, IDOK, 0);
 			
 		swprintf_s(buf, 1000, L"Input - Scale:{%.02f,%.02f,%.02f}  Translate:{%.02f,%.02f,%.02f} Rotate:{%d,%d,%d}",
-			1.0+sx, 1.0+sy, 1.0+sz, tx, ty, tz, rx % 360, ry % 360, rz % 360);
+			sx, sy, sz, tx, ty, tz, (pMM->Pitch + rx) % 360, (pMM->Yaw + ry) % 360, (pMM->Roll  + rz) % 360);
 		SetWindowTextW(buf);
 		bHandled = true;
 
@@ -154,12 +153,20 @@ public:
 		return 0;
 	};
 
+	void updateangles(int pitch, int yaw, int roll)
+	{
+		rx = pitch;
+		ry = yaw;
+		rx = roll;
+	}
+
 
 public:
 	double tx = 0.0, ty = 0.0, tz = 0.0;
 	int rx = 0, ry = 0, rz = 0;
 	double sx = 0.0, sy = 0.0, sz = 0.0;
 	int bscale, btranslate, brotate;
+	ModelMatrixData *pMM;
 		
 private:
 	CWindow transx;
