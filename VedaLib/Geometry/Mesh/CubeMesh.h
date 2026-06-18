@@ -66,17 +66,6 @@ public:
 		return faces.size();
 	}
 
-	//override default colors
-	void updateColors(const vector < glm::vec3>& clrs)
-	{
-		this->clrs = clrs;
-	}
-
-	////override normals
-	//void updateNormals(const vector < glm::vec3>& normals)
-	//{
-	//	this->normals = normals;
-	//}
 
 	//override texture maps
 	void updateTextureMap(const vector < glm::vec2>& texturemap)

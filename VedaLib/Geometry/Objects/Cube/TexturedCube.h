@@ -11,10 +11,12 @@ class TexturedCube:public BaseGeometry
 {
 public:
 	//initialize
-	void Init(const TextureUtil::TexInfo& texinfo)
+	void Init(const TextureUtil::TexInfo& texinfo, const vector <glm::vec2>& overridetexturemap = vector <glm::vec2>())
 	{
 		//create mesh and the window
 		BaseGeometry::Init(new CubeMesh());
+		if (overridetexturemap.size() != 0)
+			dynamic_cast<CubeMesh*>(mesh)->updateTextureMap(overridetexturemap);
 
 		//generate VBOs for position and Texture coordinates
 		kount = mesh->GenerateVerticesData(VAOUtil::POS | VAOUtil::TEX, vaoutl);
