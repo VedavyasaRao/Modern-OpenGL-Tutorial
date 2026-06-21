@@ -7,7 +7,7 @@ Scene scene;
 
 int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd_line, int show)
 {
-	scene.Init(RECT{ 100, 100, 100+WIDTH, 100+HEIGHT }, L"Modern OpenGL-Tutorial Lesson06");
+	scene.Init(RECT{ 100, 100, 100+WIDTH, 100+HEIGHT }, L"Lesson08 Understanding Affine Transformation interactively");
 	scene.ShowWindow(show);
 
 	MSG msg;

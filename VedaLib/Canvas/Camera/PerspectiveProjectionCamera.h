@@ -16,7 +16,11 @@ public:
 		{
 			case 'p':
 			case 'P':
-				OutputDebugStringA(Unproject(PPM.getProjectionMatrix()).c_str());
+			{
+				auto s = Unproject(PPM.getProjectionMatrix());
+				OutputDebugString(s.data());
+				CopyToClipboard(s.data());
+			}
 				break;
 
 			case VK_PRIOR:
@@ -57,7 +61,7 @@ public:
 
 
 protected:
-	string Unproject(const mat4& P)
+	wstring Unproject(const mat4& P)
 	{
 		auto w = clientrect.right - clientrect.left;
 		auto h = clientrect.bottom - clientrect.top;
@@ -81,13 +85,56 @@ protected:
 		glm::vec3 objcoord = glm::unProject(wincoord, V * M, P, vp);
 		vec3 projected = glm::project(objcoord, V * M, P, vp);
 
-		std::stringstream ss;
+		std::wstringstream ss;
 
-		ss << mouseX << " " << mouseY << " " << std::setprecision(2) << depth << endl;
-		ss << std::setprecision(2) << objcoord.x << " " << objcoord.y << " " << objcoord.z << endl;
+		ss << "mouseX:" << mouseX << L" mouseY:" << mouseY << L" depth:" << std::setprecision(2) << depth << endl;
+		ss << std::setprecision(2) << "X:" << objcoord.x << L" Y:" << objcoord.y << L" Z:" << objcoord.z << endl;
 		//ss << projected.x << " " << h-projected.y << " " << projected.z << endl;
 		return ss.str();
 	}
+
+	bool CopyToClipboard(const wchar_t* text) 
+	{
+		// 1. Open the clipboard associated with the current task
+		if (!OpenClipboard(NULL)) {
+			return false;
+		}
+
+		// 2. Clear the old clipboard contents to assume ownership
+		if (!EmptyClipboard()) {
+			CloseClipboard();
+			return false;
+		}
+
+		// Calculate buffer size including the null terminator
+		size_t size = (wcslen(text) + 1) * sizeof(wchar_t);
+
+		// 3. Allocate moveable global memory (required for standard clipboard data)
+		HGLOBAL hMem = GlobalAlloc(GMEM_MOVEABLE, size);
+		if (hMem == NULL) {
+			CloseClipboard();
+			return false;
+		}
+
+		// 4. Lock the memory block to get a raw pointer and copy the string
+		wchar_t* pMem = static_cast<wchar_t*>(GlobalLock(hMem));
+		if (pMem != NULL) {
+			wcscpy_s(pMem, wcslen(text) + 1, text);
+		}
+		GlobalUnlock(hMem);
+
+		// 5. Place the data onto the clipboard using Unicode text format
+		if (SetClipboardData(CF_UNICODETEXT, hMem) == NULL) {
+			GlobalFree(hMem); // Free memory only if the API call fails
+			CloseClipboard();
+			return false;
+		}
+
+		// 6. Close the clipboard so other programs can access it
+		CloseClipboard();
+		return true;
+	}
+
 
 public:
 	ViewMatrixData  VM;
