@@ -1,15 +1,15 @@
 #pragma once
-#include "PerspectiveProjectionCamera.h"
+#include "DualProjectionCamera.h"
 
 /////////////////////OrbitCamera///////////////////////////////////
-class OrbitCamera :public PerspectiveProjectionCamera
+class OrbitCamera :public DualProjectionCamera
 {
 public:
-	OrbitCamera(HWND hwnd) :PerspectiveProjectionCamera(hwnd) {}
+	OrbitCamera(HWND hwnd) :DualProjectionCamera(hwnd) {}
 
 	bool OnKey(int key)
 	{
-		if (PerspectiveProjectionCamera::OnKey(key))
+		if (DualProjectionCamera::OnKey(key))
 			return true;
 
 		switch (key)
@@ -30,7 +30,7 @@ public:
 
 	bool OnMouseMove(int button, int x, int y)
 	{
-		if (PerspectiveProjectionCamera::OnMouseMove(button, x, y))
+		if (DualProjectionCamera::OnMouseMove(button, x, y))
 			return true;
 
 		if (mouseRightDown)

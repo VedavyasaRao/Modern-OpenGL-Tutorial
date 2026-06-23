@@ -1,15 +1,15 @@
 #pragma once
-#include "PerspectiveProjectionCamera.h"
+#include "DualProjectionCamera.h"
 
 /////////////////////FPSCamera///////////////////////////////////
-class FPSCamera :public PerspectiveProjectionCamera
+class FPSCamera :public DualProjectionCamera
 {
 public:
-	FPSCamera(HWND hwnd) :PerspectiveProjectionCamera(hwnd) {}
+	FPSCamera(HWND hwnd) :DualProjectionCamera(hwnd) {}
 
 	bool OnKey(int key)
 	{
-		if (PerspectiveProjectionCamera::OnKey(key))
+		if (DualProjectionCamera::OnKey(key))
 			return true;
 
 		switch (key)
@@ -58,7 +58,7 @@ public:
 			return false;
 		}
 
-		if (PerspectiveProjectionCamera::OnMouseMove(button, x, y))
+		if (DualProjectionCamera::OnMouseMove(button, x, y))
 			return true;
 
 		if (!mouseLeftDown && !mouseRightDown)

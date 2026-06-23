@@ -61,6 +61,9 @@ public:
 		yminmax = GetDlgItem(IDC_EDIT8);
 		zminmax = GetDlgItem(IDC_EDIT9);
 
+		GetDlgItem(IDC_RADIO1).SendMessage(BM_SETCHECK, BST_CHECKED, 0); 
+
+
 		LoadDefaults();
 		bHandled = true;
 		return 1;
@@ -71,8 +74,8 @@ public:
 	{
 		WCHAR buf[1000];
 		blookat = IsDlgButtonChecked(IDC_CHECK2);
-		bperspective = IsDlgButtonChecked(IDC_CHECK3);
-		bortho = IsDlgButtonChecked(IDC_CHECK4);
+		bperspective = IsDlgButtonChecked(IDC_RADIO1);
+		bortho = IsDlgButtonChecked(IDC_RADIO2);
 
 		if (blookat)
 		{
