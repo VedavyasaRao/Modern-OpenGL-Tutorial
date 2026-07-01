@@ -13,6 +13,18 @@
 #include <atlbase.h>
 #include <atlwin.h>
 
+using namespace Gdiplus;
+
+
+/******************************
+//https://galogen.gpfault.net/galogen-web.html
+#include "GL/gl.c"
+
+//https://github.com/KhronosGroup/OpenGL-Registry/blob/main/api/GL/wglext.h
+#include "GL/wglext.h"
+*******************************/
+
+
 //https://gen.glad.sh/
 //see gen.glad.sh.pdf
 #define GLAD_GL_IMPLEMENTATION
@@ -23,6 +35,8 @@
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
+
+
 
 //This class defines the window that hosts the Modern OpenGL rendering context
 class COGLAppWindow : public CWindowImpl<COGLAppWindow>
@@ -64,8 +78,10 @@ public:
 		if (!wglMakeCurrent(hdc, glrc))
 			return 5;
 
-		//Load OpenGL extensions from the ICD
-		LoadWGLExtensions(hdc);
+		//Load OpenGL and WGL extensions from the ICD
+		auto ret = LoadWGLExtensions(hdc);
+		if (ret != 0)
+			return ret;
 
 		//Discard
 		wnd.ReleaseDC(hdc);
@@ -123,7 +139,7 @@ public:
 			0
 		};
 
-		//make context 3.3 and core profile compatible
+		//make context and core profile compatible
 		glrc = wglCreateContextAttribsARB(hdc, 0, glver_attribs);
 		if (!glrc)
 			return 4;
@@ -137,24 +153,25 @@ public:
 	}
 
 
-	void LoadWGLExtensions(HDC hdc)
+	int  LoadWGLExtensions(HDC hdc)
 	{
 		if (gladLoaderLoadGL() < (GLAD_MAKE_VERSION(GL_MAJOR_VER, GL_MINOR_VER)))
-			return;
+			return 6;
 
 		if (gladLoaderLoadWGL(hdc) < (GLAD_MAKE_VERSION(WGL_MAJOR_VER, WGL_MINOR_VER)))
-			return;
+			return 7;
 
+		return 0;
 	}
 
 
 private:
 	PIXELFORMATDESCRIPTOR pfd;
 	HGLRC glrc;
-	PFNWGLCREATECONTEXTATTRIBSARBPROC funcptr_wglCreateContextAttribsARB;
-	PFNWGLCHOOSEPIXELFORMATARBPROC funcptr_wglChoosePixelFormatARB;
+
 	const int GL_MAJOR_VER = 4;
 	const int GL_MINOR_VER = 0;
+
 	const int WGL_MAJOR_VER = 1;
 	const int WGL_MINOR_VER = 0;
 

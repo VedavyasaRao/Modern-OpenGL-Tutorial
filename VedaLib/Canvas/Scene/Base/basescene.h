@@ -101,6 +101,8 @@ protected:
 		//overridden by deriving class to release resources 
 		Cleanup();
 
+		GDIPlusShutdown();
+
 		//discard the context and close the window
 		COGLAppWindow::DestroyWindow();
 		return 0;
@@ -124,7 +126,13 @@ protected:
 			return 2;
 
 		//Create OpenGL context
-		return init_opengl();
+		auto ret = init_opengl();
+		if (ret != 0)
+			return 3;
+
+		GDIPlusStartup();
+
+		return 0;
 	}
 
 	//must be overidden by the application to render scene
@@ -183,10 +191,22 @@ protected:
 			PaintScene();
 	}
 
+	void GDIPlusStartup()
+	{
+		GdiplusStartupInput gdiplusStartupInput;
+		GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
+	}
+
+	void GDIPlusShutdown()
+	{
+		if (gdiplusToken != NULL)
+			GdiplusShutdown(gdiplusToken);
+	}
+
 protected:
 	//mouse/keyboard input handler
 	BaseCamera* camera;
-
+	ULONG_PTR gdiplusToken = NULL;
 
 };
 

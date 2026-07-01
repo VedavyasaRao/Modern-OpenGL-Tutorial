@@ -7,7 +7,6 @@ Scene scene;
 
 int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd_line, int show)
 {
-	TextImageSketcher::Startup();
 	scene.Init(RECT{ 100, 100, 780, 500 }, L"Lesson07: Drawing Text interactively");
 	
 
@@ -20,7 +19,6 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd_line, int show)
 		TranslateMessage(&msg);
 		DispatchMessageA(&msg);
 	}
-	TextImageSketcher::Shutdown();
 
 	return 0;
 }

@@ -4,7 +4,6 @@ Scene scene;
 
 int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd_line, int show)
 {
-	TextImageSketcher::Startup();
 
 	scene.Init(RECT{ 100, 100, 780, 500 }, L"Lesson11: Interactive First Person Shooter or FPS style Camera");
 	scene.ShowWindow(show);
@@ -16,6 +15,5 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd_line, int show)
 		DispatchMessageA(&msg);
 	}
 
-	TextImageSketcher::Shutdown();
 	return 0;
 }

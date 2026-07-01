@@ -5,13 +5,9 @@
 #include <iterator>
 #include <memory>
 #include <windows.h>
-#include <gdiplus.h>
-#include <gdiplusheaders.h>
 #include "..\..\Utils\Texture\TextureUtil.h"
 #include "..\..\Mesh\textmesh.h"
 #include "..\Base\BaseGeometry.h"
-
-using namespace Gdiplus;
 
 class TextImageSketcher :public BaseGeometry
 {
@@ -60,16 +56,6 @@ public:
 		Draw();
 	}
 
-	static void Startup()
-	{
-		GdiplusStartupInput gdiplusStartupInput;
-		GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
-	}
-
-	static void Shutdown()
-	{
-		GdiplusShutdown(gdiplusToken);
-	}
 
 	void Init(const TextureUtil::TexInfo& texinfo, int wd, int ht)
 	{
@@ -157,4 +143,3 @@ private:
 	unique_ptr <Pen>	ppen;
 };
 
-ULONG_PTR TextImageSketcher::gdiplusToken = NULL;
