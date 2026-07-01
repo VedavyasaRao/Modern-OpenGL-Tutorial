@@ -7,7 +7,7 @@
 #include <vector>
 #include <memory>
 #include "GL/GL.h"
-#include "SOIL2.h"
+//#include "SOIL2.h"
 
 
 // InputDlg dialog
@@ -138,7 +138,7 @@ public:
 		txtfilenamectl.GetWindowText((LPTSTR)txtfilename.data(), 500);
 	}
 
-	WFObj::WFOBJInfo getdata()
+	AssimpModel::WFOBJInfo getdata()
 	{
 		getfilenamesdata();
 
@@ -161,13 +161,13 @@ public:
 		lposzctl.GetWindowText((LPTSTR)buf.data(), 100);
 		ldir[2] = stof(buf);
 
-		WFObj::WFOBJInfo::Light light;
+		AssimpModel::WFOBJInfo::Light light;
 		light.ambientCoefficient = lamb;
 		light.Color = vec3(GetRValue(lclr)/ 255.0f, GetGValue(lclr)/ 255.0f, GetBValue(lclr)/ 255.0f);
 		light.Position = ldir;
 
-		auto txinf = TextureUtil::TexInfo(10, getfilename(txtfilename), SOIL_LOAD_AUTO, SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y, GL_REPEAT, GL_REPEAT, GL_LINEAR, GL_LINEAR);
-		return WFObj::WFOBJInfo(getfilename(objfilename), getfilename(mtlfilename), txinf, cpos, light);
+		auto txinf = TextureUtil::TexInfo(10, getfilename(txtfilename),  GL_REPEAT, GL_REPEAT, GL_LINEAR, GL_LINEAR);
+		return AssimpModel::WFOBJInfo(getfilename(objfilename), getfilename(mtlfilename), txinf, cpos, light);
 	}
 
 	void SetDefaultValues()

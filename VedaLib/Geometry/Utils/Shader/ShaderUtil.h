@@ -22,7 +22,7 @@ public:
 			glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infoLogLength);
 			GLchar *infoLog = new GLchar[infoLogLength];
 			glGetShaderInfoLog(shader, infoLogLength, NULL, infoLog);
-			cerr << "Compile log: " << infoLog << endl;
+			errorlog += (("Compile log: ") + string((char*)infoLog) + "\r\n");
 			delete[] infoLog;
 		}
 		shadermap[shadertype] = shader;
@@ -43,7 +43,7 @@ public:
 		}
 		else
 		{
-			cerr << "Error loading shader: " << filename << endl;
+			errorlog += (("Error loading shader: ") + filename + "\r\n");
 		}
 	}
 
@@ -67,7 +67,7 @@ public:
 			glGetProgramiv(program, GL_INFO_LOG_LENGTH, &infoLogLength);
 			GLchar *infoLog = new GLchar[infoLogLength];
 			glGetProgramInfoLog(program, infoLogLength, NULL, infoLog);
-			cerr << "Link log: " << infoLog << endl;
+			errorlog += (("Link log: ") + string((char*)infoLog) + "\r\n");
 			delete[] infoLog;
 		}
 
@@ -121,4 +121,5 @@ private:
 	map<string, GLuint> attmap;
 	map<string, GLuint> unimap;
 	friend class VaoUtil;
+	string errorlog;
 };

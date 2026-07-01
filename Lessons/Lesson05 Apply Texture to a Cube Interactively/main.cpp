@@ -4,7 +4,7 @@ Scene scene;
 
 int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd_line, int show)
 {
-	scene.Init(RECT{ 100, 100, 780, 500 }, L"Lesson05 Apply Texture to a Cube Interactively");
+	scene.Init(RECT{ 100, 100, 780, 500 }, L"Lesson05: Apply Texture to a Cube Interactively");
 	scene.ShowWindow(show);
 
 	MSG msg;

@@ -4,7 +4,7 @@ Scene scene;
 
 int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd_line, int show)
 {
-	scene.Init(RECT{ 100, 100, 780, 500 }, L"Lesson09 Importing WaveFront OBJ Models  interactively");
+	scene.Init(RECT{ 100, 100, 780, 500 }, L"Lesson09a Importing Assimp Models  interactively");
 	scene.ShowWindow(show);
 
 	MSG msg;

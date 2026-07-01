@@ -4,7 +4,7 @@ Scene scene;
 
 int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd_line, int show)
 {
-	scene.Init(RECT{ 100, 100, 780, 500 }, L"Lesson06 Lighting Cube interactively");
+	scene.Init(RECT{ 100, 100, 780, 500 }, L"Lesson06: Lighting Cube interactively");
 	scene.ShowWindow(show);
 
 	MSG msg;

@@ -6,7 +6,7 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd_line, int show)
 {
 	TextImageSketcher::Startup();
 
-	scene.Init(RECT{ 100, 100, 780, 500 }, L"Modern OpenGL-Tutorial - Lesson09");
+	scene.Init(RECT{ 100, 100, 780, 500 }, L"Lesson11: Interactive First Person Shooter or FPS style Camera");
 	scene.ShowWindow(show);
 
 	MSG msg;

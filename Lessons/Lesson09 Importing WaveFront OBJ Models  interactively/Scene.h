@@ -1,6 +1,6 @@
 #include "Canvas\Scene\Base\BaseScene.h"
 #include "Canvas\Camera\ThreeDCamera.h"
-#include "Geometry\Objects\Generic\WFObj.h"
+#include "Geometry\Objects\Generic\AssimpModel.h"
 #include "InputDlg.h"
 
 DWORD WINAPI ThreadFunction(LPVOID lpParam);
@@ -61,7 +61,7 @@ public:
 		if (pshape == nullptr)
 		{
 			auto shapeinf = pdlg->getdata();
-			pshape = new WFObj();
+			pshape = new AssimpModel();
 			pshape->Init(shapeinf);
 		}
 	}
@@ -116,7 +116,7 @@ public:
 	}
 
 private:
-	WFObj *pshape;
+	AssimpModel *pshape;
 	InputDlg* pdlg;
 
 

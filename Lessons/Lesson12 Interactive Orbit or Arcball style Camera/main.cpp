@@ -6,7 +6,7 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd_line, int show)
 {
 	TextImageSketcher::Startup();
 
-	scene.Init(RECT{ 100, 100, 780, 500 }, L"Modern OpenGL-Tutorial - Lesson011");
+	scene.Init(RECT{ 100, 100, 780, 500 }, L"Lesson12: Interactive Orbit or Arcball style Camera");
 	scene.ShowWindow(show);
 
 	MSG msg;

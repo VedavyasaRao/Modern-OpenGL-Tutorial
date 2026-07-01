@@ -11,20 +11,32 @@ public:
 		//activate the texture first
 		glActiveTexture(GL_TEXTURE0 + texinfo.texunit);
 
-		//load the texture from the file, create MIPMAP and invert the image for mapping
-		//texinfo.textureID = SOIL_load_OGL_texture(filename.c_str(), SOIL_LOAD_AUTO, 0, SOIL_FLAG_MIPMAPS  | SOIL_FLAG_INVERT_Y);
-		texinfo.textureID = SOIL_load_OGL_texture(texinfo.filename.c_str(), texinfo.channels, 0, texinfo.flags);
-
-		//bind the texture
 		glBindTexture(GL_TEXTURE_2D, texinfo.textureID);
 
-		//wrapping
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, texinfo.swrap);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, texinfo.twrap);
 
-		//filtering
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, texinfo.minfilter);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, texinfo.magfilter);
+
+		int width, height, nrChannels;
+		stbi_set_flip_vertically_on_load(1);
+		unsigned char* data = stbi_load(texinfo.filename.c_str(), &width, &height, &nrChannels, 0);
+		if (data)
+		{
+			GLenum format = 0;
+			if (nrChannels == 4)
+				format = GL_RGBA;
+			else if (nrChannels == 3)
+				format = GL_RGB;
+			else if (nrChannels == 1)
+				format = GL_DEPTH_COMPONENT;
+
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+			glGenerateMipmap(GL_TEXTURE_2D);
+			stbi_image_free(data);
+		}
+
 
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
@@ -76,10 +88,8 @@ public:
 	class TexInfo
 	{
 	public:
-		TexInfo(GLushort texunit=0, 
-			const string& filename="", 
-			uint channels = SOIL_LOAD_AUTO, 
-			uint flags = SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y,
+		TexInfo(GLushort texunit = 0,
+			const string& filename = "",
 			uint swrap = GL_REPEAT,
 			uint twrap = GL_REPEAT,
 			uint minfilter = GL_LINEAR,
@@ -88,8 +98,6 @@ public:
 		{
 			this->texunit = texunit;
 			this->filename = filename;
-			this->channels = channels;
-			this->flags = flags;
 			this->swrap = swrap;
 			this->twrap = twrap;
 			this->minfilter = minfilter;
@@ -111,8 +119,6 @@ public:
 		GLushort	texunit;
 		GLuint		textureID;
 		string		filename;
-		uint		channels;
-		uint		flags;
 		uint		swrap, twrap;
 		uint		minfilter, magfilter;
 		friend		TextureUtil;

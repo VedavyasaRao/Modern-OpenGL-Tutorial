@@ -32,14 +32,6 @@ public:
 		floor.MM.Translateby = glm::vec3(0.0f, -1.0f, 0.0f);
 		floor.MM.Scaleby = glm::vec3(10.0f, 0.02f, 10.0f);
 		
-		LOGFONTW lf;
-		ZeroMemory(&lf, sizeof lf);
-		lf.lfWidth = 16;
-		wcscpy_s(lf.lfFaceName, 32, L"Ariel");
-		hfont = CreateFontIndirect(&lf);
-		pbrush = new SolidBrush(RGB(0, 0, 255));
-		textutl.Init(GL_TEXTURE0 + 4, 256,256);
-		textutl.MM.Translateby = glm::vec3(-0.2f, 0.3f, 0.0f);
 		return 0;
 	}
 
@@ -48,10 +40,7 @@ public:
 	{
 		cube.Cleanup();
 		floor.Cleanup();
-		textutl.Cleanup();
 		delete camera;
-		delete pbrush;
-		DeleteObject(hfont);
 	}
 	
 	//draw the scene
@@ -68,8 +57,6 @@ public:
 		cube.Draw();
 		SceneCamera()->MM.Reset();
 
-		SceneCamera()->augumentModelMatrix(textutl);
-		textutl.Drawtext(PointF(0.0, 0.0), ss.c_str(),hfont, &fmt, pbrush);
 
 		SceneCamera()->augumentModelMatrix(floor);
 		SceneCamera()->setViewMatrix(floor);
@@ -95,11 +82,6 @@ public:
 private:
 	TexturedCube cube;
 	TexturedCube floor;
-	TextImageSketcher  textutl;
-	HFONT  hfont;
-	StringFormat fmt;
-	SolidBrush *pbrush;
-	wstring ss = L"Khri$ha";
 
 	double previousSeconds = GetTickCount() / 1000.0;
 };

@@ -5,7 +5,6 @@
 #include <sstream>
 #include <map>
 #include "GL/GL.h"
-#include "SOIL2.h"
 
 
 // InputDlg dialog
@@ -30,14 +29,6 @@ public:
 		RECT rect;
 
 		filenamectl = GetDlgItem(IDC_EDIT_FILENAME);
-		channelscmbctl = GetDlgItem(IDC_COMBO_CHANNELS);
-		channelscmbctl.GetWindowRect(&rect);
-		::MapWindowPoints(nullptr, this->m_hWnd, (LPPOINT)&rect, 2);
-		channelscmbctl.MoveWindow(rect.left, rect.top, rect.right - rect.left, 200, TRUE);
-		addcombo(channelscmbctl, channles);
-
-		flagslstctl = GetDlgItem(IDC_LIST_FLAGS);
-		addcombo(flagslstctl, flags, false);
 
 		swrapcmbctl = GetDlgItem(IDC_COMBO_S_WRAP);
 		swrapcmbctl.GetWindowRect(&rect);
@@ -63,8 +54,6 @@ public:
 		magfiltercmbctl.MoveWindow(rect.left, rect.top, rect.right - rect.left, 200, TRUE);
 		addcombo(magfiltercmbctl, filter);
 
-		cubeszctl = GetDlgItem(IDC_EDIT_CUBESZ);
-		texunitctl = GetDlgItem(IDC_EDIT_TEXUNIT);
 
 		
 		bHandled = true;
@@ -98,47 +87,29 @@ public:
 	{
 		filenamectl.GetWindowText((LPTSTR)filename.data(), 500);
 
-		channelscmb = getdata(channelscmbctl);
-		flagslst = getdata(flagslstctl, FALSE);
 		swrapcmb = getdata(swrapcmbctl);
 		twrapcmb = getdata(twrapcmbctl);
 		minfiltercmb = getdata(minfiltercmbctl);
 		magfiltercmb = getdata(magfiltercmbctl);
 
-		wstring buf(100, 0);
-		cubeszctl.GetWindowTextW((LPTSTR)buf.data(), 100);
-		cubesz = stof(buf);
-
-		texunitctl.GetWindowTextW((LPTSTR)buf.data(), 100);
-		texunit = stoi(buf);
-
-		return TextureUtil::TexInfo(texunit, getfilename(), channelscmb, flagslst, swrapcmb, twrapcmb, minfiltercmb, magfiltercmb);
+		return TextureUtil::TexInfo(0, getfilename(), swrapcmb, twrapcmb, minfiltercmb, magfiltercmb);
 	}
 
 	void SetDefaultValues()
 	{
 		filename = LR"(..\resources\textures\bricks2.jpg)";
-		channelscmb = SOIL_LOAD_AUTO;
-		flagslst = SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y;
 		swrapcmb = twrapcmb = GL_REPEAT;
 		minfiltercmb = magfiltercmb = GL_LINEAR;
-		cubesz = 0.5;
-		texunit = 10;
 	}
 
 	void PopulateGUI()
 	{
 		filenamectl.SetWindowText((LPTSTR)filename.data());
-		setdata(channelscmbctl, channelscmb);
-		setdata(flagslstctl, flagslst, FALSE);
 		setdata(swrapcmbctl, swrapcmb);
 		setdata(twrapcmbctl, twrapcmb);
 		setdata(minfiltercmbctl, minfiltercmb);
 		setdata(magfiltercmbctl, magfiltercmb);
 
-		wstring buf = to_wstring(cubesz);
-		cubeszctl.SetWindowTextW((LPTSTR)buf.substr(0, buf.find('.')+3).data());
-		texunitctl.SetWindowTextW((LPTSTR)to_wstring(texunit).data());
 	}
 
 	string getfilename()
@@ -219,17 +190,6 @@ private:
 				}
 			}			
 		}
-		else
-		{
-			uint itemCount = (int)combo.SendMessage(LB_GETCOUNT, 0, 0);
-			combo.SendMessage(LB_SETSEL, FALSE, -1);
-			for (uint i = 0; i < itemCount; ++i)
-			{
-				auto result = combo.SendMessage(LB_GETITEMDATA, (WPARAM)i, 0);
-				if ((flagslst & result) != 0)
-					combo.SendMessage(LB_SETSEL, TRUE, i);
-			}
-		}
 	}
 
 	LPARAM getdata(CWindow& combo, bool bcombo = TRUE)
@@ -264,31 +224,6 @@ private:
 
 
 public:
-	map<wstring, uint> channles = {
-		{L"image format",SOIL_LOAD_AUTO},
-		{L"luminous",SOIL_LOAD_L},
-		{L"luminous/alpha",SOIL_LOAD_LA},
-		{L"RGB",SOIL_LOAD_RGB},
-		{L"RGBA",SOIL_LOAD_RGBA}
-	};
-
-	map<wstring, uint> flags = {
-		{L"SOIL_FLAG_POWER_OF_TWO", SOIL_FLAG_POWER_OF_TWO},
-		{L"SOIL_FLAG_MIPMAPS", SOIL_FLAG_MIPMAPS},
-		{L"SOIL_FLAG_TEXTURE_REPEATS", SOIL_FLAG_TEXTURE_REPEATS},
-		{L"SOIL_FLAG_MULTIPLY_ALPHA", SOIL_FLAG_MULTIPLY_ALPHA},
-		{L"SOIL_FLAG_INVERT_Y", SOIL_FLAG_INVERT_Y},
-		{L"SOIL_FLAG_COMPRESS_TO_DXT", SOIL_FLAG_COMPRESS_TO_DXT},
-		{L"SOIL_FLAG_DDS_LOAD_DIRECT", SOIL_FLAG_DDS_LOAD_DIRECT},
-		{L"SOIL_FLAG_NTSC_SAFE_RGB", SOIL_FLAG_NTSC_SAFE_RGB},
-		{L"SOIL_FLAG_CoCg_Y", SOIL_FLAG_CoCg_Y},
-		{L"SOIL_FLAG_TEXTURE_RECTANGLE", SOIL_FLAG_TEXTURE_RECTANGLE},
-		{L"SOIL_FLAG_PVR_LOAD_DIRECT", SOIL_FLAG_PVR_LOAD_DIRECT},
-		{L"SOIL_FLAG_ETC1_LOAD_DIRECT", SOIL_FLAG_ETC1_LOAD_DIRECT},
-		{L"SOIL_FLAG_GL_MIPMAPS", SOIL_FLAG_GL_MIPMAPS},
-		{L"SOIL_FLAG_SRGB_COLOR_SPACE", SOIL_FLAG_SRGB_COLOR_SPACE}
-	};
-
 	map<wstring, uint> wraps = {
 		{L"GL_CLAMP", 0x2900},
 		{L"GL_REPEAT",GL_REPEAT}
@@ -302,14 +237,10 @@ public:
 
 public:
 	wstring filename{500, '\0'};
-	uint	channelscmb, flagslst, swrapcmb, twrapcmb, minfiltercmb, magfiltercmb;
-	float cubesz;
-	uint texunit;
+	uint	swrapcmb, twrapcmb, minfiltercmb, magfiltercmb;
 
 private:
 	CWindow filenamectl;
-	CWindow channelscmbctl;
-	CWindow flagslstctl;
 
 	CWindow swrapcmbctl;
 	CWindow twrapcmbctl;
@@ -317,7 +248,5 @@ private:
 	CWindow minfiltercmbctl;
 	CWindow magfiltercmbctl;
 
-	CWindow cubeszctl;
-	CWindow texunitctl;
 
 };

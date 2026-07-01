@@ -13,13 +13,16 @@
 #include <atlbase.h>
 #include <atlwin.h>
 
-#include "GL/GL.h"
-#include "GL/wglext.h"
-#include "SOIL2.h"
+//https://gen.glad.sh/
+//see gen.glad.sh.pdf
+#define GLAD_GL_IMPLEMENTATION
+#include "GLad/gl.h"
 
-//defined in GLExtnesions.Lib to load wgl extension apis. 
-//This will also load the vendor supplied OpenGL ICD to handle all OpenGL calls
-extern "C" void LoadWGLExtensions();
+#define GLAD_WGL_IMPLEMENTATION
+#include "GLad/wgl.h"
+
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
 
 //This class defines the window that hosts the Modern OpenGL rendering context
 class COGLAppWindow : public CWindowImpl<COGLAppWindow>
@@ -32,21 +35,21 @@ public:
 	DECLARE_EMPTY_MSG_MAP()
 
 	//In this step, a dummy window is created and 1.1 compatible rendering context is created
-	//LoadWGLExtensions() is called to wgl extensions.  
+	//LoadWGLExtensions() is called to load wgl extensions.  
 	int init_opengl_extensions(void)
 	{
 		//create dummy window
 		COGLAppWindow wnd;
 		RECT rect;
 		ZeroMemory(&rect, sizeof rect);
-		if (!wnd.Create(NULL, rect, L"", WS_OVERLAPPEDWINDOW ))
+		if (!wnd.Create(NULL, rect, L"", WS_OVERLAPPEDWINDOW))
 			return 1;
-		
+
 		//fetch Device Context
 		HDC hdc = wnd.GetDC();
 		if (!hdc)
 			return 2;
-		
+
 		//Load first available format
 		ZeroMemory(&pfd, sizeof pfd);
 		if (!SetPixelFormat(hdc, 1, &pfd))
@@ -56,13 +59,13 @@ public:
 		glrc = wglCreateContext(hdc);
 		if (!glrc)
 			return 4;
-		
+
 		//Make it current
 		if (!wglMakeCurrent(hdc, glrc))
 			return 5;
-		
+
 		//Load OpenGL extensions from the ICD
-		LoadWGLExtensions();
+		LoadWGLExtensions(hdc);
 
 		//Discard
 		wnd.ReleaseDC(hdc);
@@ -79,8 +82,8 @@ public:
 		CWindow::DestroyWindow();
 		return 0;
 	}
-	
-	//This function creates Modern OpenGL context compatible with 3.3 Specs
+
+	//This function creates Modern OpenGL context compatible with 4.0 Specs
 	int init_opengl()
 	{
 		//fetch Device Context
@@ -106,21 +109,22 @@ public:
 		wglChoosePixelFormatARB(hdc, pixel_format_attribs, 0, 1, &pixel_format, &num_formats);
 		if (!num_formats)
 			return 2;
-		
+
 		//set it
 		if (!SetPixelFormat(hdc, pixel_format, &pfd))
 			return 3;
 
-		int gl33_attribs[] =
+		int glver_attribs[] =
 		{
-			WGL_CONTEXT_MAJOR_VERSION_ARB, 3,
-			WGL_CONTEXT_MINOR_VERSION_ARB, 3,
-			WGL_CONTEXT_PROFILE_MASK_ARB,  WGL_CONTEXT_CORE_PROFILE_BIT_ARB,
-			0,
+			WGL_CONTEXT_MAJOR_VERSION_ARB, GL_MAJOR_VER,
+			WGL_CONTEXT_MINOR_VERSION_ARB, GL_MINOR_VER,
+			WGL_CONTEXT_PROFILE_MASK_ARB,  
+			WGL_CONTEXT_CORE_PROFILE_BIT_ARB,
+			0
 		};
 
 		//make context 3.3 and core profile compatible
-		glrc = wglCreateContextAttribsARB(hdc, 0, gl33_attribs);
+		glrc = wglCreateContextAttribsARB(hdc, 0, glver_attribs);
 		if (!glrc)
 			return 4;
 
@@ -133,7 +137,25 @@ public:
 	}
 
 
+	void LoadWGLExtensions(HDC hdc)
+	{
+		if (gladLoaderLoadGL() < (GLAD_MAKE_VERSION(GL_MAJOR_VER, GL_MINOR_VER)))
+			return;
+
+		if (gladLoaderLoadWGL(hdc) < (GLAD_MAKE_VERSION(WGL_MAJOR_VER, WGL_MINOR_VER)))
+			return;
+
+	}
+
+
 private:
 	PIXELFORMATDESCRIPTOR pfd;
 	HGLRC glrc;
+	PFNWGLCREATECONTEXTATTRIBSARBPROC funcptr_wglCreateContextAttribsARB;
+	PFNWGLCHOOSEPIXELFORMATARBPROC funcptr_wglChoosePixelFormatARB;
+	const int GL_MAJOR_VER = 4;
+	const int GL_MINOR_VER = 0;
+	const int WGL_MAJOR_VER = 1;
+	const int WGL_MINOR_VER = 0;
+
 };
