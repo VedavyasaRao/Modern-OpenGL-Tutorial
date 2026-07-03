@@ -1,6 +1,6 @@
 #include "Canvas\Scene\Base\BaseScene.h"
 #include "Canvas\Camera\ThreeDCamera.h"
-#include "Geometry\Objects\Generic\AssimpModel.h"
+#include "Geometry\Objects\Generic\GenericObj.h"
 #include "InputDlg.h"
 
 DWORD WINAPI ThreadFunction(LPVOID lpParam);
@@ -61,7 +61,7 @@ public:
 		if (pshape == nullptr)
 		{
 			auto shapeinf = pdlg->getdata();
-			pshape = new AssimpModel();
+			pshape = new GenericObj();
 			pshape->Init(shapeinf);
 		}
 	}
@@ -83,7 +83,13 @@ public:
 	void DrawScene()
 	{
 		glClearColor(0, 0, 0, 0);
+		glClearColor(0.30f, 0.55f, 0.65f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glEnable(GL_DEPTH_TEST); // Enabling depth testing allows rear faces of 3D objects to be hidden behind front faces.
+		glEnable(GL_MULTISAMPLE); // Anti-aliasing
+		glEnable(GL_BLEND); // GL_BLEND for OpenGL transparency which is further set within the fragment shader.
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 		if (pshape != nullptr)
 		{
 			SceneCamera()->augumentModelMatrix(*pshape);
@@ -116,7 +122,7 @@ public:
 	}
 
 private:
-	AssimpModel *pshape;
+	GenericObj *pshape;
 	InputDlg* pdlg;
 
 

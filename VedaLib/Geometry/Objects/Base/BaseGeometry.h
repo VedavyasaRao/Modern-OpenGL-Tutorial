@@ -8,13 +8,13 @@
 class BaseGeometry
 {
 public:
-	virtual void Init(IGeometryMesh *mesh)
+	virtual void Init(IGeometryMesh *pmesh)
 	{
 		shader.LoadFromString(GL_VERTEX_SHADER, vertexShaderSource().c_str());
 		shader.LoadFromString(GL_FRAGMENT_SHADER, fragmentShaderSource().c_str());
 
 		shader.CreateAndLinkProgram();
-		this->mesh = mesh;
+		this->mesh = pmesh;
 		bindexed = false;
 
 	}

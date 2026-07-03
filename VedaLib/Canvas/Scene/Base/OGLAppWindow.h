@@ -1,5 +1,5 @@
 #pragma once
-#include "CompileLink.h"
+//#include "CompileLink.h"
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -28,13 +28,13 @@ using namespace Gdiplus;
 //https://gen.glad.sh/
 //see gen.glad.sh.pdf
 #define GLAD_GL_IMPLEMENTATION
-#include "GLad/gl.h"
+#include <GLad/gl.h>
 
 #define GLAD_WGL_IMPLEMENTATION
-#include "GLad/wgl.h"
+#include <GLad/wgl.h>
 
 #define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
+#include <stb_image.h>
 
 
 

@@ -2,7 +2,7 @@
 #include "..\Base\BaseGeometry.h"
 #include "..\..\Utils\Texture\TextureUtil.h"
 #include "..\..\Mesh\AssimpModelMesh.h"
-#include "..\..\Mesh\WFObjMesh.h"
+#include "..\..\Mesh\GenericObjMesh.h"
 #include <regex>
 
 //Implements singled colored cube 
@@ -16,9 +16,7 @@ public:
 	{
 		this->shapeinf = shapeinf;
 
-		auto m2 = new AssimpModelMesh(this->shapeinf.objfilename);
-		auto m = new WFObjMesh(this->shapeinf.objfilename, this->shapeinf.mtlfilename);
-		hastexture = (((m->texture_count() != 0)) && this->shapeinf.txtinf);
+		auto m = new AssimpModelMesh(this->shapeinf.objfilename);
 
 		BaseGeometry::Init(m);
 
@@ -52,7 +50,7 @@ public:
 		glUniform3fv(shader.GetUniformLocation("light.Color"), 1, value_ptr(shapeinf.light.Color));
 
 
-		auto& mat = ((WFObjMesh*)mesh)->matinfomap.begin()->second;
+		auto& mat = ((GenericObjMesh*)mesh)->matinfomap.begin()->second;
 		glUniform3fv(shader.GetUniformLocation("material.ambientColor"), 1, glm::value_ptr(mat.ambientclr));
 		glUniform3fv(shader.GetUniformLocation("material.diffuseColor"), 1, glm::value_ptr(mat.diffuseclr));
 		glUniform3fv(shader.GetUniformLocation("material.SpecularColor"), 1, value_ptr(mat.specularclr));

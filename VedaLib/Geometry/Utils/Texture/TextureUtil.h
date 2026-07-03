@@ -74,9 +74,9 @@ public:
 		glUniform1i(uniloc, texinfo.texunit);
 	}
 
-	void Init(TexInfo texinfo)
+	void Init(TexInfo ptexinfo)
 	{
-		this->texinfo = texinfo;
+		this->texinfo = ptexinfo;
 	}
 
 	void Cleanup()
@@ -104,9 +104,9 @@ public:
 			this->magfilter = magfilter;
 		}
 
-		void updatefilename(const string& filename)
+		void updatefilename(const string& sfilename)
 		{
-			this->filename = filename;
+			this->filename = sfilename;
 		}
 
 		

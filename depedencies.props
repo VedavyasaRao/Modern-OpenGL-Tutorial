@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <IncludePath>$(MSBuildThisFileDirectory)externals\assimp\include;$(MSBuildThisFileDirectory)externals\GLExtns;$(MSBuildThisFileDirectory)externals\glm;$(MSBuildThisFileDirectory)externals\stb;$(MSBuildThisFileDirectory)VedaLib;$(IncludePath)</IncludePath>
+    <LibraryPath>$(MSBuildThisFileDirectory)externals\assimp\lib;$(LibraryPath)</LibraryPath>
+    <_PropertySheetDisplayName>externals</_PropertySheetDisplayName>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <Link>
+      <AdditionalDependencies>opengl32.lib;gdiplus.lib;zlibstaticd.lib;assimp-vc143-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup />
+</Project>

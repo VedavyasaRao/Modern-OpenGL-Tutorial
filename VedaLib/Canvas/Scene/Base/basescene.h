@@ -17,7 +17,7 @@ class BaseScene:public COGLAppWindow
 	END_MSG_MAP()
 
 	//when WM_PAINT is recived
-	LRESULT OnPaint(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+	LRESULT OnPaint(UINT , WPARAM , LPARAM , BOOL& bHandled)
 	{
 		PAINTSTRUCT rect;
 		HDC hdc = BeginPaint(&rect);
@@ -35,7 +35,7 @@ class BaseScene:public COGLAppWindow
 	
 
 	//Called when the window is resized
-	LRESULT OnSize(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+	LRESULT OnSize(UINT , WPARAM , LPARAM lParam, BOOL& bHandled)
 	{
 		int w = LOWORD(lParam);
 		int h = HIWORD(lParam);
@@ -48,7 +48,7 @@ class BaseScene:public COGLAppWindow
 	}
 
 	//when a key is down. 
-	LRESULT OnKeyDown(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+	LRESULT OnKeyDown(UINT , WPARAM wParam, LPARAM , BOOL& bHandled)
 	{
 		//calls mousekeyboardinput handler if assigned
 		HandleKeyboardinput(wParam);
@@ -57,7 +57,7 @@ class BaseScene:public COGLAppWindow
 	}
 
 	//when the left mouse button is pressed. 
-	LRESULT OnMouseBtnDown(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+	LRESULT OnMouseBtnDown(UINT , WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 	{
 		int x = LOWORD(lParam);
 		int y = HIWORD(lParam);
@@ -69,7 +69,7 @@ class BaseScene:public COGLAppWindow
 	}
 
 	//when the mouse is moved.
-	LRESULT OnMouseMove(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+	LRESULT OnMouseMove(UINT , WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 	{
 		int x = LOWORD(lParam);
 		int y = HIWORD(lParam);
@@ -81,12 +81,12 @@ class BaseScene:public COGLAppWindow
 	}
 
 	//when mouse wheel is scrolled.
-	LRESULT OnMouseWheel(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+	LRESULT OnMouseWheel(UINT , WPARAM wParam, LPARAM , BOOL& bHandled)
 	{
-		int fwKeys = GET_KEYSTATE_WPARAM(wParam);
+		//int fwKeys = GET_KEYSTATE_WPARAM(wParam);
 		int zDelta = GET_WHEEL_DELTA_WPARAM(wParam);
-		int x = GET_X_LPARAM(lParam);
-		int y = GET_Y_LPARAM(lParam);
+		//int x = GET_X_LPARAM(lParam);
+		//int y = GET_Y_LPARAM(lParam);
 
 		//calls mousekeyboardinput handler if assigned
 		HandleMouseWheel(zDelta);
@@ -142,7 +142,7 @@ protected:
 	virtual void Cleanup() = 0;
 
 	//window resize handler
-	virtual void HandleResize(int w, int h)
+	virtual void HandleResize(int , int )
 	{
 		if (camera == nullptr)
 			return;

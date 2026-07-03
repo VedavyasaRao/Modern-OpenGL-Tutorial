@@ -4,7 +4,6 @@
 #include <string>
 #include <sstream>
 #include <map>
-#include "GL/GL.h"
 
 
 // InputDlg dialog

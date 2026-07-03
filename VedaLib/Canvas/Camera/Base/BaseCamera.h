@@ -12,7 +12,7 @@ public:
 		this->hwnd = hwnd;
 	}
 
-	virtual bool OnKey(int key)
+	virtual bool OnKey(int)
 	{
 		return false;
 	}
@@ -36,7 +36,7 @@ public:
 		return false;
 	}
 
-	virtual void OnMouseBtnDown(int button, int x, int y)
+	virtual void OnMouseBtnDown(int button, int , int )
 	{
 		mouseLeftDown = false;
 		mouseRightDown = false;
@@ -49,7 +49,7 @@ public:
 			mouseMiddleDown = TRUE;
 	}
 
-	virtual bool OnMouseWheel(int dir) 
+	virtual bool OnMouseWheel(int ) 
 	{ 
 		return false; 
 	}

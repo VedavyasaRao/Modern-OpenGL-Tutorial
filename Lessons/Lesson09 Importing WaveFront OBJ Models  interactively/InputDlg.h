@@ -6,8 +6,6 @@
 #include <map>
 #include <vector>
 #include <memory>
-#include "GL/GL.h"
-//#include "SOIL2.h"
 
 
 // InputDlg dialog
@@ -64,7 +62,7 @@ public:
 	{
 		HCURSOR hCursor = LoadCursor(NULL, IDC_WAIT);
 		SetCursor(hCursor);
-		auto mesh = std::unique_ptr<WFObjMesh>(new WFObjMesh(getfilename(objfilename), getfilename(mtlfilename)));
+		auto mesh = std::unique_ptr<GenericObjMesh>(new GenericObjMesh(getfilename(objfilename), getfilename(mtlfilename)));
 		hCursor = LoadCursor(NULL, IDC_ARROW);
 		SetCursor(hCursor);
 
@@ -138,7 +136,7 @@ public:
 		txtfilenamectl.GetWindowText((LPTSTR)txtfilename.data(), 500);
 	}
 
-	AssimpModel::WFOBJInfo getdata()
+	GenericObj::GenericObjInfo getdata()
 	{
 		getfilenamesdata();
 
@@ -161,13 +159,13 @@ public:
 		lposzctl.GetWindowText((LPTSTR)buf.data(), 100);
 		ldir[2] = stof(buf);
 
-		AssimpModel::WFOBJInfo::Light light;
+		GenericObj::GenericObjInfo::Light light;
 		light.ambientCoefficient = lamb;
 		light.Color = vec3(GetRValue(lclr)/ 255.0f, GetGValue(lclr)/ 255.0f, GetBValue(lclr)/ 255.0f);
 		light.Position = ldir;
 
 		auto txinf = TextureUtil::TexInfo(10, getfilename(txtfilename),  GL_REPEAT, GL_REPEAT, GL_LINEAR, GL_LINEAR);
-		return AssimpModel::WFOBJInfo(getfilename(objfilename), getfilename(mtlfilename), txinf, cpos, light);
+		return GenericObj::GenericObjInfo(getfilename(objfilename), getfilename(mtlfilename), txinf, cpos, light);
 	}
 
 	void SetDefaultValues()
