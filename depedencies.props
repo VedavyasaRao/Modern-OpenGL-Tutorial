@@ -2,21 +2,28 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Target Name="RunMyCustomScript" BeforeTargets="PrepareForBuild">
     <Message Importance="High" Text="Executing attached project script..." />
-    <Exec Command="call &quot;$(MSBuildThisFileDirectory)externals\assimp\extract.cmd&quot;" /> 
+    <Exec Command="call &quot;$(MSBuildThisFileDirectory)VedaLib\externals\assimp\extract.cmd&quot;" /> 
   </Target>
 
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <IncludePath>$(MSBuildThisFileDirectory)externals\assimp\include;$(MSBuildThisFileDirectory)externals\GLExtns;$(MSBuildThisFileDirectory)externals\glm;$(MSBuildThisFileDirectory)externals\stb;$(MSBuildThisFileDirectory)VedaLib;$(IncludePath)</IncludePath>
-    <LibraryPath>$(MSBuildThisFileDirectory)externals\assimp\lib;$(LibraryPath)</LibraryPath>
-    <_PropertySheetDisplayName>externals</_PropertySheetDisplayName>
+    <IncludePath>$(MSBuildThisFileDirectory)VedaLib\externals\assimp\include;$(MSBuildThisFileDirectory)VedaLib\externals\GLExtns;$(MSBuildThisFileDirectory)VedaLib\externals\glm;$(MSBuildThisFileDirectory)VedaLib\externals\stb;$(MSBuildThisFileDirectory)VedaLib\Source;$(IncludePath)</IncludePath>
+    <LibraryPath>$(MSBuildThisFileDirectory)VedaLib\externals\assimp\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
-  <ItemDefinitionGroup>
+  
+  <ItemDefinitionGroup Condition=" '$(Configuration)' == 'Debug' ">
     <Link>
       <AdditionalDependencies>opengl32.lib;gdiplus.lib;zlibstaticd.lib;assimp-vc143-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
+  
+  <ItemDefinitionGroup Condition=" '$(Configuration)' == 'Release' ">
+    <Link>
+      <AdditionalDependencies>opengl32.lib;gdiplus.lib;zlibstatic.lib;assimp-vc143-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+
   <ItemGroup />
 </Project>
 
