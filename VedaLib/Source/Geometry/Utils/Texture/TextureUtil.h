@@ -10,7 +10,7 @@ public:
 	{
 		//activate the texture first
 		glActiveTexture(GL_TEXTURE0 + texinfo.texunit);
-
+		glGenTextures(1, &texinfo.textureID);
 		glBindTexture(GL_TEXTURE_2D, texinfo.textureID);
 
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, texinfo.swrap);
@@ -37,7 +37,6 @@ public:
 			stbi_image_free(data);
 		}
 
-
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
@@ -61,6 +60,7 @@ public:
 	void LoadTextTextureImage(void *imagedata, int wd, int ht)
 	{
 		glActiveTexture(GL_TEXTURE0 + texinfo.texunit);
+		glGenTextures(1, &texinfo.textureID);
 		glBindTexture(GL_TEXTURE_2D, texinfo.textureID);
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 		glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, wd, ht, GL_BGRA, GL_UNSIGNED_BYTE, imagedata);

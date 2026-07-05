@@ -5,6 +5,7 @@
     <Exec Command="call &quot;$(MSBuildThisFileDirectory)VedaLib\externals\assimp\extract.cmd&quot;" /> 
   </Target>
 
+
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
@@ -12,6 +13,7 @@
     <LibraryPath>$(MSBuildThisFileDirectory)VedaLib\externals\assimp\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   
+ 
   <ItemDefinitionGroup Condition=" '$(Configuration)' == 'Debug' ">
     <Link>
       <AdditionalDependencies>opengl32.lib;gdiplus.lib;zlibstaticd.lib;assimp-vc143-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>

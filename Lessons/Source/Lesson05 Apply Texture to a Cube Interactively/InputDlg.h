@@ -96,7 +96,7 @@ public:
 
 	void SetDefaultValues()
 	{
-		filename = LR"(..\resources\textures\bricks2.jpg)";
+		filename = LR"(..\resources\textures\bricks.jpg)";
 		swrapcmb = twrapcmb = GL_REPEAT;
 		minfiltercmb = magfiltercmb = GL_LINEAR;
 	}
@@ -122,6 +122,7 @@ public:
 		string strTo(size_needed, 0);
 		// Perform actual conversion
 		WideCharToMultiByte(CP_UTF8, 0, &filename[0], (int)filename.size(), &strTo[0], size_needed, NULL, NULL);
+
 
 		return strTo;
 	}

@@ -26,7 +26,7 @@ public:
 		SceneCamera()->PPM.setFOV(60.0f);
 		SceneCamera()->PPM.setProjectionMatrix(0.1f, 10.0f);
 
-		cube.Init(TextureUtil::TexInfo(0, R"(..\resources\textures\bricks2.jpg)"));
+		cube.Init(TextureUtil::TexInfo(0, R"(..\resources\textures\bricks.jpg)"));
 		cube.MM.Translateby = glm::vec3(0.0f, 0.0f, -2.0f);
 		
 		//cube.MM.Translateby = glm::vec3(-15.0f, 0.0f, 0.0f);

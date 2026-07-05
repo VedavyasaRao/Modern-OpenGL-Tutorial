@@ -52,7 +52,7 @@ public:
 		{
 			pcube = new LightedTexCube();
 			pdlg->update(&pcube->light);
-			pcube->Init(0, R"(..\resources\textures\rocks2.bmp)");
+			pcube->Init(0, R"(..\resources\textures\rocks.bmp)");
 		}
 	}
 

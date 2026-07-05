@@ -170,8 +170,8 @@ public:
 
 	void SetDefaultValues()
 	{
-		objfilename = LR"(..\resources\WFObj\crate.obj)";
-		mtlfilename = LR"(..\resources\WFObj\crate.mtl)";
+		objfilename = LR"(..\resources\Models\crate.obj)";
+		mtlfilename = LR"(..\resources\Models\crate.mtl)";
 		txtfilename = LR"(..\resources\textures\woodcrate_diffuse.jpg)";
 
 		lamb = 0.05f;

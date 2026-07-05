@@ -25,7 +25,7 @@ public:
 
 		SceneCamera()->PPM.setFOV(45.0f);
 		SceneCamera()->PPM.setProjectionMatrix(0.1f, 100.0f);
-		cube.Init(TextureUtil::TexInfo(0, R"(..\resources\textures\rocks2.bmp)"));
+		cube.Init(TextureUtil::TexInfo(0, R"(..\resources\textures\rocks.bmp)"));
 		cube.MM.Translateby = glm::vec3(0.0f, 0.0f, -3.0f);
 		
 		floor.Init(TextureUtil::TexInfo(1, R"(..\resources\textures\grid.jpg)"));

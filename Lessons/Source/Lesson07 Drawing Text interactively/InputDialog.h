@@ -46,7 +46,7 @@ public:
 		imgy = 5;
 		imgclipwd = 48;
 		imgclipht = 80;
-		imagfilename = L"..\\resources\\textures\\Khri$ha2.jpg";
+		imagfilename = L"..\\resources\\textures\\Khri$ha.jpg";
 	}
 
 	void getdata()

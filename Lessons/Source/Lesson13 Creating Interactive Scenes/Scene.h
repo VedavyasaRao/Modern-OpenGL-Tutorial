@@ -27,7 +27,7 @@ public:
 		SceneCamera()->setSenseivity(0.50f, 0.01f);
 		
 		generateFloor();
-		floor.Init(TextureUtil::TexInfo(1, R"(..\resources\textures\blocks3.bmp)"));
+		floor.Init(TextureUtil::TexInfo(1, R"(..\resources\textures\blocks.bmp)"));
 		floor.updateTextureMap(6.0f);
 		floor.updateVertices(vertices);
 		floor.GenerateVertices();
@@ -45,6 +45,7 @@ public:
 		photo.updateVertices(vertices);
 		photo.GenerateVertices();
 
+
 		generateOuterWall();
 		wall.Init(TextureUtil::TexInfo(4, R"(..\resources\textures\plain2.bmp)"));
 		wall.updateTextureMap(1.0f);
@@ -52,7 +53,7 @@ public:
 		wall.GenerateVertices();
 
 		generateWoodBoxes();
-		boxes.Init(TextureUtil::TexInfo(5, R"(..\resources\textures\rocks2.bmp)"));
+		boxes.Init(TextureUtil::TexInfo(5, R"(..\resources\textures\rocks.bmp)"));
 		boxes.updateTextureMap(1.0f);
 		boxes.updateVertices(vertices);
 		boxes.GenerateVertices();
@@ -164,26 +165,27 @@ private:
 	void generatePhoto()
 	{
 		vertices.clear();
+
+		vertices.push_back({ 179.8, 10.0, -80.0 });
 		vertices.push_back({ 179.8, 30.0, -80.0 });
 		vertices.push_back({ 179.8, 30.0, -64.0 });
 		vertices.push_back({ 179.8, 10.0, -64.0 });
-		vertices.push_back({ 179.8, 10.0, -80.0 });
 
+		vertices.push_back({ -9.9, 10.0, -64.0 });
 		vertices.push_back({ -9.9, 30.0, -64.0 });
 		vertices.push_back({ -9.9, 30.0, -80.0 });
 		vertices.push_back({ -9.9, 10.0, -80.0 });
-		vertices.push_back({ -9.9, 10.0, -64.0 });
 
-		vertices.push_back({ 80.0 , 30.0, -304.0 });
-		vertices.push_back({ 50.0 , 30.0, -320.0 });
+
 		vertices.push_back({ 50.0 , 10.0, -304.0 });
+		vertices.push_back({ 50.0 , 30.0, -320.0 });
+		vertices.push_back({ 80.0 , 30.0, -304.0 });
 		vertices.push_back({ 80.0 , 10.0, -320.0 });
 
-
+		vertices.push_back({ 80.0 , 10.0, 14.0 });
 		vertices.push_back({ 80.0 , 30.0, 14.0 });
 		vertices.push_back({ 50.0 , 30.0, 19.8 });
 		vertices.push_back({ 50.0 , 10.0, 19.8 });
-		vertices.push_back({ 80.0 , 10.0, 14.0 });
 
 
 	}

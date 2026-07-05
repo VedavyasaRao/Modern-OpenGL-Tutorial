@@ -6,7 +6,6 @@
 #include <string>
 #include <map>
 #include <sstream>
-
 #include <windows.h>
 #include <gdiplus.h>
 #include <gdiplusheaders.h>
@@ -16,7 +15,7 @@
 using namespace Gdiplus;
 
 
-/******************************
+/********Alternate**********************
 //https://galogen.gpfault.net/galogen-web.html
 #include "GL/gl.c"
 
@@ -35,8 +34,6 @@ using namespace Gdiplus;
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
-
-
 
 //This class defines the window that hosts the Modern OpenGL rendering context
 class COGLAppWindow : public CWindowImpl<COGLAppWindow>
@@ -64,6 +61,7 @@ public:
 		if (!hdc)
 			return 2;
 
+		PIXELFORMATDESCRIPTOR pfd;
 		//Load first available format
 		ZeroMemory(&pfd, sizeof pfd);
 		if (!SetPixelFormat(hdc, 1, &pfd))
@@ -126,6 +124,7 @@ public:
 		if (!num_formats)
 			return 2;
 
+		PIXELFORMATDESCRIPTOR pfd;
 		//set it
 		if (!SetPixelFormat(hdc, pixel_format, &pfd))
 			return 3;
@@ -166,7 +165,6 @@ public:
 
 
 private:
-	PIXELFORMATDESCRIPTOR pfd;
 	HGLRC glrc;
 
 	const int GL_MAJOR_VER = 4;
