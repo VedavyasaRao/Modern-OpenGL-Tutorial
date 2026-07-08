@@ -6,7 +6,7 @@ class TextMesh:public IGeometryMesh
 public:
 	int GenerateVerticesData(int att, VAOUtil& vaoutl)
 	{
-		for (unsigned short  i = 0; i < vertices.size(); ++i)
+		for (unsigned int  i = 0; i < vertices.size(); ++i)
 		{
 			if (att & VAOUtil::POS)
 			{

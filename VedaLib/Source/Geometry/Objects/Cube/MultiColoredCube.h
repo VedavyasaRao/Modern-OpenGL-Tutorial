@@ -26,7 +26,7 @@ public:
 	virtual string vertexShaderSource()
 	{
 		return R"(
-		#version 330 core
+		#version 400 core
 		layout (location = 0) in vec3 vVertex;
 		layout (location = 1) in vec3 vColor;
 		out vec3 fcolor;
@@ -45,7 +45,7 @@ public:
 	virtual string fragmentShaderSource()
 	{
 		return R"(
-		#version 330 core
+		#version 400 core
 		in vec3 fcolor;
 		out vec4 FragColor;
 		void main()

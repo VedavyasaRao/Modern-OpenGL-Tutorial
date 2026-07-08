@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by Lesson08 Loading OBJ files.rc
+// Used by Lesson09 Loading OBJ files.rc
 //
 #define IDD_DIALOG1                     101
 #define IDC_EDIT_FN                     1001
@@ -21,11 +21,15 @@
 #define IDC_EDITLIGHTPOSY               1014
 #define IDC_EDITLGTAMB                  1015
 #define IDC_EDITLGTCLR                  1015
+#define IDC_EDITBGKCLR                  1016
 #define IDC_EDITCAMPOSX                 1018
 #define IDC_EDITCAMPOSZ                 1019
 #define IDC_EDITCAMPOSY                 1020
 #define IDC_EDITLIGHTAMB                1021
 #define IDC_EDITLGTCLRPKR               1023
+#define IDC_BTNLGTCLRPKR                1023
+#define IDC_EDITBGKCLRPKR               1024
+#define IDC_BTNBGKCLRPKR                1024
 
 // Next default values for new objects
 // 

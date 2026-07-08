@@ -37,7 +37,7 @@ private:
 	string vertexShaderSource()
 	{
 		return R"(
-		#version 330 core
+		#version 400 core
 		layout (location = 0) in vec3 vVertex;
 
 		uniform mat4 transform;
@@ -55,7 +55,7 @@ private:
 	string fragmentShaderSource()
 	{
 		return R"(
-		#version 330 core
+		#version 400 core
 		in vec3 cubecolor;
 		out vec4 FragColor;
 		void main()

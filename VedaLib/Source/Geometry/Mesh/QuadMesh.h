@@ -7,7 +7,6 @@ public:
 	//Generate VBO vertex data in non Indexed Mode for all except IDX
 	int GenerateVerticesData(int att, VAOUtil& vaoutl)
 	{
-		
 		for (uint i = 0; i < vertices.size(); i+=4)
 		{
 			vaoutl.AddTexCord(texturemap[0]);

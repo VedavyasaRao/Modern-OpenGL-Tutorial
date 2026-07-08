@@ -11,7 +11,7 @@ public:
 		int normals_sz = normals.size();
 		int texturemap_sz = texturemap.size();
 
-		for (unsigned short i = 0; i < faces.size(); ++i)
+		for (unsigned int i = 0; i < faces.size(); ++i)
 		{
 			if (att & VAOUtil::POS)
 			{
@@ -40,7 +40,7 @@ public:
 	int GenerateVerticesDataIndexed(int att, VAOUtil& vaoutl)
 	{
 		int clrs_sz = clrs.size();
-		for (unsigned short i = 0; i < vertices.size(); ++i)
+		for (unsigned int i = 0; i < vertices.size(); ++i)
 		{
 			if (att & VAOUtil::POS)
 			{
@@ -59,7 +59,8 @@ public:
 	//Generate EBO data
 	int GenerateIndicesData(VAOUtil& vaoutl)
 	{
-		for (unsigned short i = 0; i < faces.size(); ++i)
+		vaoutl.Reserveindices(faces.size());
+		for (unsigned int i = 0; i < faces.size(); ++i)
 		{
 			vaoutl.AddIndex(faces[i]);
 		}

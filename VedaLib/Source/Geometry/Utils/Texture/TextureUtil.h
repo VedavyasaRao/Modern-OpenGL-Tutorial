@@ -110,15 +110,12 @@ public:
 		}
 
 		
-		operator bool() const
-		{
-			return !(filename[0] == '\0');
-		}
-	
+	public:
+		string		filename;
+
 	private:
 		GLushort	texunit;
 		GLuint		textureID;
-		string		filename;
 		uint		swrap, twrap;
 		uint		minfilter, magfilter;
 		friend		TextureUtil;

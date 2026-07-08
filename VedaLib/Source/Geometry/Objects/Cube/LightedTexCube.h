@@ -30,7 +30,7 @@ public:
 	virtual string vertexShaderSource()
 	{
 		return R"(
-		#version 330 core
+		#version 400 core
 		layout (location = 0) in vec3 vVertex;
 		layout (location = 1) in vec2 vTexCrd;
 		layout (location = 2) in vec3 vNormal;
@@ -68,7 +68,7 @@ public:
 	virtual string fragmentShaderSourceSpot()
 	{
 		return R"(
-		#version 330 core
+		#version 400 core
 		in vec2 FragTexCrd; 
 		in vec3 FragVertex; 
 		in vec3 FragNormal; 
@@ -150,7 +150,7 @@ public:
 	virtual string fragmentShaderSourcePoint()
 	{
 		return R"(
-		#version 330 core
+		#version 400 core
 		in vec2 FragTexCrd; 
 		in vec3 FragVertex; 
 		in vec3 FragNormal; 
@@ -223,7 +223,7 @@ public:
 	virtual string fragmentShaderSourceDirectional()
 	{
 		return R"(
-		#version 330 core
+		#version 400 core
 		in vec2 FragTexCrd; 
 		in vec3 FragVertex; 
 		in vec3 FragNormal; 
@@ -288,7 +288,7 @@ public:
 	virtual string fragmentShaderSourceBasic()
 	{
 		return R"(
-		#version 330 core
+		#version 400 core
 		in vec2 FragTexCrd; 
 		in vec3 FragVertex; 
 		in vec3 FragNormal; 

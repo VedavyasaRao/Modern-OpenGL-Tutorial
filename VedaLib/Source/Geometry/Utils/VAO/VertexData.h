@@ -53,6 +53,11 @@ public:
 		glDeleteBuffers(1, &id);
 	}
 
+	void reserve(unsigned size)
+	{
+		data.reserve(size);
+	}
+
 private:
 	GLuint id;
 	vector<T> data;

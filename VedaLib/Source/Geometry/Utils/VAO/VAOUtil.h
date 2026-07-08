@@ -97,6 +97,33 @@ public:
 		glBindVertexArray(0);
 	}
 
+	void Reserve(int att, unsigned int size)
+	{
+		if (att & VAOUtil::POS)
+		{
+			positions.reserve(size);
+		}
+
+		if (att & VAOUtil::CLR)
+		{
+			colors.reserve(size);
+		}
+
+		if (att & VAOUtil::NOR)
+		{
+			normals.reserve(size);
+		}
+
+		if (att & VAOUtil::TEX)
+		{
+			texcrds.reserve(size);
+		}
+	}
+
+	void Reserveindices(unsigned int size)
+	{
+		indices.reserve(size);
+	}
 
 private:
 	VertexData<vec3> positions{ GL_FLOAT,3 };

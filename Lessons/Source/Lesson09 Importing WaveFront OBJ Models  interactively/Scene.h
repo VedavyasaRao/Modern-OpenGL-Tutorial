@@ -1,5 +1,6 @@
 #include "Canvas\Scene\Base\BaseScene.h"
 #include "Canvas\Camera\ThreeDCamera.h"
+#include "Canvas\Scene\WFObjFileParser.h"
 #include "Geometry\Objects\Generic\GenericObj.h"
 #include "InputDlg.h"
 
@@ -37,32 +38,37 @@ public:
 	//release resources
 	void Cleanup()
 	{
-		if (pshape != nullptr)
-			pshape->Cleanup();
+		cleanupshapes();
 		delete camera;
 	}
 	
 	void updateshape()
 	{
-		if (pshape == nullptr)
+		if (shapes.empty())
 		{
 			BOOL b;
 			pdlg->OnBnClickedReset(0, 0, nullptr, b);
-
 		}
 
-		if (pshape != nullptr)
+		if (!shapes.empty())
 		{
-			pshape->Cleanup();
-			delete pshape;
-			pshape = nullptr;
+			cleanupshapes();
+			if (wfobjparser.objfilename  != pdlg->getfilename(pdlg->objfilename))
+				wfobjparser.clear();
 		}
 
-		if (pshape == nullptr)
+		if (shapes.empty())
 		{
 			auto shapeinf = pdlg->getdata();
-			pshape = new GenericObj();
-			pshape->Init(shapeinf);
+			if (wfobjparser.objfilename != pdlg->getfilename(pdlg->objfilename))
+				wfobjparser.Parse(pdlg->getfilename(pdlg->objfilename));
+
+			for (uint i=0; i < wfobjparser.facematlst.size(); ++i)
+			{
+				auto pshape = new GenericObj();
+				pshape->Init(i, shapeinf, &wfobjparser);
+				shapes.push_back(pshape);
+			}
 		}
 	}
 
@@ -82,20 +88,21 @@ public:
 	//draw the scene
 	void DrawScene()
 	{
-		glClearColor(0, 0, 0, 0);
-		glClearColor(0.30f, 0.55f, 0.65f, 1.0f);
+		ULONG bclr =  pdlg->getblclr();
+
+		glClearColor(GetRValue(bclr)/255.0f, GetGValue(bclr) / 255.0f, GetBValue(bclr) / 255.0f, 0.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glEnable(GL_DEPTH_TEST); // Enabling depth testing allows rear faces of 3D objects to be hidden behind front faces.
 		glEnable(GL_MULTISAMPLE); // Anti-aliasing
 		glEnable(GL_BLEND); // GL_BLEND for OpenGL transparency which is further set within the fragment shader.
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		if (pshape != nullptr)
+		for (auto pshape : shapes)
 		{
 			SceneCamera()->augumentModelMatrix(*pshape);
 			pshape->Draw();
-			SceneCamera()->MM.Reset();
 		}
+		SceneCamera()->MM.Reset();
 	}
 
 	//Close the window
@@ -121,10 +128,20 @@ public:
 		Invalidate();
 	}
 
-private:
-	GenericObj *pshape;
-	InputDlg* pdlg;
+	void cleanupshapes()
+	{
+		for (uint i = 0; i < shapes.size(); ++i)
+		{
+			shapes[i]->Cleanup();
+			delete shapes[i];
+		}
+		shapes.clear();
+	}
 
+private:
+	vector<GenericObj*> shapes;
+	InputDlg* pdlg;
+	WFObjFileParser wfobjparser;
 
 };
 

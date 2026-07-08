@@ -29,8 +29,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson09 Importing WaveFron
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson10 Start Camera and Roll interactively", "Lesson10 Start Camera and Roll interactively\Lesson10.vcxproj", "{16993FAA-CEDC-406B-8F5D-1E141B9D5D62}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson09a Importing Assimp Models  interactively", "Lesson09a Importing Assimp Models  interactively\Lesson09a.vcxproj", "{87F178F9-5655-4A52-AC56-4B2870EFD7B5}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -89,10 +87,6 @@ Global
 		{16993FAA-CEDC-406B-8F5D-1E141B9D5D62}.Debug|x86.Build.0 = Debug|Win32
 		{16993FAA-CEDC-406B-8F5D-1E141B9D5D62}.Release|x86.ActiveCfg = Release|Win32
 		{16993FAA-CEDC-406B-8F5D-1E141B9D5D62}.Release|x86.Build.0 = Release|Win32
-		{87F178F9-5655-4A52-AC56-4B2870EFD7B5}.Debug|x86.ActiveCfg = Debug|Win32
-		{87F178F9-5655-4A52-AC56-4B2870EFD7B5}.Debug|x86.Build.0 = Debug|Win32
-		{87F178F9-5655-4A52-AC56-4B2870EFD7B5}.Release|x86.ActiveCfg = Release|Win32
-		{87F178F9-5655-4A52-AC56-4B2870EFD7B5}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

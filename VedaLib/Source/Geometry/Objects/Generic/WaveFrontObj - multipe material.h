@@ -107,7 +107,7 @@ private:
 	virtual string vertexShaderSource()
 	{
 		string s =  R"(
-		#version 330 core
+		#version 400 core
 		layout (location = 0) in vec3 vVertex;
 		layout (location = 1) in vec2 vTexCrd;
 		layout (location = 2) in vec3 vNormal;
@@ -143,7 +143,7 @@ private:
 	{
 		string s = 
 		R"(
-		#version 330 core
+		#version 400 core
 		in vec2 FragTexCrd;
 		in vec3 FragVertex; 
 		in vec3 FragNormal; 
@@ -219,7 +219,7 @@ private:
 
 	/*
 
-#version 330 core
+#version 400 core
 out vec4 FragColor;
 
 in vec2 TexCoord;

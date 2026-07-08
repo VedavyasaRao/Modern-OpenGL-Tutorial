@@ -98,7 +98,7 @@ public:
 	string vertexShaderSource()
 	{
 		return R"(
-		#version 330 core
+		#version 400 core
 		layout (location = 0) in vec3 vVertex;
 		layout (location = 1) in vec2 vTexCrd;
 		uniform mat4 transform;
@@ -114,7 +114,7 @@ public:
 	string fragmentShaderSource()
 	{
 		return R"(
-		#version 330 core
+		#version 400 core
 		in vec2 FragTexCrd;
 		out vec4 FragColor;
 		uniform sampler2D tex;

@@ -11,12 +11,15 @@ public:
 	class  GenericObjInfo;
 
 	//Initialize
-	void Init(const GenericObjInfo& shapeinf)
+	void Init(int idx, const GenericObjInfo& shapeinf, WFObjFileParser *pwfobparser)
 	{
+		this->idx = idx;
 		this->shapeinf = shapeinf;
+		this->pwfobparser = pwfobparser;
+		auto& mat = pwfobparser->matlinfomap[pwfobparser->facematlst[idx].first];
 
-		auto m = new GenericObjMesh(this->shapeinf.objfilename, this->shapeinf.mtlfilename);
-		hastexture = (((m->texture_count() != 0)) && this->shapeinf.txtinf);
+		auto m = new GenericObjMesh(idx, this->pwfobparser);
+		hastexture = (!mat.diffusetxt.filename.empty());
 
 		BaseGeometry::Init(m);
 
@@ -35,7 +38,7 @@ public:
 
 		if (hastexture)
 		{
-			texutl.Init(this->shapeinf.txtinf);
+			texutl.Init(mat.diffusetxt);
 			texutl.LoadTexture();
 		}
 	}
@@ -49,8 +52,8 @@ public:
 		glUniform3fv(shader.GetUniformLocation("light.Position"), 1, glm::value_ptr(shapeinf.light.Position));
 		glUniform3fv(shader.GetUniformLocation("light.Color"), 1, value_ptr(shapeinf.light.Color));
 
-
-		auto& mat = ((GenericObjMesh*)mesh)->matinfomap.begin()->second;
+		auto& fm = pwfobparser->facematlst[idx];
+		auto& mat = pwfobparser->matlinfomap[fm.first];
 		glUniform3fv(shader.GetUniformLocation("material.ambientColor"), 1, glm::value_ptr(mat.ambientclr));
 		glUniform3fv(shader.GetUniformLocation("material.diffuseColor"), 1, glm::value_ptr(mat.diffuseclr));
 		glUniform3fv(shader.GetUniformLocation("material.SpecularColor"), 1, value_ptr(mat.specularclr));
@@ -74,8 +77,8 @@ public:
 		struct Light;
 
 		GenericObjInfo() = default;
-		GenericObjInfo(const string& objfilename, const string& mtlfilename, const TextureUtil::TexInfo& txtinf, vec3 viewerpos, const Light& light)
-			:objfilename(objfilename), mtlfilename(mtlfilename), txtinf(txtinf), viewerpos(viewerpos), light(light)
+		GenericObjInfo(vec3 viewerpos, const Light& light)
+			:viewerpos(viewerpos), light(light)
 		{}
 
 		struct Light
@@ -85,10 +88,6 @@ public:
 			vec3 Color;
 		};
 
-	private:
-		string objfilename;
-		string mtlfilename;
-		TextureUtil::TexInfo txtinf;
 		vec3 viewerpos;
 		Light light;
 
@@ -100,7 +99,7 @@ private:
 	virtual string vertexShaderSource()
 	{
 		return  R"(
-		#version 330 core
+		#version 400 core
 		layout (location = 0) in vec3 vVertex;
 		layout (location = 1) in vec2 vTexCrd;
 		layout (location = 2) in vec3 vNormal;
@@ -128,7 +127,7 @@ private:
 	{
 		string s = 
 		R"(
-		#version 330 core
+		#version 400 core
 		in vec2 FragTexCrd;
 		in vec3 FragVertex; 
 		in vec3 FragNormal; 
@@ -197,5 +196,7 @@ private:
 	TextureUtil  texutl;
 	bool hastexture=false;
 	GenericObjInfo shapeinf;
+	WFObjFileParser *pwfobparser;
+	int idx;
 };
 

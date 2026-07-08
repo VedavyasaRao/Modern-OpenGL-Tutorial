@@ -433,7 +433,9 @@ public:
 	//Generate VBO vertex data in non Indexed Mode 
 	int GenerateVerticesData(int att, VAOUtil& vaoutl)
 	{
-		for (unsigned short i = 0; i < faces.size(); ++i)
+		vaoutl.Reserve(att, faces.size());
+
+		for (unsigned int i = 0; i < faces.size(); ++i)
 		{
 			auto vtx = faces[i];
 			if (att & VAOUtil::POS)

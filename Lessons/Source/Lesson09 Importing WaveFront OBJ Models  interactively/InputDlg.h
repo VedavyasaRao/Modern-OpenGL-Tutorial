@@ -16,15 +16,13 @@ public:
 
 	BEGIN_MSG_MAP(InputDlg)
 		MESSAGE_HANDLER(WM_INITDIALOG, OnInitDialog)
-		COMMAND_HANDLER(IDC_EDITLGTCLRPKR, BN_CLICKED, PickColor)
+		COMMAND_HANDLER(IDC_BTNLGTCLRPKR, BN_CLICKED, PickColor)
+		COMMAND_HANDLER(IDC_BTNBGKCLRPKR, BN_CLICKED, PickColor)
 		MESSAGE_HANDLER(WM_CTLCOLORSTATIC, OnCtlColorStatic)
-		COMMAND_HANDLER(IDTBTNLOAD, BN_CLICKED, OnBnClickedLoad)
 		COMMAND_HANDLER(IDReset, BN_CLICKED, OnBnClickedReset)
 		COMMAND_HANDLER(IDAPPLY, BN_CLICKED, OnBnClickedApply)
 		COMMAND_HANDLER(IDCANCEL, BN_CLICKED, OnBnClickedCancel)
-		COMMAND_HANDLER(IDC_BUTTON_MTLFILE, BN_CLICKED, OnBnClickedDirButton)
 		COMMAND_HANDLER(IDC_BUTTON_OBJFILE, BN_CLICKED, OnBnClickedDirButton)
-		COMMAND_HANDLER(IDC_BUTTON_TXTFILE, BN_CLICKED, OnBnClickedDirButton)
 	END_MSG_MAP()
 
 
@@ -33,8 +31,6 @@ public:
 	{
 		// Do some initialization code
 		objfilenamectl = GetDlgItem(IDC_EDIT_OBJ_FILENAME);
-		mtlfilenamectl = GetDlgItem(IDC_EDIT_MTL_FILENAME);
-		txtfilenamectl = GetDlgItem(IDC_EDIT_TXT_FILENAME);
 		objinfoctl = GetDlgItem(IDC_EDIT_INFO);
 
 		lposxctl = GetDlgItem(IDC_EDITLIGHTPOSX);
@@ -43,6 +39,7 @@ public:
 
 		lambctl = GetDlgItem(IDC_EDITLIGHTAMB);
 		lclrctl = GetDlgItem(IDC_EDITLGTCLR);
+		bclrctl = GetDlgItem(IDC_EDITBGKCLR);
 
 		cposxctl = GetDlgItem(IDC_EDITCAMPOSX);
 		cposyctl = GetDlgItem(IDC_EDITCAMPOSY);
@@ -52,62 +49,94 @@ public:
 		return 1;
 	}
 
-
 	wstring converts(const string& s)
 	{
 		return wstring(begin(s), end(s));
 	}
 
+	bool checkfileexists(const wstring& filename)
+	{
+		struct stat buffer;
+		return (stat(getfilename(filename).c_str(), &buffer) == 0);
+	}
+
+
+	bool validate()
+	{
+		wfoparser.clear();
+		if (!wfoparser.Parse(getfilename(objfilename), true))
+		{
+			wstring message(L"parse failed\r\n");
+			message += objfilename;
+			MessageBox(message.c_str(), L"Input", 0);
+			return false;
+		}
+
+		mtlfilename = converts(wfoparser.mtlfilename);
+		if (!checkfileexists(mtlfilename))
+		{
+			wstring message(L"mtl file not found\r\n");
+			message += mtlfilename;
+			MessageBox(message.c_str(), L"Validate", 0);
+			return false;
+		}
+
+
+		for (auto& kv : wfoparser.matlinfomap)
+		{
+			auto texfn = converts(kv.second.diffusetxt.filename);
+			if (!texfn.empty())
+			{
+				if (!checkfileexists(texfn))
+				{
+					wstring message(L"texture file not found\r\n");
+					message += texfn;
+					MessageBox(message.c_str(), L"Input", 0);
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
 	void getobjdata()
 	{
-		HCURSOR hCursor = LoadCursor(NULL, IDC_WAIT);
-		SetCursor(hCursor);
-		auto mesh = std::unique_ptr<GenericObjMesh>(new GenericObjMesh(getfilename(objfilename), getfilename(mtlfilename)));
-		hCursor = LoadCursor(NULL, IDC_ARROW);
-		SetCursor(hCursor);
-
 		wostringstream oss;
 		oss  << setfill(L' ');
 		oss << L"OBJ File:  " << objfilename << "\r\n\r\n";
-		oss << L"Vertices:\t\t" << setw(10) << right << mesh->vertices.size() << L"\r\n";
-		oss << L"Textures:\t\t" << setw(10) << right << mesh->texturemap.size() << L"\r\n";
-		oss << L"Normals:\t\t" << setw(10) <<  right << mesh->normals.size() << L"\r\n";
-		oss << L"Faces:\t\t" << setw(10) << right << mesh->faces.size() << L"\r\n";
+		oss << L"Vertices:\t\t" << setw(10) << right << wfoparser.vertices.capacity() << L"\r\n";
+		oss << L"Textures:\t\t" << setw(10) << right << wfoparser.texturemap.capacity() << L"\r\n";
+		oss << L"Normals:\t\t" << setw(10) <<  right << wfoparser.normals.capacity() << L"\r\n";
+		oss << L"Faces:\t\t" << setw(10) << right << wfoparser.faces.capacity() << L"\r\n";
 
 		oss << L"\r\n" << L"\r\n";
 
-		oss << L"MTL File:  " << converts(mesh->mtlfilename) << "\r\n\r\n";
+		oss << L"MTL File:  " << converts(wfoparser.mtlfilename) << "\r\n\r\n";
 
 		auto k = 1;
-		for (auto& kv : mesh->matinfomap)
+		for (auto& kv : wfoparser.matlinfomap)
 		{
 			oss << L"Material:\t\t#" << k++ << L"\r\n";
 			oss << L"Name:\t\t" << converts(kv.first) << L"\r\n";
-			oss << L"Range:\t\t" << kv.second.range.first + 1 << " - " << kv.second.range.second + 1 << L"\r\n";
 			oss << L"Ambient:\t\t" << kv.second.ambientclr[0] << "  " << kv.second.ambientclr[1] << "  " << kv.second.ambientclr[2] << L"\r\n";
 			oss << L"Diffuse:\t\t" << kv.second.diffuseclr[0] << "  " << kv.second.diffuseclr[1] << "  " << kv.second.diffuseclr[2] << L"\r\n";
 			oss << L"Specular:\t\t" << kv.second.specularclr[0] << "  " << kv.second.specularclr[1] << "  " << kv.second.specularclr[2] << L"\r\n";
 			oss << L"Shininess:\t\t" << left << kv.second.shininess << L"\r\n";
 			oss << L"Emissive:\t\t" << kv.second.emissiveclr[0] << "  " << kv.second.emissiveclr[1] << "  " << kv.second.emissiveclr[2] << L"\r\n";
-			oss << L"Diffuse Texture:\t\t" << converts(kv.second.diffusetxtfilename) << L"\r\n";
+			oss << L"Diffuse Texture:\t\t" << converts(kv.second.diffusetxt.filename) << L"\r\n";
 			oss << L"\r\n";
 		}
-
 		objinfoctl.SetWindowText((LPTSTR)oss.str().data());
 	}
 	
-	LRESULT OnBnClickedLoad(WORD wNotifyCode, WORD wID, HWND hWndCtl, BOOL& bHandled)
-	{
-		bHandled = true;
-	
-		getfilenamesdata();
-		getobjdata();
-	
-		return 0;
-	};
-
 	LRESULT OnBnClickedApply(WORD wNotifyCode, WORD wID, HWND hWndCtl, BOOL& bHandled)
 	{
+		if (wfoparser.objfilename != getfilename(objfilename))
+		{
+			if (!validate())
+				return 0;
+			getobjdata();
+		}
 		::PostMessage(GetParent(), WM_COMMAND, IDAPPLY, 0);
 		return 0;
 	}
@@ -117,7 +146,11 @@ public:
 		bHandled = true;
 		SetDefaultValues();
 		PopulateGUI();
-		Invalidate();
+		if (validate())
+		{
+			getobjdata();
+			Invalidate();
+		}
 		return 0;
 	};
 
@@ -132,8 +165,6 @@ public:
 	void getfilenamesdata()
 	{ 
 		objfilenamectl.GetWindowText((LPTSTR)objfilename.data(), 500);
-		mtlfilenamectl.GetWindowText((LPTSTR)mtlfilename.data(), 500);
-		txtfilenamectl.GetWindowText((LPTSTR)txtfilename.data(), 500);
 	}
 
 	GenericObj::GenericObjInfo getdata()
@@ -164,18 +195,18 @@ public:
 		light.Color = vec3(GetRValue(lclr)/ 255.0f, GetGValue(lclr)/ 255.0f, GetBValue(lclr)/ 255.0f);
 		light.Position = ldir;
 
-		auto txinf = TextureUtil::TexInfo(10, getfilename(txtfilename),  GL_REPEAT, GL_REPEAT, GL_LINEAR, GL_LINEAR);
-		return GenericObj::GenericObjInfo(getfilename(objfilename), getfilename(mtlfilename), txinf, cpos, light);
+		return GenericObj::GenericObjInfo(cpos, light);
 	}
 
 	void SetDefaultValues()
 	{
 		objfilename = LR"(..\resources\Models\crate.obj)";
-		mtlfilename = LR"(..\resources\Models\crate.mtl)";
-		txtfilename = LR"(..\resources\textures\woodcrate_diffuse.jpg)";
+
+		//objfilename = LR"(..\resources\Models\chair.obj)";
 
 		lamb = 0.05f;
 		lclr = 16777215;
+		bclr = 0;
 		cpos = vec3(2.0, 0.0, -4.0);
 		ldir = vec3(0.0, 3.0, -9.0);
 	}
@@ -183,8 +214,6 @@ public:
 	void PopulateGUI()
 	{
 		objfilenamectl.SetWindowText((LPTSTR)objfilename.data());
-		mtlfilenamectl.SetWindowText((LPTSTR)mtlfilename.data());
-		txtfilenamectl.SetWindowText((LPTSTR)txtfilename.data());
 
 		cposxctl.SetWindowText((LPTSTR)tos(cpos[0]).data());
 		cposyctl.SetWindowText((LPTSTR)tos(cpos[1]).data());
@@ -233,12 +262,6 @@ public:
 		ofn.nMaxFile = sizeof(szFile);
 		if (wID == IDC_BUTTON_OBJFILE)
 			ofn.lpstrFilter = L"OBJ\0*.OBJ\0";
-		else if (wID == IDC_BUTTON_MTLFILE)
-			ofn.lpstrFilter = L"MTL\0*.MTL\0";
-		else if (wID == IDC_BUTTON_TXTFILE)
-			ofn.lpstrFilter = L"All\0*.*\0JPG\0*.JPG\0PNG\0*.PNG\0BMP\0*.BMP\0TGA\0*.TGA\0";
-		else
-			ofn.lpstrFilter = L"All\0*.*\0Text\0*.TXT\0";
 
 		ofn.nFilterIndex = 1;
 		ofn.lpstrFileTitle = NULL;
@@ -257,24 +280,9 @@ public:
 			objfilenamectl.SetWindowText((LPTSTR)objfilename.data());
 			
 			int p = objfilename.find_last_of('.');
-			mtlfilename = objfilename.substr(0, p + 1) + L"mtl";
-			mtlfilenamectl.SetWindowText((LPTSTR)mtlfilename.data());
-
-			txtfilenamectl.SetWindowText(L"");
 			objinfoctl.SetWindowText(L"");
 
 		}
-		else if (wID == IDC_BUTTON_MTLFILE)
-		{
-			mtlfilename = filename;
-			mtlfilenamectl.SetWindowText((LPTSTR)mtlfilename.data());
-		}
-		else if (wID == IDC_BUTTON_TXTFILE)
-		{
-			txtfilename = filename;
-			txtfilenamectl.SetWindowText((LPTSTR)txtfilename.data());
-		}
-
 		bHandled = TRUE;
 		return 0;
 	}
@@ -287,7 +295,11 @@ public:
 		static COLORREF acrCustClr[16]; // array of custom colors 
 		static DWORD rgbCurrent;        // initial color selection
 
-		rgbCurrent = lclr;
+		if (wID == IDC_BTNLGTCLRPKR)
+			rgbCurrent = lclr;
+		else if (wID == IDC_BTNBGKCLRPKR)
+			rgbCurrent = bclr;
+
 
 		// Initialize CHOOSECOLOR
 		ZeroMemory(&cc, sizeof(cc));
@@ -300,7 +312,10 @@ public:
 		if (ChooseColor(&cc) == TRUE)
 		{
 			rgbCurrent = cc.rgbResult; // User selected color
-			lclr = rgbCurrent;
+			if (wID == IDC_BTNLGTCLRPKR)
+				lclr = rgbCurrent;
+			else if (wID == IDC_BTNBGKCLRPKR)
+				bclr = rgbCurrent;
 		}
 		Invalidate();
 		return 0;
@@ -314,6 +329,8 @@ public:
 
 		if ((HWND)lParam == lclrctl.m_hWnd)
 			SetBkColor((HDC)wParam, lclr);
+		else if ((HWND)lParam == bclrctl.m_hWnd)
+			SetBkColor((HDC)wParam, bclr);
 		else
 			return 0;
 		return (LRESULT)GetStockObject(NULL_BRUSH);
@@ -326,8 +343,18 @@ public:
 		return s.substr(0, p + 3);
 	}
 
+	ULONG getblclr()
+	{
+		return bclr;
+	}
+
+public:
+	wstring objfilename{ 500, '\0' };
+	ULONG bclr;
+
 private:
-	wstring objfilename{ 500, '\0' }, mtlfilename{ 500, '\0' }, txtfilename{ 500, '\0' };
+	WFObjFileParser wfoparser;
+	wstring mtlfilename;
 	wstring  cposx{ 100,0 }, cposy{ 100,0 }, cposz{ 100,0 };
 	wstring lposx{ 100,0 }, lposy{ 100,0 }, lposz{ 100,0 };
 
@@ -337,10 +364,12 @@ private:
 	vec3 cpos;
 
 private:
-	CWindow objfilenamectl, mtlfilenamectl, txtfilenamectl, objinfoctl;
+	CWindow objfilenamectl, objinfoctl;
 	CWindow cposxctl, cposyctl, cposzctl;
 	CWindow lposxctl, lposyctl, lposzctl;
 	CWindow lambctl;
 	CWindow lclrctl;
+	CWindow bclrctl;
+
 
 };
