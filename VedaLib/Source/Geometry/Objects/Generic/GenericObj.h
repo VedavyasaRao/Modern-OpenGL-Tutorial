@@ -4,22 +4,21 @@
 #include "..\..\Mesh\GenericObjMesh.h"
 #include <regex>
 
+
 //Implements singled colored cube 
 class GenericObj :public BaseGeometry
 {
 public:
-	class  GenericObjInfo;
-
-	//Initialize
-	void Init(int idx, const GenericObjInfo& shapeinf, WFObjFileParser *pwfobparser)
+	void Init(int idx, const GenericObjInfo& shapeinf, GenericParser* pobjparser)
 	{
 		this->idx = idx;
 		this->shapeinf = shapeinf;
-		this->pwfobparser = pwfobparser;
-		auto& mat = pwfobparser->matlinfomap[pwfobparser->facematlst[idx].first];
+		this->pobjparser = pobjparser;
+		auto& aimesh = pobjparser->meshlst[idx];
+		auto& mat = pobjparser->matlinfolst[pobjparser->meshmatlmap[idx]];
 
-		auto m = new GenericObjMesh(idx, this->pwfobparser);
-		hastexture = (!mat.diffusetxt.filename.empty());
+		auto m = new GenericObjMesh(idx, this->pobjparser);
+		hastexture = pobjparser->hastexture(idx);
 
 		BaseGeometry::Init(m);
 
@@ -41,25 +40,8 @@ public:
 			texutl.Init(mat.diffusetxt);
 			texutl.LoadTexture();
 		}
+
 	}
-
-	void UpdateUniformsLightMat(ShaderUtil& shader)
-	{
-
-		glUniform3fv(shader.GetUniformLocation("viewerPosition"), 1, glm::value_ptr(shapeinf.viewerpos));
-
-		glUniform1f(shader.GetUniformLocation("light.ambientCoefficient"), shapeinf.light.ambientCoefficient);
-		glUniform3fv(shader.GetUniformLocation("light.Position"), 1, glm::value_ptr(shapeinf.light.Position));
-		glUniform3fv(shader.GetUniformLocation("light.Color"), 1, value_ptr(shapeinf.light.Color));
-
-		auto& fm = pwfobparser->facematlst[idx];
-		auto& mat = pwfobparser->matlinfomap[fm.first];
-		glUniform3fv(shader.GetUniformLocation("material.ambientColor"), 1, glm::value_ptr(mat.ambientclr));
-		glUniform3fv(shader.GetUniformLocation("material.diffuseColor"), 1, glm::value_ptr(mat.diffuseclr));
-		glUniform3fv(shader.GetUniformLocation("material.SpecularColor"), 1, value_ptr(mat.specularclr));
-		glUniform1f(shader.GetUniformLocation("material.Shininess"), mat.shininess);
-	}
-
 
 	//Override to supply color of the cube
 	void UpdateUniforms()
@@ -71,116 +53,110 @@ public:
 		UpdateUniformsLightMat(shader);
 	}
 
-	class GenericObjInfo
+	void UpdateUniformsLightMat(ShaderUtil& shader)
 	{
-	public:
-		struct Light;
+		glUniform3fv(shader.GetUniformLocation("viewerPosition"), 1, glm::value_ptr(shapeinf.viewerpos));
 
-		GenericObjInfo() = default;
-		GenericObjInfo(vec3 viewerpos, const Light& light)
-			:viewerpos(viewerpos), light(light)
-		{}
+		glUniform1f(shader.GetUniformLocation("light.ambientCoefficient"), shapeinf.light.ambientCoefficient);
+		glUniform3fv(shader.GetUniformLocation("light.Position"), 1, glm::value_ptr(shapeinf.light.Position));
+		glUniform3fv(shader.GetUniformLocation("light.Color"), 1, value_ptr(shapeinf.light.Color));
 
-		struct Light
-		{
-			float ambientCoefficient;
-			vec3 Position;
-			vec3 Color;
-		};
+		auto& mat = pobjparser->matlinfolst[pobjparser->meshmatlmap[idx]];
+		glUniform3fv(shader.GetUniformLocation("material.ambientColor"), 1, glm::value_ptr(mat.ambientclr));
+		glUniform3fv(shader.GetUniformLocation("material.diffuseColor"), 1, glm::value_ptr(mat.diffuseclr));
+		glUniform3fv(shader.GetUniformLocation("material.SpecularColor"), 1, value_ptr(mat.specularclr));
+		glUniform1f(shader.GetUniformLocation("material.Shininess"), mat.shininess);
+	}
 
-		vec3 viewerpos;
-		Light light;
 
-		friend class GenericObj;
-	};
 
 private:
 	//override
 	virtual string vertexShaderSource()
 	{
 		return  R"(
-		#version 400 core
-		layout (location = 0) in vec3 vVertex;
-		layout (location = 1) in vec2 vTexCrd;
-		layout (location = 2) in vec3 vNormal;
+	#version 400 core
+	layout (location = 0) in vec3 vVertex;
+	layout (location = 1) in vec2 vTexCrd;
+	layout (location = 2) in vec3 vNormal;
 
 
-		uniform mat4 transform;
-		out vec2 FragTexCrd; 
-		out vec3 FragVertex; 
-		out vec3 FragNormal; 
+	uniform mat4 transform;
+	out vec2 FragTexCrd; 
+	out vec3 FragVertex; 
+	out vec3 FragNormal; 
 
-		void main()
-		{
-			gl_Position = transform * vec4(vVertex, 1.0);
-			FragTexCrd=vTexCrd;
-			FragVertex=vVertex;
-			FragNormal=vNormal;
-			//VtxIdx = gl_VertexID;
-		};
-		)";
-	
+	void main()
+	{
+		gl_Position = transform * vec4(vVertex, 1.0);
+		FragTexCrd=vTexCrd;
+		FragVertex=vVertex;
+		FragNormal=vNormal;
+		//VtxIdx = gl_VertexID;
+	};
+	)";
+
 	}
 
 	//override
 	virtual string fragmentShaderSource()
 	{
-		string s = 
-		R"(
-		#version 400 core
-		in vec2 FragTexCrd;
-		in vec3 FragVertex; 
-		in vec3 FragNormal; 
+		string s =
+			R"(
+	#version 400 core
+	in vec2 FragTexCrd;
+	in vec3 FragVertex; 
+	in vec3 FragNormal; 
 
-		out vec4 FragColor;
+	out vec4 FragColor;
 
-		uniform sampler2D tex;
-		uniform mat4 transform;
-		uniform vec3 viewerPosition;
+	uniform sampler2D tex;
+	uniform mat4 transform;
+	uniform vec3 viewerPosition;
 
-		uniform struct Light
-		{
-			float ambientCoefficient;
-			vec3 Position;
-			vec3 Color;
-		} light;
+	uniform struct Light
+	{
+		float ambientCoefficient;
+		vec3 Position;
+		vec3 Color;
+	} light;
 
-		uniform struct Material 
-		{
-			float Shininess;
-			vec3 ambientColor;
-			vec3 diffuseColor;
-			vec3 SpecularColor;
-		} material;
+	uniform struct Material 
+	{
+		float Shininess;
+		vec3 ambientColor;
+		vec3 diffuseColor;
+		vec3 SpecularColor;
+	} material;
 
-		void main()
-		{
-			vec4 surfaceColor = vec4(material.diffuseColor,1.0);
-			$1surfaceColor = texture(tex, FragTexCrd);
-			vec3 normal = normalize(transpose(inverse(mat3(transform))) * FragNormal);
-			vec3 surfacePos = vec3(transform * vec4(FragVertex, 1));
-			vec3 surfaceToLight = normalize(light.Position - surfacePos);
-			vec3 surfaceToViewer = normalize(viewerPosition - surfacePos);
+	void main()
+	{
+		vec4 surfaceColor = vec4(material.diffuseColor,1.0);
+		$1surfaceColor = texture(tex, FragTexCrd);
+		vec3 normal = normalize(transpose(inverse(mat3(transform))) * FragNormal);
+		vec3 surfacePos = vec3(transform * vec4(FragVertex, 1));
+		vec3 surfaceToLight = normalize(light.Position - surfacePos);
+		vec3 surfaceToViewer = normalize(viewerPosition - surfacePos);
     
-			//ambient
-			vec3 ambient = material.ambientColor * light.Color * light.ambientCoefficient;   
+		//ambient
+		vec3 ambient = material.ambientColor * light.Color * light.ambientCoefficient;   
 
-			//diffuse
-			float diffuseCoefficient = max(0.0, dot(normal, surfaceToLight));
-			vec3 diffuse = diffuseCoefficient *  vec3(surfaceColor);
+		//diffuse
+		float diffuseCoefficient = max(0.0, dot(normal, surfaceToLight));
+		vec3 diffuse = diffuseCoefficient *  vec3(surfaceColor);
     
-			//specular
-			float specularCoefficient = 0.0;
-			if(diffuseCoefficient > 0.0)
-			{
-				specularCoefficient = pow(max(0.0, dot(normalize(surfaceToLight + surfaceToViewer),normal)), material.Shininess);
-			}
-			vec3 specular = specularCoefficient *  material.SpecularColor  * light.Color;
+		//specular
+		float specularCoefficient = 0.0;
+		if(diffuseCoefficient > 0.0)
+		{
+			specularCoefficient = pow(max(0.0, dot(normalize(surfaceToLight + surfaceToViewer),normal)), material.Shininess);
+		}
+		vec3 specular = specularCoefficient *  material.SpecularColor  * light.Color;
 
-			vec3 linearColor = (ambient + diffuse + specular);
-			FragColor = vec4(linearColor, 1.0);
-		};
-		)";
+		vec3 linearColor = (ambient + diffuse + specular);
+		FragColor = vec4(linearColor, 1.0);
+	};
+	)";
 
 		regex target("\\$1");
 		if (hastexture)
@@ -194,9 +170,9 @@ private:
 
 private:
 	TextureUtil  texutl;
-	bool hastexture=false;
+	bool hastexture = false;
 	GenericObjInfo shapeinf;
-	WFObjFileParser *pwfobparser;
+	GenericParser* pobjparser;
 	int idx;
 };
 

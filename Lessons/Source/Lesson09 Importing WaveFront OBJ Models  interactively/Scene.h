@@ -1,6 +1,6 @@
 #include "Canvas\Scene\Base\BaseScene.h"
 #include "Canvas\Camera\ThreeDCamera.h"
-#include "Canvas\Scene\WFObjFileParser.h"
+#include "Geometry\Utils\Generic\GenericParser.h"
 #include "Geometry\Objects\Generic\GenericObj.h"
 #include "InputDlg.h"
 
@@ -46,6 +46,7 @@ public:
 	{
 		if (shapes.empty())
 		{
+			pwfobjparser = new WFObjFileParser;
 			BOOL b;
 			pdlg->OnBnClickedReset(0, 0, nullptr, b);
 		}
@@ -53,20 +54,25 @@ public:
 		if (!shapes.empty())
 		{
 			cleanupshapes();
-			if (wfobjparser.objfilename  != pdlg->getfilename(pdlg->objfilename))
-				wfobjparser.clear();
+			if (pwfobjparser->objfilename != pdlg->getfilename(pdlg->objfilename))
+			{
+				pwfobjparser->clear();
+				delete pwfobjparser;
+				pwfobjparser = new WFObjFileParser;
+
+			}
 		}
 
 		if (shapes.empty())
 		{
 			auto shapeinf = pdlg->getdata();
-			if (wfobjparser.objfilename != pdlg->getfilename(pdlg->objfilename))
-				wfobjparser.Parse(pdlg->getfilename(pdlg->objfilename));
+			if (pwfobjparser->objfilename != pdlg->getfilename(pdlg->objfilename))
+				pwfobjparser->Parse(pdlg->getfilename(pdlg->objfilename));
 
-			for (uint i=0; i < wfobjparser.facematlst.size(); ++i)
+			for (uint i=0; i < pwfobjparser->meshlst.size(); ++i)
 			{
 				auto pshape = new GenericObj();
-				pshape->Init(i, shapeinf, &wfobjparser);
+				pshape->Init(i, shapeinf, pwfobjparser);
 				shapes.push_back(pshape);
 			}
 		}
@@ -122,7 +128,7 @@ public:
 
 	void CreateInputDlg()
 	{
-		pdlg = new InputDlg();
+		pdlg = new InputDlg(pwfobjparser);
 		pdlg->Create(m_hWnd);
 		pdlg->ShowWindow(SW_SHOW);
 		Invalidate();
@@ -141,8 +147,7 @@ public:
 private:
 	vector<GenericObj*> shapes;
 	InputDlg* pdlg;
-	WFObjFileParser wfobjparser;
-
+	WFObjFileParser *pwfobjparser;
 };
 
 DWORD WINAPI ThreadFunction(LPVOID lpParam)

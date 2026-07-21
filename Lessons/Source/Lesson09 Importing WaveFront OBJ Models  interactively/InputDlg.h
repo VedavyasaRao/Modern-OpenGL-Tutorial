@@ -7,12 +7,12 @@
 #include <vector>
 #include <memory>
 
-
 // InputDlg dialog
 class InputDlg : public ATL::CDialogImpl<InputDlg>
 {
 public:
 	enum { IDD = IDD_DIALOG1 };
+	class Scene;
 
 	BEGIN_MSG_MAP(InputDlg)
 		MESSAGE_HANDLER(WM_INITDIALOG, OnInitDialog)
@@ -27,6 +27,9 @@ public:
 
 
 public:
+
+	InputDlg(WFObjFileParser*& pwfobjparser) :pwfoparser(pwfobjparser) {}
+
 	LRESULT OnInitDialog(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 	{
 		// Do some initialization code
@@ -63,8 +66,8 @@ public:
 
 	bool validate()
 	{
-		wfoparser.clear();
-		if (!wfoparser.Parse(getfilename(objfilename), true))
+		pwfoparser->clear();
+		if (!pwfoparser->Parse(getfilename(objfilename)))
 		{
 			wstring message(L"parse failed\r\n");
 			message += objfilename;
@@ -72,7 +75,7 @@ public:
 			return false;
 		}
 
-		mtlfilename = converts(wfoparser.mtlfilename);
+		mtlfilename = converts(pwfoparser->mtlfilename);
 		if (!checkfileexists(mtlfilename))
 		{
 			wstring message(L"mtl file not found\r\n");
@@ -81,10 +84,9 @@ public:
 			return false;
 		}
 
-
-		for (auto& kv : wfoparser.matlinfomap)
+		for (auto& mat : pwfoparser->matlinfolst)
 		{
-			auto texfn = converts(kv.second.diffusetxt.filename);
+			auto texfn = converts(mat.diffusetxt.filename);
 			if (!texfn.empty())
 			{
 				if (!checkfileexists(texfn))
@@ -103,35 +105,43 @@ public:
 	{
 		wostringstream oss;
 		oss  << setfill(L' ');
-		oss << L"OBJ File:  " << objfilename << "\r\n\r\n";
-		oss << L"Vertices:\t\t" << setw(10) << right << wfoparser.vertices.capacity() << L"\r\n";
-		oss << L"Textures:\t\t" << setw(10) << right << wfoparser.texturemap.capacity() << L"\r\n";
-		oss << L"Normals:\t\t" << setw(10) <<  right << wfoparser.normals.capacity() << L"\r\n";
-		oss << L"Faces:\t\t" << setw(10) << right << wfoparser.faces.capacity() << L"\r\n";
+		oss << L"OBJ File:\t\t" << objfilename << "\r\n";
+		oss << L"MTL File:\t\t" << mtlfilename << "\r\n";
+		oss << L"Parse Time:\t" << pwfoparser->parsetime() << " secs\r\n\r\n";
 
-		oss << L"\r\n" << L"\r\n";
 
-		oss << L"MTL File:  " << converts(wfoparser.mtlfilename) << "\r\n\r\n";
-
-		auto k = 1;
-		for (auto& kv : wfoparser.matlinfomap)
+		oss << L"Mesh Info\r\n\r\n";
+		for (auto k=0u; k < pwfoparser->meshlst.size(); ++k)
 		{
-			oss << L"Material:\t\t#" << k++ << L"\r\n";
-			oss << L"Name:\t\t" << converts(kv.first) << L"\r\n";
-			oss << L"Ambient:\t\t" << kv.second.ambientclr[0] << "  " << kv.second.ambientclr[1] << "  " << kv.second.ambientclr[2] << L"\r\n";
-			oss << L"Diffuse:\t\t" << kv.second.diffuseclr[0] << "  " << kv.second.diffuseclr[1] << "  " << kv.second.diffuseclr[2] << L"\r\n";
-			oss << L"Specular:\t\t" << kv.second.specularclr[0] << "  " << kv.second.specularclr[1] << "  " << kv.second.specularclr[2] << L"\r\n";
-			oss << L"Shininess:\t\t" << left << kv.second.shininess << L"\r\n";
-			oss << L"Emissive:\t\t" << kv.second.emissiveclr[0] << "  " << kv.second.emissiveclr[1] << "  " << kv.second.emissiveclr[2] << L"\r\n";
-			oss << L"Diffuse Texture:\t\t" << converts(kv.second.diffusetxt.filename) << L"\r\n";
+			oss << L"Mesh:\t\t#" << (k+1) << L"\r\n";
+			oss << L"Vertices:\t\t" << right << pwfoparser->vertex_count(k) << L"\r\n";
+			oss << L"Textures:\t\t" << right << boolalpha << pwfoparser->hastexture(k) << L"\r\n";
+			oss << L"Normals:\t\t" << right << pwfoparser->hasnormal(k) << L"\r\n";
+			oss << L"Material:\t\t#" << pwfoparser->meshmatlmap[k]+1 << L"\r\n";
+			oss << L"\r\n" << L"\r\n";
+		}
+
+		auto k = 0;
+		oss << L"Material Info\r\n\r\n";
+		for (auto& mat : pwfoparser->matlinfolst)
+		{
+			oss << L"Material:\t\t#" << (k + 1) << L"\r\n";
+			oss << L"Name:\t\t" << converts(mat.name) << L"\r\n";
+			oss << L"Ambient:\t\t" << mat.ambientclr[0] << "  " << mat.ambientclr[1] << "  " << mat.ambientclr[2] << L"\r\n";
+			oss << L"Diffuse:\t\t" << mat.diffuseclr[0] << "  " << mat.diffuseclr[1] << "  " << mat.diffuseclr[2] << L"\r\n";
+			oss << L"Specular:\t\t" << mat.specularclr[0] << "  " << mat.specularclr[1] << "  " << mat.specularclr[2] << L"\r\n";
+			oss << L"Shininess:\t" << left << mat.shininess << L"\r\n";
+			oss << L"Emissive:\t\t" << mat.emissiveclr[0] << "  " << mat.emissiveclr[1] << "  " << mat.emissiveclr[2] << L"\r\n";
+			oss << L"Diffuse Texture:\t" << converts(mat.diffusetxt.filename) << L"\r\n";
 			oss << L"\r\n";
+			++k;
 		}
 		objinfoctl.SetWindowText((LPTSTR)oss.str().data());
 	}
 	
 	LRESULT OnBnClickedApply(WORD wNotifyCode, WORD wID, HWND hWndCtl, BOOL& bHandled)
 	{
-		if (wfoparser.objfilename != getfilename(objfilename))
+		if (pwfoparser->objfilename != getfilename(objfilename))
 		{
 			if (!validate())
 				return 0;
@@ -167,7 +177,7 @@ public:
 		objfilenamectl.GetWindowText((LPTSTR)objfilename.data(), 500);
 	}
 
-	GenericObj::GenericObjInfo getdata()
+	GenericObjInfo getdata()
 	{
 		getfilenamesdata();
 
@@ -190,19 +200,17 @@ public:
 		lposzctl.GetWindowText((LPTSTR)buf.data(), 100);
 		ldir[2] = stof(buf);
 
-		GenericObj::GenericObjInfo::Light light;
+		GenericObjInfo::Light light;
 		light.ambientCoefficient = lamb;
 		light.Color = vec3(GetRValue(lclr)/ 255.0f, GetGValue(lclr)/ 255.0f, GetBValue(lclr)/ 255.0f);
 		light.Position = ldir;
 
-		return GenericObj::GenericObjInfo(cpos, light);
+		return GenericObjInfo(cpos, light);
 	}
 
 	void SetDefaultValues()
 	{
 		objfilename = LR"(..\resources\Models\crate.obj)";
-
-		//objfilename = LR"(..\resources\Models\chair.obj)";
 
 		lamb = 0.05f;
 		lclr = 16777215;
@@ -353,7 +361,7 @@ public:
 	ULONG bclr;
 
 private:
-	WFObjFileParser wfoparser;
+	WFObjFileParser*& pwfoparser;
 	wstring mtlfilename;
 	wstring  cposx{ 100,0 }, cposy{ 100,0 }, cposz{ 100,0 };
 	wstring lposx{ 100,0 }, lposy{ 100,0 }, lposz{ 100,0 };
@@ -370,6 +378,5 @@ private:
 	CWindow lambctl;
 	CWindow lclrctl;
 	CWindow bclrctl;
-
 
 };

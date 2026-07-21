@@ -1,6 +1,7 @@
 #include "Canvas\Scene\Base\BaseScene.h"
 #include "Canvas\Camera\ThreeDCamera.h"
-#include "Geometry\Objects\Generic\AssimpModel.h"
+#include "Geometry\Utils\Generic\GenericParser.h"
+#include "Geometry\Objects\Generic\GenericObj.h"
 #include "InputDlg.h"
 
 DWORD WINAPI ThreadFunction(LPVOID lpParam);
@@ -37,32 +38,39 @@ public:
 	//release resources
 	void Cleanup()
 	{
-		if (pshape != nullptr)
-			pshape->Cleanup();
+		cleanupshapes();
 		delete camera;
 	}
 	
 	void updateshape()
 	{
-		if (pshape == nullptr)
+		if (shapes.empty())
 		{
+			paiobjparser =  new AssImpParser;
 			BOOL b;
 			pdlg->OnBnClickedReset(0, 0, nullptr, b);
-
 		}
 
-		if (pshape != nullptr)
+		if (!shapes.empty())
 		{
-			pshape->Cleanup();
-			delete pshape;
-			pshape = nullptr;
+			cleanupshapes();
+			if (paiobjparser->objfilename  != pdlg->getfilename(pdlg->objfilename))
+				paiobjparser->clear();
 		}
 
-		if (pshape == nullptr)
+		if (shapes.empty())
 		{
 			auto shapeinf = pdlg->getdata();
-			pshape = new AssimpModel();
-			pshape->Init(shapeinf);
+			if (paiobjparser->objfilename != pdlg->getfilename(pdlg->objfilename))
+				paiobjparser->Parse(pdlg->getfilename(pdlg->objfilename));
+
+			for (uint i = 0; i < paiobjparser->meshlst.size(); ++i)
+			{
+				auto pshape = new GenericObj();
+				pshape->Init(i, shapeinf, paiobjparser);
+				shapes.push_back(pshape);
+			}
+
 		}
 	}
 
@@ -82,14 +90,21 @@ public:
 	//draw the scene
 	void DrawScene()
 	{
-		glClearColor(0, 0, 0, 0);
+		ULONG bclr =  pdlg->getblclr();
+
+		glClearColor(GetRValue(bclr)/255.0f, GetGValue(bclr) / 255.0f, GetBValue(bclr) / 255.0f, 0.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		if (pshape != nullptr)
+		glEnable(GL_DEPTH_TEST); // Enabling depth testing allows rear faces of 3D objects to be hidden behind front faces.
+		glEnable(GL_MULTISAMPLE); // Anti-aliasing
+		glEnable(GL_BLEND); // GL_BLEND for OpenGL transparency which is further set within the fragment shader.
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		for (auto pshape : shapes)
 		{
 			SceneCamera()->augumentModelMatrix(*pshape);
 			pshape->Draw();
-			SceneCamera()->MM.Reset();
 		}
+		SceneCamera()->MM.Reset();
 	}
 
 	//Close the window
@@ -109,16 +124,26 @@ public:
 
 	void CreateInputDlg()
 	{
-		pdlg = new InputDlg();
+		pdlg = new InputDlg(paiobjparser);
 		pdlg->Create(m_hWnd);
 		pdlg->ShowWindow(SW_SHOW);
 		Invalidate();
 	}
 
-private:
-	AssimpModel *pshape;
-	InputDlg* pdlg;
+	void cleanupshapes()
+	{
+		for (uint i = 0; i < shapes.size(); ++i)
+		{
+			shapes[i]->Cleanup();
+			delete shapes[i];
+		}
+		shapes.clear();
+	}
 
+private:
+	vector<GenericObj*> shapes;
+	InputDlg* pdlg;
+	AssImpParser *paiobjparser;
 
 };
 

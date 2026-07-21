@@ -6,6 +6,8 @@
 class VAOUtil
 {
 public:
+	friend class GenericObjMesh;
+		
 	enum VtxAts { POS = 1, CLR = 2, NOR = 4, TEX = 8 };
 
 	//vertex 3d coordinate in  x,y,z
@@ -71,6 +73,39 @@ public:
 		if (att & TEX)
 		{
 			texcrds.bindEnableVBO(location);
+		}
+	}
+
+	void dumpToTextFile()
+	{
+
+		std::ofstream outFile(R"(c:\\abc.txt)", std::ios_base::app);
+		if (outFile.is_open())
+		{
+			outFile << "Positions" << endl << endl;;
+			for (const auto& v : positions.data)
+			{
+				outFile << v.x << " " << v.y << " " << v.z << "\n";
+			}
+			outFile << endl << endl;;
+
+
+			outFile << "texcrds" << endl << endl;;
+			for (const auto& v : texcrds.data)
+			{
+				outFile << v.x << " " << v.y << "\n";
+			}
+			outFile << endl << endl;;
+
+			outFile << "normals" << endl << endl;;
+			for (const auto& v : normals.data)
+			{
+				outFile << v.x << " " << v.y << "\n";
+			}
+			outFile << endl << endl;;
+
+
+			outFile.close();
 		}
 	}
 

@@ -112,8 +112,6 @@ public:
 		
 	public:
 		string		filename;
-
-	private:
 		GLushort	texunit;
 		GLuint		textureID;
 		uint		swrap, twrap;

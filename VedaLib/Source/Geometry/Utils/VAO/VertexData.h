@@ -65,4 +65,5 @@ private:
 	GLuint valsize;
 
 	friend class VAOUtil;
+	friend class GenericObjMesh;
 };

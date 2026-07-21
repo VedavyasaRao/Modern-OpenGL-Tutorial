@@ -6,13 +6,14 @@
 #include <iterator>
 #include <algorithm>
 #include <vector>
+#include <map>
 #include <utility>
-#include "..\..\Geometry\Utils\Texture\TextureUtil.h"
 
-class WFObjFileParser 
+class WFObjFileParser :public GenericParser
 {
 public:
 	typedef pair<string, pair<uint, uint>> facemattype;
+
 
 	void clear()
 	{
@@ -23,21 +24,18 @@ public:
 		texturemap.clear();
 		normals.clear();
 		faces.clear();
-		matlinfomap.clear();
+		matlnamemap.clear();
 		facematlst.clear();
+
+		GenericParser::clear();
 	}
 
-	bool  Parse(const string& objfilename, bool summary=false)
+	bool  Parse(const string& objfilename)
 	{
+		map<string, int> idxmatlmap;
 		string temp;
 		bool ret = false;
-		HCURSOR hCursor = LoadCursor(NULL, IDC_WAIT);
-		SetCursor(hCursor);
-
-		this->summary = summary;
-		this->objfilename = objfilename;
-
-		//record_start_time(R"(C:\Github\Modern-OpenGL-Tutorial\timings.txt)");
+		startparse(objfilename);
 		if (readfile(objfilename))
 			parsegeometrydata();
 		else 
@@ -49,41 +47,65 @@ public:
 			parsematerialdata();
 		else
 			goto cleanup;
+
+		int i = 0;
+		for (auto& kv : matlnamemap)
+		{
+			matlinfolst.push_back(kv.second);
+			idxmatlmap.insert(make_pair(kv.first, i));
+			++i;
+		}
+
+		for (auto& fm : facematlst)
+		{
+			vector<ivec3> mesh;
+			mesh.insert(mesh.end(),
+				std::make_move_iterator(faces.begin() + fm.second.first),
+				std::make_move_iterator(faces.begin() + fm.second.second + 1));
+			meshlst.push_back(move(mesh));
+			meshmatlmap.insert(make_pair(meshlst.size() - 1, idxmatlmap[fm.first]));
+		}
+
+
 		ret = true;
 	cleanup:
-		//record_end_time(R"(C:\Github\Modern-OpenGL-Tutorial\timings.txt)");
-		hCursor = LoadCursor(NULL, IDC_ARROW);
-		SetCursor(hCursor);
+		endparse();
 		return ret;
 	}
 
-
-	inline uint vertex_count() const
+	bool hastexture(uint idx)
 	{
-		return vertices.size();
+		return (texturemap.size() != 0) && (!matlinfolst[meshmatlmap[idx]].diffusetxt.filename.empty());
 	}
 
-	inline uint texture_count() const
+	bool hasnormal(uint idx)
 	{
-		return texturemap.size();
+		return (normals.size() != 0);
 	}
 
-	inline uint normals_count() const
+	int GenerateVerticesData(uint idx, int att, vector<vec3>& posvec, vector<vec2>& uvvec, vector<vec3>& norvec)
 	{
-		return normals.size();
+		auto& mesh = meshlst[idx];
+
+		for (auto& vtx : mesh)
+		{
+			if (att & VAOUtil::POS)
+			{
+				posvec.emplace_back(vertices[vtx[0]]);
+			}
+
+			if (att & VAOUtil::TEX)
+			{
+				uvvec.emplace_back(texturemap[vtx[1]]);
+			}
+
+			if (att & VAOUtil::NOR)
+			{
+				norvec.emplace_back(normals[vtx[2]]);
+			}
+		}
+		return mesh.size();;
 	}
-
-	struct MaterialInfo
-	{
-		vec3 ambientclr{};
-		vec3 diffuseclr{};
-		vec3 specularclr{};
-		vec3 emissiveclr{};
-		float shininess{};
-		TextureUtil::TexInfo diffusetxt;
-
-	};
-
 
 private:
 	bool readfile(const string& filename)
@@ -131,13 +153,14 @@ private:
 			if (dummy == newmtlstr)
 			{
 				iss >> mtlname;
-				matlinfomap[mtlname] = MaterialInfo();
+				matlnamemap[mtlname] = GenericMaterialInfo();
 			}
 			else
 			{
-				if (matlinfomap.find(mtlname) == matlinfomap.end())
+				if (matlnamemap.find(mtlname) == matlnamemap.end())
 					continue;
-				auto& mat = matlinfomap[mtlname];
+				auto& mat = matlnamemap[mtlname];
+				mat.name = mtlname;
 				if (dummy == ambstr)
 					iss >> mat.ambientclr[0] >> mat.ambientclr[1] >> mat.ambientclr[2];
 				else if (dummy == difstr)
@@ -175,8 +198,7 @@ private:
 		string dummy(100, 0);
 		glm::vec3 v3;
 		string mtlusename;
-		string tempstr = (summary) ? gemfacestr : gemfacmtlstr;
-		for (auto s : { gemmtllibstr, gemvtxstr, gemtxtstr, gemnorstr, tempstr })
+		for (auto s : { gemmtllibstr, gemvtxstr, gemtxtstr, gemnorstr, gemfacmtlstr })
 		{
 
 			regex pattern("^" + s);
@@ -186,20 +208,14 @@ private:
 			if (s == gemvtxstr)
 			{
 				vertices.reserve(kount);
-				if (summary)
-					continue;
 			}
 			else if (s == gemtxtstr)
 			{
 				texturemap.reserve(kount);
-				if (summary)
-					continue;
 			}
 			else if (s == gemnorstr)
 			{
 				normals.reserve(kount);
-				if (summary)
-					continue;
 			}
 			else if (s == gemfacestr)
 			{
@@ -254,7 +270,7 @@ private:
 							iss >> dummy;
 							if (iss)
 							{
-								i16vec3 vi3{ -1 };
+								ivec3 vi3{ -1 };
 								istringstream fss{ dummy };
 								for (auto j = 0; (j < 3 && fss); ++j)
 								{
@@ -279,43 +295,17 @@ private:
 		}
 	}
 
-	void record_start_time(string logfile)
-	{
-		ofstream ofs(logfile, ios_base::app);
-		ofs << objfilename << endl;
-
-		char  buf[1000];
-		time(&stime);
-		ctime_s(buf, 1000, &stime);
-		ofs << buf;
-	}
-
-	void record_end_time(string logfile)
-	{
-		ofstream ofs(logfile, ios_base::app);
-		ofs << objfilename << endl;
-
-		char  buf[1000];
-		time(&etime);
-		ctime_s(buf, 1000, &etime);
-		ofs << buf;
-		ofs << (etime-stime) << endl << endl;
-	}
-
 
 public:
-	string objfilename;
 	string mtlfilename;
 
+private:
 	vector <glm::vec3>		vertices;
 	vector <glm::vec2>		texturemap;
 	vector <glm::vec3>		normals;
-	vector <glm::i16vec3>	faces;
-	map <string, MaterialInfo>	matlinfomap;
-	vector<facemattype>	facematlst;
-	bool summary = false;
-	time_t stime, etime;
+	vector <glm::ivec3>		faces;
 
-private:
 	string text;
+	map <string, GenericMaterialInfo>	matlnamemap;
+	vector<facemattype>	facematlst;
 };
