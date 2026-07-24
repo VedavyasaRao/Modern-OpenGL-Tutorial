@@ -111,7 +111,6 @@ private:
 	}
 
 public:
-
 	MaterialInfo	mat;
 	LightSrcInfo	lightsrc;
 };

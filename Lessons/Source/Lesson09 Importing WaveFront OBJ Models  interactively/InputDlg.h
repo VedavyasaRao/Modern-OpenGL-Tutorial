@@ -76,14 +76,17 @@ public:
 			return false;
 		}
 
-		//mtlfilename = converts(pobjparser->mtlfilename);
-		//if (!checkfileexists(mtlfilename))
-		//{
-		//	wstring message(L"mtl file not found\r\n");
-		//	message += mtlfilename;
-		//	MessageBox(message.c_str(), L"Validate", 0);
-		//	return false;
-		//}
+		if (!assimp)
+		{
+			mtlfilename = converts(((WFObjParser *) pobjparser)->mtlfilename);
+			if (!checkfileexists(mtlfilename))
+			{
+				wstring message(L"mtl file not found\r\n");
+				message += mtlfilename;
+				MessageBox(message.c_str(), L"Validate", 0);
+				return false;
+			}
+		}
 
 		for (auto& mat : pobjparser->matlinfolst)
 		{
@@ -118,7 +121,7 @@ public:
 			oss << L"Vertices:\t\t" << right << pobjparser->vertex_count(k) << L"\r\n";
 			oss << L"Textures:\t\t" << right << boolalpha << pobjparser->hastexture(k) << L"\r\n";
 			oss << L"Normals:\t\t" << right << pobjparser->hasnormal(k) << L"\r\n";
-			oss << L"Material:\t\t#" << converts(pobjparser->getmat4mesh(k).name) << L"\r\n";
+			oss << L"Material:\t\t" << converts(pobjparser->getmat4mesh(k).name) << L"\r\n";
 			oss << L"\r\n" << L"\r\n";
 		}
 
@@ -208,10 +211,12 @@ public:
 		ldir[2] = stof(buf);
 
 		LightSrcInfo lightsrc;
+		lightsrc.src = LightSourceType::Basic;
 		lightsrc.ambientCoefficient = lamb;
 		lightsrc.specularColor = vec3(GetRValue(lclr)/ 255.0f, GetGValue(lclr)/ 255.0f, GetBValue(lclr)/ 255.0f);
 		lightsrc.position = ldir;
 		lightsrc.viewerPosition = cpos;
+		lightsrc.blinn = true;
 		return lightsrc;
 	}
 
@@ -241,8 +246,6 @@ public:
 		lambctl.SetWindowText((LPTSTR)tos(lamb).data());
 
 		objinfoctl.SetWindowText(L"");
-
-
 	}
 
 	string getfilename(const wstring& filename)

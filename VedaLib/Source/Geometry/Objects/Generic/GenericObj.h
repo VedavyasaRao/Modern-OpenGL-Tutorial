@@ -12,10 +12,12 @@ public:
 	void Init(int idx, const LightSrcInfo& lightsrc, GenericParser* pobjparser)
 	{
 		this->idx = idx;
-		this->lightsrc = lightsrc;
 		this->pobjparser = pobjparser;
 		auto& aimesh = pobjparser->getmesh(idx);
 		auto& mat = pobjparser->getmat4mesh(idx);
+
+		light.lightsrc = lightsrc;
+		light.mat = mat;
 
 		auto m = new GenericObjMesh(idx, this->pobjparser);
 		hastexture = pobjparser->hastexture(idx);
@@ -50,24 +52,7 @@ public:
 		if (hastexture)
 			texutl.MakeActive(shader.GetUniformLocation("tex"));
 
-		UpdateUniformsLightMat(shader);
-	}
-
-	void UpdateUniformsLightMat(ShaderUtil& shader)
-	{
-		glUniform3fv(shader.GetUniformLocation("viewerPosition"), 1, glm::value_ptr(lightsrc.viewerPosition));
-
-		glUniform1f(shader.GetUniformLocation("light.ambientCoefficient"), lightsrc.ambientCoefficient);
-		glUniform3fv(shader.GetUniformLocation("light.Position"), 1, glm::value_ptr(lightsrc.position));
-		glUniform3fv(shader.GetUniformLocation("light.Color"), 1, value_ptr(lightsrc.specularColor));
-
-		auto& mat = pobjparser->getmat4mesh(idx);
-		glUniform3fv(shader.GetUniformLocation("material.ambientColor"), 1, glm::value_ptr(mat.ambientColor));
-		glUniform3fv(shader.GetUniformLocation("material.diffuseColor"), 1, glm::value_ptr(mat.diffuseColor));
-		glUniform3fv(shader.GetUniformLocation("material.SpecularColor"), 1, value_ptr(mat.specularColor));
-		glUniform1f(shader.GetUniformLocation("material.Shininess"), mat.Shininess);
-
-
+		light.UpdateUniforms(shader);
 	}
 
 
@@ -105,61 +90,67 @@ private:
 	{
 		string s =
 			R"(
-	#version 400 core
-	in vec2 FragTexCrd;
-	in vec3 FragVertex; 
-	in vec3 FragNormal; 
+		#version 400 core
+		in vec2 FragTexCrd; 
+		in vec3 FragVertex; 
+		in vec3 FragNormal; 
 
-	out vec4 FragColor;
+		out vec4 FragColor;
+		uniform mat4 transform;
+		uniform vec3 viewerPosition;
+		uniform sampler2D tex;
 
-	uniform sampler2D tex;
-	uniform mat4 transform;
-	uniform vec3 viewerPosition;
-
-	uniform struct Light
-	{
-		float ambientCoefficient;
-		vec3 Position;
-		vec3 Color;
-	} light;
-
-	uniform struct Material 
-	{
-		float Shininess;
-		vec3 ambientColor;
-		vec3 diffuseColor;
-		vec3 SpecularColor;
-	} material;
-
-	void main()
-	{
-		vec4 surfaceColor = vec4(material.diffuseColor,1.0);
-		$1surfaceColor = texture(tex, FragTexCrd);
-		vec3 normal = normalize(transpose(inverse(mat3(transform))) * FragNormal);
-		vec3 surfacePos = vec3(transform * vec4(FragVertex, 1));
-		vec3 surfaceToLight = normalize(light.Position - surfacePos);
-		vec3 surfaceToViewer = normalize(viewerPosition - surfacePos);
-    
-		//ambient
-		vec3 ambient = material.ambientColor * light.Color * light.ambientCoefficient;   
-
-		//diffuse
-		float diffuseCoefficient = max(0.0, dot(normal, surfaceToLight));
-		vec3 diffuse = diffuseCoefficient *  vec3(surfaceColor);
-    
-		//specular
-		float specularCoefficient = 0.0;
-		if(diffuseCoefficient > 0.0)
+		uniform struct Light
 		{
-			specularCoefficient = pow(max(0.0, dot(normalize(surfaceToLight + surfaceToViewer),normal)), material.Shininess);
-		}
-		vec3 specular = specularCoefficient *  material.SpecularColor  * light.Color;
+		   vec3 position;
+		   float ambientCoefficient;
+			float diffuseCoefficient;
+			float specularCoefficient;
+			vec3 ambientColor;
+			vec3 diffuseColor;
+			vec3 SpecularColor;
+			bool blinn;
+		} light;
 
-		vec3 linearColor = (ambient + diffuse + specular);
-		FragColor = vec4(linearColor, 1.0);
-	};
-	)";
+		uniform struct Material 
+		{
+			float Shininess;
+			vec3 ambientColor;
+			vec3 diffuseColor;
+			vec3 SpecularColor;
+		} material;
 
+		void main()
+		{
+			vec3 normal = normalize(transpose(inverse(mat3(transform))) * FragNormal);
+			vec3 surfacePos = vec3(transform * vec4(FragVertex, 1));
+			vec4 surfaceColor = vec4(material.diffuseColor,1.0);
+			$1 surfaceColor = texture(tex, FragTexCrd);
+			vec3 surfaceToLight = normalize(light.position - surfacePos);
+			vec3 surfaceToViewer = normalize(viewerPosition - surfacePos);
+    
+			//ambient
+			vec3 ambient = light.ambientCoefficient * material.ambientColor;   
+
+			//diffuse
+			float diffuseCoefficient = max(0.0, dot(normal, surfaceToLight));
+			vec3 diffuse = diffuseCoefficient * surfaceColor.rgb;
+    
+			//specular
+			float specularCoefficient = 0.0;
+			if(diffuseCoefficient > 0.0)
+			{
+				if (light.blinn)
+					specularCoefficient = pow(max(0.0, dot(normalize(surfaceToLight + surfaceToViewer),normal)), material.Shininess);
+				else
+					specularCoefficient = pow(max(0.0, dot(surfaceToViewer, reflect(-surfaceToLight, normal))), material.Shininess);
+			}
+			vec3 specular = light.SpecularColor * specularCoefficient * material.SpecularColor;
+	
+			vec3 linearColor = ambient + diffuse + specular;
+			FragColor = vec4(linearColor, 1.0);
+		};
+		)";
 		regex target("\\$1");
 		if (hastexture)
 			s = regex_replace(s, target, "");
@@ -171,9 +162,9 @@ private:
 
 
 private:
-	TextureUtil  texutl;
+	TextureUtil		texutl;
+	LightingUtil	light;
 	bool hastexture = false;
-	LightSrcInfo lightsrc;
 	GenericParser* pobjparser;
 	int idx;
 };
