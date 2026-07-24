@@ -6,7 +6,7 @@ class LightedTexCube:public TexturedCube
 public:
 	void Init(GLushort	texunit, const string& filename)
 	{
-		TexturedCube::Init(TextureUtil::TexInfo(0, filename));
+		TexturedCube::Init(TextureInfo(0, filename));
 
 		vaoutl.bindVAO();
 		kount = mesh->GenerateVerticesData(VAOUtil::NOR, vaoutl);
@@ -54,13 +54,13 @@ public:
 	virtual string fragmentShaderSource()
 	{
 		auto src = light.lightsrc.src;
-		if (src == LightingUtil::Basic)
+		if (src == LightSourceType::Basic)
 			return fragmentShaderSourceBasic();
-		else if (src == LightingUtil::Directional)
+		else if (src == LightSourceType::Directional)
 			return fragmentShaderSourceDirectional();
-		else if (src == LightingUtil::Point)
+		else if (src == LightSourceType::Point)
 			return fragmentShaderSourcePoint();
-		else if (src == LightingUtil::Spot)
+		else if (src == LightSourceType::Spot)
 			return fragmentShaderSourceSpot();
 		return "";
 	}

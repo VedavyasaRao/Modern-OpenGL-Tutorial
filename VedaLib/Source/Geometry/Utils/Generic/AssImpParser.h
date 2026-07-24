@@ -23,7 +23,7 @@ public:
 		delete pimporter;
 		pimporter = nullptr;
 		directory.clear();
-		matlmeshmap.clear();
+		aimatlidxmatlinfomap.clear();
 		GenericParser::clear();
 	}
 
@@ -47,8 +47,8 @@ public:
 
 	int GenerateVerticesData(uint idx, int att, vector<vec3>& posvec, vector<vec2>& uvvec, vector<vec3>& norvec)
 	{
-		auto& aimesh = meshlst[idx];
-		uint count = aimesh.size();
+		auto& aimesh = getmesh(idx);
+		uint count = aimesh.data.size();
 
 		auto& objmesh = scene->mMeshes[idx];
 		auto& objvertices = objmesh->mVertices;
@@ -57,7 +57,7 @@ public:
 		
 		for (auto i = 0u; i < count; ++i)
 		{
-			auto& vtx = aimesh[i];
+			auto& vtx = aimesh.data[i];
 			if (att & VAOUtil::POS)
 			{
 				auto& v = objvertices[vtx[0]];
@@ -81,7 +81,8 @@ public:
 
 	bool hastexture(uint idx)
 	{
-		return (scene->mMeshes[idx]->HasTextureCoords(0)) && (!matlinfolst[meshmatlmap[idx]].diffusetxt.filename.empty());
+		auto* mat = &getmat4mesh(idx);
+		return (scene->mMeshes[idx]->HasTextureCoords(0)) && (!matltextmap[mat].empty());
 	}
 
 	bool hasnormal(uint idx)
@@ -106,13 +107,12 @@ private:
 
 	void processamesh(int idx)
 	{
-		if (meshmatlmap.find(idx) != meshmatlmap.end())
+		if (aimeshset.find(idx) != aimeshset.end())
 			return;
 		
-		vector<ivec3>	mesh;
-
+		Mesh	mesh(idx);
 		auto aimesh = scene->mMeshes[idx];
-		mesh.reserve(aimesh->mNumVertices);
+		mesh.data.reserve(aimesh->mNumVertices);
 		bool hastexture = aimesh->HasTextureCoords(0);
 		bool hasnormals = aimesh->HasNormals();
 		for (auto i = 0u; i < aimesh->mNumFaces; ++i)
@@ -124,23 +124,27 @@ private:
 				auto v = idx;
 				auto t = (hastexture)?idx:-1;
 				auto n = (hasnormals) ? idx : -1;
-				mesh.emplace_back(ivec3{v,t,n});
+				mesh.data.emplace_back(ivec3{v,t,n});
 			}
 		}
 		meshlst.push_back(move(mesh));
+
 		auto matlidx = aimesh->mMaterialIndex;
-		if (matlmeshmap.find(matlidx) == matlmeshmap.end())
+		if (aimatlidxmatlinfomap.find(matlidx) == aimatlidxmatlinfomap.end())
 		{
 			processamaterial(matlidx);
-			matlmeshmap.insert(make_pair(matlidx, matlinfolst.size() - 1));
+			aimatlidxmatlinfomap[matlidx]= &matlinfolst.back();
 		}
-		meshmatlmap.insert(make_pair(meshlst.size()-1, matlmeshmap[matlidx]));
+		meshmatlmap[&meshlst.back()] = aimatlidxmatlinfomap[matlidx];
 	}
 
 	void processamaterial(int idx)
 	{
-		GenericMaterialInfo	mat;
+		matlinfolst.push_back(MaterialInfo());
+		MaterialInfo	&mat = matlinfolst.back();
+
 		auto aimat = scene->mMaterials[idx];
+		mat.name = aimat->GetName().C_Str();
 		auto texcount = aimat->GetTextureCount(aiTextureType_DIFFUSE);
 		for (auto i = 0u; i < texcount; ++i)
 		{
@@ -148,48 +152,50 @@ private:
 			aiTextureMapMode mm{};
 			aimat->GetTexture(aiTextureType_DIFFUSE, i, &str, nullptr, nullptr,nullptr,nullptr,&mm);
 			auto df = directory + str.C_Str();
-			auto ti = TextureUtil::TexInfo(i + 10, df);
-			if (mm == aiTextureMapMode_Wrap)
+			if (diffusetxtmap.find(df) == diffusetxtmap.end())
 			{
-				ti.swrap = GL_REPEAT;
-				ti.twrap = GL_REPEAT;
+				auto ti = TextureInfo(i + 10, df);
+				if (mm == aiTextureMapMode_Wrap)
+				{
+					ti.swrap = GL_REPEAT;
+					ti.twrap = GL_REPEAT;
+				}
+				else if (mm == aiTextureMapMode_Clamp)
+				{
+					ti.swrap = GL_CLAMP_TO_EDGE;
+					ti.twrap = GL_CLAMP_TO_EDGE;
+				}
+				else if (mm == aiTextureMapMode_Mirror)
+				{
+					ti.swrap = GL_MIRRORED_REPEAT;
+					ti.twrap = GL_MIRRORED_REPEAT;
+				}
+				else if (mm == aiTextureMapMode_Decal)
+				{
+					ti.swrap = GL_CLAMP_TO_BORDER;
+					ti.twrap = GL_CLAMP_TO_BORDER;
+				}
+				diffusetxtmap[df] = ti;
 			}
-			else if (mm == aiTextureMapMode_Clamp)
-			{
-				ti.swrap = GL_CLAMP_TO_EDGE;
-				ti.twrap = GL_CLAMP_TO_EDGE;
-			}
-			else if (mm == aiTextureMapMode_Mirror)
-			{
-				ti.swrap = GL_MIRRORED_REPEAT;
-				ti.twrap = GL_MIRRORED_REPEAT;
-			}
-			else if (mm == aiTextureMapMode_Decal)
-			{
-				ti.swrap = GL_CLAMP_TO_BORDER;
-				ti.twrap = GL_CLAMP_TO_BORDER;
-			}
-			mat.name = aimat->GetName().C_Str();
-			mat.diffusetxt = ti;
+			matltextmap[&mat] = df;
 		}
-
+		if (texcount == 0)
+			matltextmap[&mat] = "";
+		
 		aiColor4D color;
 		if (AI_SUCCESS == aiGetMaterialColor(aimat, AI_MATKEY_COLOR_AMBIENT, &color))
-			mat.ambientclr = vec3(color.r, color.g, color.b);
+			mat.ambientColor = vec3(color.r, color.g, color.b);
 		if (AI_SUCCESS == aiGetMaterialColor(aimat, AI_MATKEY_COLOR_DIFFUSE, &color))
-			mat.diffuseclr = vec3(color.r, color.g, color.b);
+			mat.diffuseColor = vec3(color.r, color.g, color.b);
 		if (AI_SUCCESS == aiGetMaterialColor(aimat, AI_MATKEY_COLOR_SPECULAR, &color))
-			mat.specularclr = vec3(color.r, color.g, color.b);
-		if (AI_SUCCESS == aiGetMaterialColor(aimat, AI_MATKEY_COLOR_EMISSIVE, &color))
-			mat.emissiveclr = vec3(color.r, color.g, color.b);
-		aiGetMaterialFloat(aimat, AI_MATKEY_SHININESS, &mat.shininess);
-		matlinfolst.push_back(move(mat));
+			mat.specularColor = vec3(color.r, color.g, color.b);
+		aiGetMaterialFloat(aimat, AI_MATKEY_SHININESS, &mat.Shininess);
 	}
 
 	void processalight(int idx)
 	{
 		auto ailight = scene->mLights[idx];
-		GenericLightSourceInfo lightsrc;
+		LightSrcInfo lightsrc;
 		lightsrc.name = ailight->mName.C_Str();
 		lightsrc.position = vec3{ ailight->mPosition.x,ailight->mPosition.y,ailight->mPosition.z };
 		lightsrc.direction = vec3{ ailight->mDirection.x, ailight->mDirection.y,ailight->mDirection.z };
@@ -218,5 +224,6 @@ public:
 
 	Assimp::Importer *pimporter = nullptr;
 	string directory;
-	map<uint, uint> matlmeshmap;
+	map<uint, MaterialInfo*> aimatlidxmatlinfomap;
+	set<uint> aimeshset;
 };

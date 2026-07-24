@@ -46,7 +46,7 @@ public:
 	{
 		if (shapes.empty())
 		{
-			pwfobjparser = new WFObjFileParser;
+			pwfobjparser = new WFObjParser;
 			BOOL b;
 			pdlg->OnBnClickedReset(0, 0, nullptr, b);
 		}
@@ -58,7 +58,7 @@ public:
 			{
 				pwfobjparser->clear();
 				delete pwfobjparser;
-				pwfobjparser = new WFObjFileParser;
+				pwfobjparser = new WFObjParser;
 
 			}
 		}
@@ -128,7 +128,7 @@ public:
 
 	void CreateInputDlg()
 	{
-		pdlg = new InputDlg(pwfobjparser);
+		pdlg = new InputDlg(false,pwfobjparser);
 		pdlg->Create(m_hWnd);
 		pdlg->ShowWindow(SW_SHOW);
 		Invalidate();
@@ -147,7 +147,7 @@ public:
 private:
 	vector<GenericObj*> shapes;
 	InputDlg* pdlg;
-	WFObjFileParser *pwfobjparser;
+	WFObjParser* pwfobjparser;
 };
 
 DWORD WINAPI ThreadFunction(LPVOID lpParam)

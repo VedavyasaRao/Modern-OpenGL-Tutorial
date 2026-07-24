@@ -23,15 +23,15 @@
     <ClInclude Include="Scene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="InputDlg.h">
+    <ClInclude Include="..\Lesson09 Importing WaveFront OBJ Models  interactively\InputDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="..\Lesson09 Importing WaveFront OBJ Models  interactively\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Lesson09a Loading OBJ files.rc">
+    <ResourceCompile Include="..\Lesson09 Importing WaveFront OBJ Models  interactively\Lesson09 Loading OBJ files.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>

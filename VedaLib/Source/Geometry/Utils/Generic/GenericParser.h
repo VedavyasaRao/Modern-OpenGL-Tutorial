@@ -1,72 +1,20 @@
 #pragma once
 #include "..\Texture\TextureUtil.h"
-struct GenericMaterialInfo
+#include "..\Lighting\LightingUtil.h"
+
+struct Mesh
 {
-	string name;
-	vec3 ambientclr{};
-	vec3 diffuseclr{};
-	vec3 specularclr{};
-	vec3 emissiveclr{};
-	float shininess{};
-	TextureUtil::TexInfo diffusetxt;
+	Mesh(uint id) :id(id) {}
+	vector<ivec3> data;
+	uint id;
 };
 
-class GenericObjInfo
-{
-public:
-	struct Light;
-
-	GenericObjInfo() = default;
-	GenericObjInfo(vec3 viewerpos, const Light& light)
-		:viewerpos(viewerpos), light(light)
-	{
-	}
-
-	struct Light
-	{
-		float ambientCoefficient;
-		vec3 Position;
-		vec3 Color;
-	};
-
-	vec3 viewerpos;
-	Light light;
-
-	friend class GenericObj;
-};
-
-struct GenericLightSourceInfo
-{
-	enum LightSourceType { Basic = 0, Directional = 1, Point = 2, Spot = 3 };
-	LightSourceType src;
-
-	string name;
-	vec3 position;
-	vec3 direction;
-
-	float attconstant;
-	float attlinear;
-	float attquadratic;
-
-	float spotlightinner;
-	float spotlightouter;
-
-	float ambientCoefficient;
-	float diffuseCoefficient;
-	float specularCoefficient;
-
-	vec3 ambientColor;
-	vec3 diffuseColor;
-	vec3 specularColor;
-
-	vec3 viewerPosition;
-};
-
-
-typedef vector<vector<ivec3>>				Meshlist;
-typedef vector<GenericMaterialInfo>			Matlinfolist;
-typedef vector<GenericLightSourceInfo>		Lightinfolist;
-typedef map<uint, uint>						MeshMatlmap;
+typedef list<Mesh>						Meshlist;
+typedef list<MaterialInfo>				Matlinfolist;
+typedef map<string,TextureInfo>			Txtureinfomap;
+typedef list<LightSrcInfo>				Lightinfolist;
+typedef map<Mesh*, MaterialInfo*>		MeshMatlmap;
+typedef map<MaterialInfo*, string>		MatlTxturemap;
 
 class GenericParser
 {
@@ -77,7 +25,21 @@ public:
 		matlinfolst.clear();
 		lightlst.clear();
 		meshmatlmap.clear();
+		diffusetxtmap.clear();
+		matltextmap.clear();
 		objfilename.clear();
+	}
+
+	Mesh& getmesh(uint idx)
+	{
+		auto itr = meshlst.begin();
+		advance(itr, idx);
+		return *itr;
+	}
+
+	MaterialInfo& getmat4mesh(uint idx) 
+	{
+		return *meshmatlmap[&getmesh(idx)];
 	}
 
 	virtual bool Parse(const string& objfilename) = 0;
@@ -87,7 +49,7 @@ public:
 	virtual bool hasnormal(uint idx) = 0;
 	virtual uint vertex_count(uint idx)
 	{
-		return meshlst[idx].size();
+		return getmesh(idx).data.size();
 	}
 
 
@@ -100,7 +62,9 @@ public:
 	Meshlist			meshlst;
 	Matlinfolist		matlinfolst;
 	Lightinfolist		lightlst;
+	Txtureinfomap		diffusetxtmap;
 	MeshMatlmap			meshmatlmap;
+	MatlTxturemap		matltextmap;
 	string				objfilename;
 
 protected:

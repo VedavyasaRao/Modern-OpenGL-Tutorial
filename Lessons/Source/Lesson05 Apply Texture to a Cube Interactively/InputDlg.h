@@ -82,7 +82,7 @@ public:
 	};
 
 
-	TextureUtil::TexInfo   getdata()
+	TextureInfo   getdata()
 	{
 		filenamectl.GetWindowText((LPTSTR)filename.data(), 500);
 
@@ -91,7 +91,7 @@ public:
 		minfiltercmb = getdata(minfiltercmbctl);
 		magfiltercmb = getdata(magfiltercmbctl);
 
-		return TextureUtil::TexInfo(0, getfilename(), swrapcmb, twrapcmb, minfiltercmb, magfiltercmb);
+		return TextureInfo(0, getfilename(), swrapcmb, twrapcmb, minfiltercmb, magfiltercmb);
 	}
 
 	void SetDefaultValues()

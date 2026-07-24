@@ -2,8 +2,7 @@
 #include "Canvas\Camera\ThreeDCamera.h"
 #include "Geometry\Utils\Generic\GenericParser.h"
 #include "Geometry\Objects\Generic\GenericObj.h"
-#include "InputDlg.h"
-
+#include "..\Lesson09 Importing WaveFront OBJ Models  interactively\InputDlg.h"
 DWORD WINAPI ThreadFunction(LPVOID lpParam);
 
 class Scene:public BaseScene
@@ -124,7 +123,7 @@ public:
 
 	void CreateInputDlg()
 	{
-		pdlg = new InputDlg(paiobjparser);
+		pdlg = new InputDlg(true, paiobjparser);
 		pdlg->Create(m_hWnd);
 		pdlg->ShowWindow(SW_SHOW);
 		Invalidate();

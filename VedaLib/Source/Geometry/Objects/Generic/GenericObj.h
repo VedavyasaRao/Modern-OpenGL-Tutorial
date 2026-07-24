@@ -9,13 +9,13 @@
 class GenericObj :public BaseGeometry
 {
 public:
-	void Init(int idx, const GenericObjInfo& shapeinf, GenericParser* pobjparser)
+	void Init(int idx, const LightSrcInfo& lightsrc, GenericParser* pobjparser)
 	{
 		this->idx = idx;
-		this->shapeinf = shapeinf;
+		this->lightsrc = lightsrc;
 		this->pobjparser = pobjparser;
-		auto& aimesh = pobjparser->meshlst[idx];
-		auto& mat = pobjparser->matlinfolst[pobjparser->meshmatlmap[idx]];
+		auto& aimesh = pobjparser->getmesh(idx);
+		auto& mat = pobjparser->getmat4mesh(idx);
 
 		auto m = new GenericObjMesh(idx, this->pobjparser);
 		hastexture = pobjparser->hastexture(idx);
@@ -37,7 +37,7 @@ public:
 
 		if (hastexture)
 		{
-			texutl.Init(mat.diffusetxt);
+			texutl.Init(pobjparser->diffusetxtmap[pobjparser->matltextmap[&mat]]);
 			texutl.LoadTexture();
 		}
 
@@ -55,17 +55,19 @@ public:
 
 	void UpdateUniformsLightMat(ShaderUtil& shader)
 	{
-		glUniform3fv(shader.GetUniformLocation("viewerPosition"), 1, glm::value_ptr(shapeinf.viewerpos));
+		glUniform3fv(shader.GetUniformLocation("viewerPosition"), 1, glm::value_ptr(lightsrc.viewerPosition));
 
-		glUniform1f(shader.GetUniformLocation("light.ambientCoefficient"), shapeinf.light.ambientCoefficient);
-		glUniform3fv(shader.GetUniformLocation("light.Position"), 1, glm::value_ptr(shapeinf.light.Position));
-		glUniform3fv(shader.GetUniformLocation("light.Color"), 1, value_ptr(shapeinf.light.Color));
+		glUniform1f(shader.GetUniformLocation("light.ambientCoefficient"), lightsrc.ambientCoefficient);
+		glUniform3fv(shader.GetUniformLocation("light.Position"), 1, glm::value_ptr(lightsrc.position));
+		glUniform3fv(shader.GetUniformLocation("light.Color"), 1, value_ptr(lightsrc.specularColor));
 
-		auto& mat = pobjparser->matlinfolst[pobjparser->meshmatlmap[idx]];
-		glUniform3fv(shader.GetUniformLocation("material.ambientColor"), 1, glm::value_ptr(mat.ambientclr));
-		glUniform3fv(shader.GetUniformLocation("material.diffuseColor"), 1, glm::value_ptr(mat.diffuseclr));
-		glUniform3fv(shader.GetUniformLocation("material.SpecularColor"), 1, value_ptr(mat.specularclr));
-		glUniform1f(shader.GetUniformLocation("material.Shininess"), mat.shininess);
+		auto& mat = pobjparser->getmat4mesh(idx);
+		glUniform3fv(shader.GetUniformLocation("material.ambientColor"), 1, glm::value_ptr(mat.ambientColor));
+		glUniform3fv(shader.GetUniformLocation("material.diffuseColor"), 1, glm::value_ptr(mat.diffuseColor));
+		glUniform3fv(shader.GetUniformLocation("material.SpecularColor"), 1, value_ptr(mat.specularColor));
+		glUniform1f(shader.GetUniformLocation("material.Shininess"), mat.Shininess);
+
+
 	}
 
 
@@ -171,7 +173,7 @@ private:
 private:
 	TextureUtil  texutl;
 	bool hastexture = false;
-	GenericObjInfo shapeinf;
+	LightSrcInfo lightsrc;
 	GenericParser* pobjparser;
 	int idx;
 };

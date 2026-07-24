@@ -1,10 +1,40 @@
 #pragma once
-//Loads Textures
+class TextureInfo
+{
+public:
+	TextureInfo(GLushort texunit = 0,
+		const string& filename = "",
+		uint swrap = GL_REPEAT,
+		uint twrap = GL_REPEAT,
+		uint minfilter = GL_LINEAR,
+		uint magfilter = GL_LINEAR
+	)
+	{
+		this->texunit = texunit;
+		this->filename = filename;
+		this->swrap = swrap;
+		this->twrap = twrap;
+		this->minfilter = minfilter;
+		this->magfilter = magfilter;
+	}
+
+	void updatefilename(const string& sfilename)
+	{
+		this->filename = sfilename;
+	}
+
+
+public:
+	string		filename;
+	GLushort	texunit;
+	GLuint		textureID;
+	uint		swrap, twrap;
+	uint		minfilter, magfilter;
+};
+
 class TextureUtil
 {
 public:
-	class TexInfo;
-
 	//Load textures  for 3D Objects
 	virtual void LoadTexture()
 	{
@@ -74,7 +104,7 @@ public:
 		glUniform1i(uniloc, texinfo.texunit);
 	}
 
-	void Init(TexInfo ptexinfo)
+	void Init(TextureInfo ptexinfo)
 	{
 		this->texinfo = ptexinfo;
 	}
@@ -85,38 +115,6 @@ public:
 	}
 
 public:
-	class TexInfo
-	{
-	public:
-		TexInfo(GLushort texunit = 0,
-			const string& filename = "",
-			uint swrap = GL_REPEAT,
-			uint twrap = GL_REPEAT,
-			uint minfilter = GL_LINEAR,
-			uint magfilter = GL_LINEAR
-			)
-		{
-			this->texunit = texunit;
-			this->filename = filename;
-			this->swrap = swrap;
-			this->twrap = twrap;
-			this->minfilter = minfilter;
-			this->magfilter = magfilter;
-		}
-
-		void updatefilename(const string& sfilename)
-		{
-			this->filename = sfilename;
-		}
-
-		
-	public:
-		string		filename;
-		GLushort	texunit;
-		GLuint		textureID;
-		uint		swrap, twrap;
-		uint		minfilter, magfilter;
-		friend		TextureUtil;
-	}texinfo;
+	TextureInfo	texinfo;
 
 };

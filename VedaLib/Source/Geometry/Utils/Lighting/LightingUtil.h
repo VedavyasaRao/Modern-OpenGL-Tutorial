@@ -1,23 +1,60 @@
 #pragma once
-/////////////////////PhongLightingUtil///////////////////////////////////
+
+enum LightSourceType { Basic = 0, Directional = 1, Point = 2, Spot = 3 };
+
+
+struct MaterialInfo
+{
+	string name;
+	vec3 ambientColor;
+	vec3 diffuseColor;
+	vec3 specularColor;
+	float Shininess;
+};
+
+struct LightSrcInfo
+{
+	LightSourceType src;
+
+	string name;
+	float ambientCoefficient;
+	vec3 ambientColor;
+
+	float diffuseCoefficient;
+	vec3 diffuseColor;
+
+	vec3 specularColor;
+	float specularCoefficient;
+
+	vec3 viewerPosition;
+	bool blinn;
+
+	vec3 position;
+	vec3 direction;
+
+	float attconstant;
+	float attlinear;
+	float attquadratic;
+
+	float spotlightinner;
+	float spotlightouter;
+};
+
+
 class LightingUtil
 {
 public:
-	struct  LightingUtil::LightSrc;
-	struct LightingUtil::CommonLightMaterial;
-
-	enum LightSourceType { Basic = 0, Directional = 1, Point = 2, Spot = 3 };
-
+	
 	void UpdateUniforms(ShaderUtil& shader)
 	{
 		auto src = lightsrc.src;
-		if (src == Basic)
+		if (src == LightSourceType::Basic)
 			UpdateUniformsBasic(shader);
 		else if (src == Directional)
 			UpdateUniformsDirectional(shader);
-		else if (src == Point)
+		else if (src == LightSourceType::Point)
 			UpdateUniformsPoint(shader);
-		else if (src == Spot)
+		else if (src == LightSourceType::Spot)
 			UpdateUniformsSpot(shader);
 	}
 
@@ -57,60 +94,25 @@ private:
 
 	void UpdateUniformsLightMat(ShaderUtil& shader)
 	{
-		glUniform3fv(shader.GetUniformLocation("viewerPosition"), 1, glm::value_ptr(commonlightmat.light.viewerPosition));
-		glUniform1i(shader.GetUniformLocation("light.blinn"), commonlightmat.light.blinn);
-		glUniform1f(shader.GetUniformLocation("light.ambientCoefficient"), commonlightmat.light.ambientCoefficient);
-		glUniform1f(shader.GetUniformLocation("light.diffuseCoefficient"), commonlightmat.light.diffuseCoefficient);
-		glUniform1f(shader.GetUniformLocation("light.specularCoefficient"), commonlightmat.light.specularCoefficient);
+		glUniform3fv(shader.GetUniformLocation("viewerPosition"), 1, glm::value_ptr(lightsrc.viewerPosition));
+		glUniform1i(shader.GetUniformLocation("light.blinn"), lightsrc.blinn);
+		glUniform1f(shader.GetUniformLocation("light.ambientCoefficient"), lightsrc.ambientCoefficient);
+		glUniform1f(shader.GetUniformLocation("light.diffuseCoefficient"), lightsrc.diffuseCoefficient);
+		glUniform1f(shader.GetUniformLocation("light.specularCoefficient"), lightsrc.specularCoefficient);
 
-		glUniform3fv(shader.GetUniformLocation("light.ambientColor"), 1, glm::value_ptr(commonlightmat.light.ambientColor));
-		glUniform3fv(shader.GetUniformLocation("light.diffuseColor"), 1, glm::value_ptr(commonlightmat.light.diffuseColor));
-		glUniform3fv(shader.GetUniformLocation("light.SpecularColor"), 1, value_ptr(commonlightmat.light.specularColor));
+		glUniform3fv(shader.GetUniformLocation("light.ambientColor"), 1, glm::value_ptr(lightsrc.ambientColor));
+		glUniform3fv(shader.GetUniformLocation("light.diffuseColor"), 1, glm::value_ptr(lightsrc.diffuseColor));
+		glUniform3fv(shader.GetUniformLocation("light.SpecularColor"), 1, value_ptr(lightsrc.specularColor));
 
-		glUniform3fv(shader.GetUniformLocation("material.ambientColor"), 1, glm::value_ptr(commonlightmat.mat.ambientColor));
-		glUniform3fv(shader.GetUniformLocation("material.diffuseColor"), 1, glm::value_ptr(commonlightmat.mat.diffuseColor));
-		glUniform3fv(shader.GetUniformLocation("material.SpecularColor"), 1, value_ptr(commonlightmat.mat.specularColor));
-		glUniform1f(shader.GetUniformLocation("material.Shininess"), commonlightmat.mat.Shininess);
+		glUniform3fv(shader.GetUniformLocation("material.ambientColor"), 1, glm::value_ptr(mat.ambientColor));
+		glUniform3fv(shader.GetUniformLocation("material.diffuseColor"), 1, glm::value_ptr(mat.diffuseColor));
+		glUniform3fv(shader.GetUniformLocation("material.SpecularColor"), 1, value_ptr(mat.specularColor));
+		glUniform1f(shader.GetUniformLocation("material.Shininess"), mat.Shininess);
 	}
 
 public:
-	struct CommonLightMaterial
-	{
-		struct LightCommon
-		{
-			float ambientCoefficient;
-			float diffuseCoefficient;
-			float specularCoefficient;
 
-			vec3 ambientColor;
-			vec3 diffuseColor;
-			vec3 specularColor;
-
-			vec3 viewerPosition;
-			bool blinn;
-		}light;
-		struct Material
-		{
-			vec3 ambientColor;
-			vec3 diffuseColor;
-			vec3 specularColor;
-			float Shininess;
-		}mat;
-	} commonlightmat;
-
-	struct LightSrc
-	{
-		LightSourceType src;
-		vec3 position;
-		vec3 direction;
-
-		float attconstant;
-		float attlinear;
-		float attquadratic;
-
-		float spotlightinner;
-		float spotlightouter;
-	}lightsrc;
+	MaterialInfo	mat;
+	LightSrcInfo	lightsrc;
 };
-/////////////////////PhongLightingUtil///////////////////////////////////
 

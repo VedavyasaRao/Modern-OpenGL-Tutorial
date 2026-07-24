@@ -11,6 +11,7 @@
 #include <gdiplusheaders.h>
 #include <atlbase.h>
 #include <atlwin.h>
+#include <functional>
 
 using namespace Gdiplus;
 

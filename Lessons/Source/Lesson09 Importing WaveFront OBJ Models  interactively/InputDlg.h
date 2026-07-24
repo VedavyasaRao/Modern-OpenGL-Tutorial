@@ -28,7 +28,8 @@ public:
 
 public:
 
-	InputDlg(WFObjFileParser*& pwfobjparser) :pwfoparser(pwfobjparser) {}
+	InputDlg(bool assimp, WFObjParser*& pwfobjparser) :pwfobjparser(pwfobjparser), paiobjparser(paiobjparser), assimp(assimp){}
+	InputDlg(bool assimp, AssImpParser*& paiobjparser) :pwfobjparser(pwfobjparser), paiobjparser(paiobjparser), assimp(assimp) {}
 
 	LRESULT OnInitDialog(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 	{
@@ -66,8 +67,8 @@ public:
 
 	bool validate()
 	{
-		pwfoparser->clear();
-		if (!pwfoparser->Parse(getfilename(objfilename)))
+		pobjparser->clear();
+		if (!pobjparser->Parse(getfilename(objfilename)))
 		{
 			wstring message(L"parse failed\r\n");
 			message += objfilename;
@@ -75,18 +76,18 @@ public:
 			return false;
 		}
 
-		mtlfilename = converts(pwfoparser->mtlfilename);
-		if (!checkfileexists(mtlfilename))
-		{
-			wstring message(L"mtl file not found\r\n");
-			message += mtlfilename;
-			MessageBox(message.c_str(), L"Validate", 0);
-			return false;
-		}
+		//mtlfilename = converts(pobjparser->mtlfilename);
+		//if (!checkfileexists(mtlfilename))
+		//{
+		//	wstring message(L"mtl file not found\r\n");
+		//	message += mtlfilename;
+		//	MessageBox(message.c_str(), L"Validate", 0);
+		//	return false;
+		//}
 
-		for (auto& mat : pwfoparser->matlinfolst)
+		for (auto& mat : pobjparser->matlinfolst)
 		{
-			auto texfn = converts(mat.diffusetxt.filename);
+			auto texfn = converts(pobjparser->matltextmap[&mat]);
 			if (!texfn.empty())
 			{
 				if (!checkfileexists(texfn))
@@ -107,32 +108,33 @@ public:
 		oss  << setfill(L' ');
 		oss << L"OBJ File:\t\t" << objfilename << "\r\n";
 		oss << L"MTL File:\t\t" << mtlfilename << "\r\n";
-		oss << L"Parse Time:\t" << pwfoparser->parsetime() << " secs\r\n\r\n";
+		oss << L"Parse Time:\t" << pobjparser->parsetime() << " secs\r\n\r\n";
 
 
 		oss << L"Mesh Info\r\n\r\n";
-		for (auto k=0u; k < pwfoparser->meshlst.size(); ++k)
+		for (auto k=0u; k < pobjparser->meshlst.size(); ++k)
 		{
 			oss << L"Mesh:\t\t#" << (k+1) << L"\r\n";
-			oss << L"Vertices:\t\t" << right << pwfoparser->vertex_count(k) << L"\r\n";
-			oss << L"Textures:\t\t" << right << boolalpha << pwfoparser->hastexture(k) << L"\r\n";
-			oss << L"Normals:\t\t" << right << pwfoparser->hasnormal(k) << L"\r\n";
-			oss << L"Material:\t\t#" << pwfoparser->meshmatlmap[k]+1 << L"\r\n";
+			oss << L"Vertices:\t\t" << right << pobjparser->vertex_count(k) << L"\r\n";
+			oss << L"Textures:\t\t" << right << boolalpha << pobjparser->hastexture(k) << L"\r\n";
+			oss << L"Normals:\t\t" << right << pobjparser->hasnormal(k) << L"\r\n";
+			oss << L"Material:\t\t#" << converts(pobjparser->getmat4mesh(k).name) << L"\r\n";
 			oss << L"\r\n" << L"\r\n";
 		}
 
 		auto k = 0;
 		oss << L"Material Info\r\n\r\n";
-		for (auto& mat : pwfoparser->matlinfolst)
+		for (auto& mat : pobjparser->matlinfolst)
 		{
 			oss << L"Material:\t\t#" << (k + 1) << L"\r\n";
 			oss << L"Name:\t\t" << converts(mat.name) << L"\r\n";
-			oss << L"Ambient:\t\t" << mat.ambientclr[0] << "  " << mat.ambientclr[1] << "  " << mat.ambientclr[2] << L"\r\n";
-			oss << L"Diffuse:\t\t" << mat.diffuseclr[0] << "  " << mat.diffuseclr[1] << "  " << mat.diffuseclr[2] << L"\r\n";
-			oss << L"Specular:\t\t" << mat.specularclr[0] << "  " << mat.specularclr[1] << "  " << mat.specularclr[2] << L"\r\n";
-			oss << L"Shininess:\t" << left << mat.shininess << L"\r\n";
-			oss << L"Emissive:\t\t" << mat.emissiveclr[0] << "  " << mat.emissiveclr[1] << "  " << mat.emissiveclr[2] << L"\r\n";
-			oss << L"Diffuse Texture:\t" << converts(mat.diffusetxt.filename) << L"\r\n";
+			oss << L"Ambient:\t\t" << mat.ambientColor[0] << "  " << mat.ambientColor[1] << "  " << mat.ambientColor[2] << L"\r\n";
+			oss << L"Diffuse:\t\t" << mat.diffuseColor[0] << "  " << mat.diffuseColor[1] << "  " << mat.diffuseColor[2] << L"\r\n";
+			oss << L"Specular:\t\t" << mat.specularColor[0] << "  " << mat.specularColor[1] << "  " << mat.specularColor[2] << L"\r\n";
+			oss << L"Shininess:\t" << left << mat.Shininess << L"\r\n";
+
+			string difftxtname = pobjparser->matltextmap[&mat];
+			oss << L"Diffuse Texture:\t" << converts(difftxtname) << L"\r\n";
 			oss << L"\r\n";
 			++k;
 		}
@@ -141,7 +143,7 @@ public:
 	
 	LRESULT OnBnClickedApply(WORD wNotifyCode, WORD wID, HWND hWndCtl, BOOL& bHandled)
 	{
-		if (pwfoparser->objfilename != getfilename(objfilename))
+		if (pobjparser->objfilename != getfilename(objfilename))
 		{
 			if (!validate())
 				return 0;
@@ -153,6 +155,11 @@ public:
 
 	LRESULT OnBnClickedReset(WORD wNotifyCode, WORD wID, HWND hWndCtl, BOOL& bHandled)
 	{
+		if (!assimp)
+			pobjparser = pwfobjparser;
+		else
+			pobjparser = paiobjparser;
+
 		bHandled = true;
 		SetDefaultValues();
 		PopulateGUI();
@@ -177,7 +184,7 @@ public:
 		objfilenamectl.GetWindowText((LPTSTR)objfilename.data(), 500);
 	}
 
-	GenericObjInfo getdata()
+	LightSrcInfo getdata()
 	{
 		getfilenamesdata();
 
@@ -200,12 +207,12 @@ public:
 		lposzctl.GetWindowText((LPTSTR)buf.data(), 100);
 		ldir[2] = stof(buf);
 
-		GenericObjInfo::Light light;
-		light.ambientCoefficient = lamb;
-		light.Color = vec3(GetRValue(lclr)/ 255.0f, GetGValue(lclr)/ 255.0f, GetBValue(lclr)/ 255.0f);
-		light.Position = ldir;
-
-		return GenericObjInfo(cpos, light);
+		LightSrcInfo lightsrc;
+		lightsrc.ambientCoefficient = lamb;
+		lightsrc.specularColor = vec3(GetRValue(lclr)/ 255.0f, GetGValue(lclr)/ 255.0f, GetBValue(lclr)/ 255.0f);
+		lightsrc.position = ldir;
+		lightsrc.viewerPosition = cpos;
+		return lightsrc;
 	}
 
 	void SetDefaultValues()
@@ -361,7 +368,11 @@ public:
 	ULONG bclr;
 
 private:
-	WFObjFileParser*& pwfoparser;
+	WFObjParser*& pwfobjparser;
+	AssImpParser*& paiobjparser;
+	GenericParser* pobjparser;
+	bool assimp;
+
 	wstring mtlfilename;
 	wstring  cposx{ 100,0 }, cposy{ 100,0 }, cposz{ 100,0 };
 	wstring lposx{ 100,0 }, lposy{ 100,0 }, lposz{ 100,0 };

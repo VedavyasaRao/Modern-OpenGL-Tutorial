@@ -11,7 +11,7 @@ class TexturedCube:public BaseGeometry
 {
 public:
 	//initialize
-	void Init(const TextureUtil::TexInfo& texinfo, const vector <glm::vec2>& overridetexturemap = vector <glm::vec2>())
+	void Init(const TextureInfo& texinfo, const vector <glm::vec2>& overridetexturemap = vector <glm::vec2>())
 	{
 		//create mesh and the window
 		BaseGeometry::Init(new CubeMesh());

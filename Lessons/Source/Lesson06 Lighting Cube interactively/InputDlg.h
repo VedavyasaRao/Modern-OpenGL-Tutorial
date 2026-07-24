@@ -121,23 +121,23 @@ public:
 	void update(LightingUtil* putl)
 	{
 		getdata();
-		updatevalues(putl->lightsrc, putl->commonlightmat);
+		updatevalues(putl->lightsrc, putl->mat);
 	}
 
-	void updatevalues(LightingUtil::LightSrc& lightsrc, LightingUtil::CommonLightMaterial& commonlightmat)
+	void updatevalues(LightSrcInfo& lightsrc, MaterialInfo& mat)
 	{
-		lightsrc.src = (LightingUtil::LightSourceType)cursel;
+		lightsrc.src = (LightSourceType)cursel;
 		lightsrc.position = vec3(stof(lposx), stof(lposy), stof(lposz));
 		lightsrc.direction = vec3(stof(ldirx), stof(ldiry), stof(ldirz));
-		commonlightmat.light.viewerPosition = vec3(stof(cposx), stof(cposy), stof(cposz));
+		lightsrc.viewerPosition = vec3(stof(cposx), stof(cposy), stof(cposz));
 
-		commonlightmat.light.ambientCoefficient = stof(lamb);
-		commonlightmat.light.diffuseCoefficient = stof(ldif);
-		commonlightmat.light.specularCoefficient = stof(lspc);
+		lightsrc.ambientCoefficient = stof(lamb);
+		lightsrc.diffuseCoefficient = stof(ldif);
+		lightsrc.specularCoefficient = stof(lspc);
 
-		commonlightmat.light.ambientColor = vec3(GetRValue(lambclr), GetGValue(lambclr), GetBValue(lambclr));
-		commonlightmat.light.diffuseColor = vec3(GetRValue(ldifclr), GetGValue(ldifclr), GetBValue(ldifclr));
-		commonlightmat.light.specularColor = vec3(GetRValue(lspcclr), GetGValue(lspcclr), GetBValue(lspcclr));
+		lightsrc.ambientColor = vec3(GetRValue(lambclr), GetGValue(lambclr), GetBValue(lambclr));
+		lightsrc.diffuseColor = vec3(GetRValue(ldifclr), GetGValue(ldifclr), GetBValue(ldifclr));
+		lightsrc.specularColor = vec3(GetRValue(lspcclr), GetGValue(lspcclr), GetBValue(lspcclr));
 
 		lightsrc.attconstant = stof(lattc);
 		lightsrc.attlinear = stof(lattl);
@@ -146,13 +146,13 @@ public:
 		lightsrc.spotlightinner = stof(lsptinner);
 		lightsrc.spotlightouter = stof(lsptouter);
 
-		commonlightmat.light.blinn = lblinn;
+		lightsrc.blinn = lblinn;
 
-		commonlightmat.mat.ambientColor = vec3(GetRValue(mamb), GetGValue(mamb), GetBValue(mamb));
-		commonlightmat.mat.diffuseColor = vec3(GetRValue(mdif), GetGValue(mdif), GetBValue(mdif));
-		commonlightmat.mat.specularColor = vec3(GetRValue(mspc), GetGValue(mspc), GetBValue(mspc));
+		mat.ambientColor = vec3(GetRValue(mamb), GetGValue(mamb), GetBValue(mamb));
+		mat.diffuseColor = vec3(GetRValue(mdif), GetGValue(mdif), GetBValue(mdif));
+		mat.specularColor = vec3(GetRValue(mspc), GetGValue(mspc), GetBValue(mspc));
 
-		commonlightmat.mat.Shininess = stof(msh);
+		mat.Shininess = stof(msh);
 	}
 
 	void disablecontrols()
@@ -179,21 +179,21 @@ public:
 
 	void enablecontrols()
 	{
-		auto src  = (LightingUtil::LightSourceType)cursel;
+		auto src  = (LightSourceType)cursel;
 
-		if (src == LightingUtil::LightSourceType::Basic)
+		if (src == LightSourceType::Basic)
 		{
 			lposxctl.EnableWindow();
 			lposyctl.EnableWindow();
 			lposzctl.EnableWindow();
 		}
-		else if (src == LightingUtil::LightSourceType::Directional)
+		else if (src == LightSourceType::Directional)
 		{
 			ldirxctl.EnableWindow();
 			ldiryctl.EnableWindow();
 			ldirzctl.EnableWindow();
 		}
-		else if (src == LightingUtil::LightSourceType::Point)
+		else if (src == LightSourceType::Point)
 		{
 			lposxctl.EnableWindow();
 			lposyctl.EnableWindow();
@@ -202,7 +202,7 @@ public:
 			lattlctl.EnableWindow();;
 			lattqctl.EnableWindow();;
 		}
-		else if (src == LightingUtil::LightSourceType::Spot)
+		else if (src == LightSourceType::Spot)
 		{
 			lposxctl.EnableWindow();
 			lposyctl.EnableWindow();
@@ -254,7 +254,7 @@ public:
 
 		lposx = L"0.0";
 		lposy = L"3.0";
-		lposz = (cursel < LightingUtil::LightSourceType::Point) ? L"-9.0" : L"0.0";
+		lposz = (cursel < LightSourceType::Point) ? L"-9.0" : L"0.0";
 
 		lamb = L"0.005";
 		ldif = L"0.005";
