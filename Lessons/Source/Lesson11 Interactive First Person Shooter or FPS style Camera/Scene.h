@@ -26,13 +26,13 @@ public:
 		SceneCamera()->PPM.setFOV(60.0f);
 		SceneCamera()->PPM.setProjectionMatrix(0.1f, 10.0f);
 
-		cube.Init(TextureUtil::TexInfo(0, R"(..\resources\textures\bricks.jpg)"));
+		cube.Init(TextureInfo(0, R"(..\resources\textures\bricks.jpg)"));
 		cube.MM.Translateby = glm::vec3(0.0f, 0.0f, -2.0f);
 		
 		//cube.MM.Translateby = glm::vec3(-15.0f, 0.0f, 0.0f);
 		//cube.MM.Scaleby = glm::vec3(20.0f, 10.0f, 10.0f);
 		
-		floor.Init(TextureUtil::TexInfo(1, R"(..\resources\textures\grid.jpg)"));
+		floor.Init(TextureInfo(1, R"(..\resources\textures\grid.jpg)"));
 		floor.MM.Translateby = glm::vec3(0.0f, -1.0f, 0.0f);
 		floor.MM.Scaleby = glm::vec3(10.0f, 0.02f, 10.0f);
 		

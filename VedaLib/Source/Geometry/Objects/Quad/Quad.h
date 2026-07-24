@@ -8,7 +8,7 @@ class Quad :public BaseGeometry
 {
 public:
 	//initialize
-	void Init(TextureUtil::TexInfo texinfo)
+	void Init(TextureInfo texinfo)
 	{
 		//create mesh and the window
 		BaseGeometry::Init(new QuadMesh());

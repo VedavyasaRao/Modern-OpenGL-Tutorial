@@ -57,7 +57,7 @@ public:
 	}
 
 
-	void Init(const TextureUtil::TexInfo& texinfo, int wd, int ht)
+	void Init(const TextureInfo& texinfo, int wd, int ht)
 	{
 		BaseGeometry::Init(new TextMesh());
 		glDisable(GL_DEPTH_TEST);

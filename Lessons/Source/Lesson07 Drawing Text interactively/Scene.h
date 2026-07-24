@@ -24,7 +24,7 @@ public:
 			delete ptextutl;
 		}
 		ptextutl = new TextImageSketcher();
-		ptextutl->Init(TextureUtil::TexInfo(GL_TEXTURE0 + 4), pdlg->wd, pdlg->ht);
+		ptextutl->Init(TextureInfo(GL_TEXTURE0 + 4), pdlg->wd, pdlg->ht);
 	}
 
 	int Init(RECT rect, WCHAR *windowname)
