@@ -45,7 +45,7 @@ public:
 	{
 		if (shapes.empty())
 		{
-			paiobjparser =  new AssImpParser;
+			paiobjparser =  new AssertImpParser;
 			BOOL b;
 			pdlg->OnBnClickedReset(0, 0, nullptr, b);
 		}
@@ -123,7 +123,7 @@ public:
 
 	void CreateInputDlg()
 	{
-		pdlg = new InputDlg(true, paiobjparser);
+		pdlg = new InputDlg(paiobjparser);
 		pdlg->Create(m_hWnd);
 		pdlg->ShowWindow(SW_SHOW);
 		Invalidate();
@@ -142,7 +142,7 @@ public:
 private:
 	vector<GenericObj*> shapes;
 	InputDlg* pdlg;
-	AssImpParser *paiobjparser;
+	AssertImpParser  *paiobjparser;
 
 };
 

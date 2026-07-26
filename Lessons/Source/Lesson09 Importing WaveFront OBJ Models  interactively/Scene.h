@@ -128,7 +128,7 @@ public:
 
 	void CreateInputDlg()
 	{
-		pdlg = new InputDlg(false,pwfobjparser);
+		pdlg = new InputDlg(pwfobjparser);
 		pdlg->Create(m_hWnd);
 		pdlg->ShowWindow(SW_SHOW);
 		Invalidate();

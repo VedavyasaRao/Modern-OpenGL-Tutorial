@@ -2,18 +2,22 @@
 #include "..\Texture\TextureUtil.h"
 #include "..\Lighting\LightingUtil.h"
 
-struct Mesh
+struct MeshInfo
 {
-	Mesh(uint id) :id(id) {}
+	MeshInfo(uint id) :id(id) {}
 	vector<ivec3> data;
 	uint id;
+	bool operator <(const MeshInfo& rhs)
+	{
+		return id < rhs.id;
+	}
 };
 
-typedef list<Mesh>						Meshlist;
+typedef list<MeshInfo>					Meshlist;
 typedef list<MaterialInfo>				Matlinfolist;
-typedef map<string,TextureInfo>			Txtureinfomap;
 typedef list<LightSrcInfo>				Lightinfolist;
-typedef map<Mesh*, MaterialInfo*>		MeshMatlmap;
+typedef map<string,TextureInfo>			Txtureinfomap;
+typedef map<MeshInfo*, MaterialInfo*>	MeshMatlmap;
 typedef map<MaterialInfo*, string>		MatlTxturemap;
 
 class GenericParser
@@ -30,7 +34,7 @@ public:
 		objfilename.clear();
 	}
 
-	Mesh& getmesh(uint idx)
+	MeshInfo& getmesh(uint idx)
 	{
 		auto itr = meshlst.begin();
 		advance(itr, idx);

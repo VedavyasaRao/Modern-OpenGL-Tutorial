@@ -28,8 +28,8 @@ public:
 
 public:
 
-	InputDlg(bool assimp, WFObjParser*& pwfobjparser) :pwfobjparser(pwfobjparser), paiobjparser(paiobjparser), assimp(assimp){}
-	InputDlg(bool assimp, AssImpParser*& paiobjparser) :pwfobjparser(pwfobjparser), paiobjparser(paiobjparser), assimp(assimp) {}
+	InputDlg(WFObjParser*& pwfobjparser) :pobjparser((GenericParser*&)pwfobjparser)  {}
+	InputDlg(AssertImpParser*& paiobjparser) :pobjparser((GenericParser*&)paiobjparser) {}
 
 	LRESULT OnInitDialog(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 	{
@@ -74,18 +74,6 @@ public:
 			message += objfilename;
 			MessageBox(message.c_str(), L"Input", 0);
 			return false;
-		}
-
-		if (!assimp)
-		{
-			mtlfilename = converts(((WFObjParser *) pobjparser)->mtlfilename);
-			if (!checkfileexists(mtlfilename))
-			{
-				wstring message(L"mtl file not found\r\n");
-				message += mtlfilename;
-				MessageBox(message.c_str(), L"Validate", 0);
-				return false;
-			}
 		}
 
 		for (auto& mat : pobjparser->matlinfolst)
@@ -158,11 +146,6 @@ public:
 
 	LRESULT OnBnClickedReset(WORD wNotifyCode, WORD wID, HWND hWndCtl, BOOL& bHandled)
 	{
-		if (!assimp)
-			pobjparser = pwfobjparser;
-		else
-			pobjparser = paiobjparser;
-
 		bHandled = true;
 		SetDefaultValues();
 		PopulateGUI();
@@ -371,10 +354,7 @@ public:
 	ULONG bclr;
 
 private:
-	WFObjParser*& pwfobjparser;
-	AssImpParser*& paiobjparser;
-	GenericParser* pobjparser;
-	bool assimp;
+	GenericParser*& pobjparser;
 
 	wstring mtlfilename;
 	wstring  cposx{ 100,0 }, cposy{ 100,0 }, cposz{ 100,0 };

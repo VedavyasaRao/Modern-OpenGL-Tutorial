@@ -14,7 +14,7 @@
 #include <assimp/postprocess.h>
 
 //Implements IGeometryMesh for Cube object
-class AssImpParser :public GenericParser
+class AssertImpParser :public GenericParser
 {
 public:
 
@@ -110,7 +110,7 @@ private:
 		if (aimeshset.find(idx) != aimeshset.end())
 			return;
 		
-		Mesh	mesh(idx);
+		MeshInfo	mesh(idx);
 		auto aimesh = scene->mMeshes[idx];
 		mesh.data.reserve(aimesh->mNumVertices);
 		bool hastexture = aimesh->HasTextureCoords(0);

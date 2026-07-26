@@ -60,7 +60,7 @@ public:
 		int k = 0;
 		for (auto& fm : facematlst)
 		{
-			Mesh mesh(k++);
+			MeshInfo mesh(k++);
 			mesh.data.insert(mesh.data.end(),
 				std::make_move_iterator(faces.begin() + fm.second.first),
 				std::make_move_iterator(faces.begin() + fm.second.second + 1));

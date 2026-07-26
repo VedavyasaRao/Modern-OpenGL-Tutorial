@@ -9,7 +9,7 @@
 #include <vector>
 #include <utility>
 #include "..\Utils\Generic\WFObjParser.h"
-#include "..\Utils\Generic\AssImpParser.h"
+#include "..\Utils\Generic\AssertImpParser.h"
 
 //Implements IGeometryMesh for Cube object
 class GenericObjMesh :public IGeometryMesh
