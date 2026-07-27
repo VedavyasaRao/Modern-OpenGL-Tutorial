@@ -1,0 +1,8 @@
+Select Object
+Select Move
+Press Shift+S
+cursor to world origin
+Press Shift+S
+object to cursor
+
+
