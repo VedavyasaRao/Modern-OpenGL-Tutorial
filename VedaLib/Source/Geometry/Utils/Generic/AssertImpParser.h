@@ -154,7 +154,7 @@ private:
 			auto df = directory + str.C_Str();
 			if (diffusetxtmap.find(df) == diffusetxtmap.end())
 			{
-				auto ti = TextureInfo(i + 10, df);
+				auto ti = TextureInfo(df);
 				if (mm == aiTextureMapMode_Wrap)
 				{
 					ti.swrap = GL_REPEAT;

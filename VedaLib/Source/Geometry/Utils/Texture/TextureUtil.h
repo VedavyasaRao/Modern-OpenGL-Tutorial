@@ -2,7 +2,7 @@
 class TextureInfo
 {
 public:
-	TextureInfo(GLushort texunit = 0,
+	TextureInfo(
 		const string& filename = "",
 		uint swrap = GL_REPEAT,
 		uint twrap = GL_REPEAT,
@@ -10,7 +10,6 @@ public:
 		uint magfilter = GL_LINEAR
 	)
 	{
-		this->texunit = texunit;
 		this->filename = filename;
 		this->swrap = swrap;
 		this->twrap = twrap;
@@ -26,7 +25,7 @@ public:
 
 public:
 	string		filename;
-	GLushort	texunit;
+	GLushort	texunit=0;
 	GLuint		textureID;
 	uint		swrap, twrap;
 	uint		minfilter, magfilter;
@@ -77,7 +76,6 @@ public:
 		glBindTexture(GL_TEXTURE_2D, texinfo.textureID);
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, wd, ht, 0, GL_BGRA, GL_UNSIGNED_BYTE, imagedata);
-
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, texinfo.swrap);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, texinfo.twrap);
 
@@ -89,11 +87,10 @@ public:
 
 	void LoadTextTextureImage(void *imagedata, int wd, int ht)
 	{
-		glActiveTexture(GL_TEXTURE0 + texinfo.texunit);
-		glGenTextures(1, &texinfo.textureID);
 		glBindTexture(GL_TEXTURE_2D, texinfo.textureID);
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 		glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, wd, ht, GL_BGRA, GL_UNSIGNED_BYTE, imagedata);
+		//auto err = glGetError();
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
@@ -116,5 +113,6 @@ public:
 
 public:
 	TextureInfo	texinfo;
-
 };
+
+

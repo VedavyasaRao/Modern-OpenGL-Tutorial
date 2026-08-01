@@ -37,6 +37,10 @@ public:
 	{
 		Bitmap bitmap(filename.c_str());
 		pgraphics->DrawImage(&bitmap, Rect(pt.X, pt.Y, clipWd, clipHt));
+	}
+
+	void FlipYAxis()
+	{
 		pbitmap->RotateFlip(RotateNoneFlipY);
 	}
 
@@ -53,7 +57,6 @@ public:
 			texutl.LoadTextTextureImage(bdata.Scan0, wd, ht);
 
 		pbitmap->UnlockBits(&bdata);
-		Draw();
 	}
 
 
@@ -93,6 +96,9 @@ public:
 		pbitmap.release();
 		pgraphics.release();
 		ppen.release();
+		for (auto& fm: fontmap)
+			fm.second.reset(nullptr);
+
 	}
 
 	string vertexShaderSource()

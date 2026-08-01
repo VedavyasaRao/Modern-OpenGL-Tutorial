@@ -91,7 +91,7 @@ public:
 		minfiltercmb = getdata(minfiltercmbctl);
 		magfiltercmb = getdata(magfiltercmbctl);
 
-		return TextureInfo(0, getfilename(), swrapcmb, twrapcmb, minfiltercmb, magfiltercmb);
+		return TextureInfo(getfilename(), swrapcmb, twrapcmb, minfiltercmb, magfiltercmb);
 	}
 
 	void SetDefaultValues()
@@ -154,8 +154,8 @@ public:
 		{
 			filename = ofn.lpstrFile;
 			filenamectl.SetWindowText((LPTSTR)filename.data());
-			getdata();
-			::PostMessage(GetParent(), WM_COMMAND, IDAPPLY, 1);
+			//getdata();
+			//::PostMessage(GetParent(), WM_COMMAND, IDAPPLY, 1);
 		}
 		return 0;
 

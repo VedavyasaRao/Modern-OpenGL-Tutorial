@@ -25,10 +25,10 @@ public:
 
 		SceneCamera()->PPM.setFOV(45.0f);
 		SceneCamera()->PPM.setProjectionMatrix(0.1f, 100.0f);
-		cube.Init(TextureInfo(0, R"(..\resources\textures\rocks.bmp)"));
+		cube.Init(TextureInfo(R"(..\resources\textures\rocks.bmp)"));
 		cube.MM.Translateby = glm::vec3(0.0f, 0.0f, -3.0f);
 		
-		floor.Init(TextureInfo(1, R"(..\resources\textures\grid.jpg)"));
+		floor.Init(TextureInfo(R"(..\resources\textures\grid.jpg)"));
 		floor.MM.Translateby = glm::vec3(0.0f, -1.0f, 0.0f);
 		floor.MM.Scaleby = glm::vec3(10.0f, 0.02f, 10.0f);
 		

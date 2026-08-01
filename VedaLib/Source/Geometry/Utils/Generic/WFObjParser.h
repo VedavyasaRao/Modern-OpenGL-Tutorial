@@ -136,7 +136,6 @@ private:
 		const string spcstr = "Ks";
 		const string shnstr = "Ns";
 		const string txttr = "map_Kd";
-		auto texunit = 10;
 
 		auto temp = objfilename.substr(0, objfilename.find_last_of('\\') + 1);
 
@@ -177,7 +176,7 @@ private:
 
 					txflname = temp + txflname;
 					if (diffusetxtmap.find(txflname) == diffusetxtmap.end())
-						diffusetxtmap.insert(make_pair(txflname, move(TextureInfo(texunit++, txflname, GL_REPEAT, GL_REPEAT, GL_LINEAR, GL_LINEAR))));
+						diffusetxtmap.insert(make_pair(txflname, move(TextureInfo(txflname, GL_REPEAT, GL_REPEAT, GL_LINEAR, GL_LINEAR))));
 					matlnametxtmap[mtlname] = txflname;
 
 				}

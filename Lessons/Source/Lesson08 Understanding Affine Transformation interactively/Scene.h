@@ -75,7 +75,7 @@ public:
 		BaseScene::Init(rect, windowname);
 		//attach mouse keyboard input handler
 		camera = new ThreeDCamera(m_hWnd);
-		cube.Init(TextureInfo(0, R"(..\resources\textures\uvtemplate.tga)"), texturemap);
+		cube.Init(TextureInfo(R"(..\resources\textures\uvtemplate.tga)"), texturemap);
 		CreateThread(NULL, 0, ThreadFunction,  this,  0, NULL);
 
 		return 0;

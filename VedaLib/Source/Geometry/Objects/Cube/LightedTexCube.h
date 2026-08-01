@@ -6,7 +6,7 @@ class LightedTexCube:public TexturedCube
 public:
 	void Init(GLushort	texunit, const string& filename)
 	{
-		TexturedCube::Init(TextureInfo(0, filename));
+		TexturedCube::Init(TextureInfo(filename));
 
 		vaoutl.bindVAO();
 		kount = mesh->GenerateVerticesData(VAOUtil::NOR, vaoutl);

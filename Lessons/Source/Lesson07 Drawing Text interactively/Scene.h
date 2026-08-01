@@ -24,8 +24,9 @@ public:
 			delete ptextutl;
 		}
 		ptextutl = new TextImageSketcher();
-		ptextutl->Init(TextureInfo(GL_TEXTURE0 + 4), pdlg->wd, pdlg->ht);
+		ptextutl->Init(TextureInfo(), pdlg->wd, pdlg->ht);
 	}
+
 
 	int Init(RECT rect, WCHAR *windowname)
 	{
@@ -35,6 +36,8 @@ public:
 		CreateThread(NULL, 0, ThreadFunction, this, 0, NULL);
 		::Sleep(500);
 		createnew();
+		BOOL bHandled;
+		OnDoRefresh(0, 0, (HWND)1, bHandled);
 		return 0;
 	}
 
@@ -48,10 +51,7 @@ public:
 	{
 		glClearColor(0, 1, 1, 0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		ptextutl->ClearCanvas(true);
-		ptextutl->Drawtext({ pdlg->txtx,pdlg->txty }, pdlg->text,pdlg->hf, &pdlg->fmt, pdlg->pbrush);
-		ptextutl->Drawimage({ pdlg->imgx,pdlg->imgy }, pdlg->imagfilename, pdlg->imgclipwd, pdlg->imgclipht);
-		ptextutl->DrawCanvas();
+		ptextutl->Draw();
 	}
 
 	void CreateInputDlg()
@@ -61,13 +61,19 @@ public:
 		pdlg->ShowWindow(SW_SHOW);
 	}
 
+
 	LRESULT OnDoRefresh(WORD wParam, WORD wParam2, HWND lParam, BOOL& bHandled)
 	{
 		bHandled = TRUE;
-		if ((LPARAM)lParam == 0)
-		{
+		if (lParam == nullptr)
 			createnew();
-		}
+
+		ptextutl->ClearCanvas(true);
+		ptextutl->Drawtext({ pdlg->txtx,pdlg->txty }, pdlg->text, pdlg->hf, &pdlg->fmt, pdlg->pbrush);
+		ptextutl->Drawimage({ pdlg->imgx,pdlg->imgy }, pdlg->imagfilename, pdlg->imgclipwd, pdlg->imgclipht);
+		ptextutl->FlipYAxis();
+		ptextutl->DrawCanvas();
+
 		Invalidate();
 		return 0;
 	}
@@ -97,8 +103,6 @@ private:
 	int IDM_INPUTDLG = 1001;
 	InputDlg *pdlg;
 	TextImageSketcher *ptextutl;
-
-
 };
 /////////////////////Scene0///////////////////////////////////
 

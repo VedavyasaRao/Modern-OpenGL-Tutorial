@@ -27,33 +27,33 @@ public:
 		SceneCamera()->setSenseivity(0.50f, 0.01f);
 		
 		generateFloor();
-		floor.Init(TextureInfo(1, R"(..\resources\textures\blocks.bmp)"));
+		floor.Init(TextureInfo(R"(..\resources\textures\blocks.bmp)"));
 		floor.updateTextureMap(6.0f);
 		floor.updateVertices(vertices);
 		floor.GenerateVertices();
 
 
 		generateRoof();
-		roof.Init(TextureInfo(2, R"(..\resources\textures\plain.bmp)"));
+		roof.Init(TextureInfo(R"(..\resources\textures\plain.bmp)"));
 		roof.updateTextureMap(2.0f);
 		roof.updateVertices(vertices);
 		roof.GenerateVertices();
 
 		generatePhoto();
-		photo.Init(TextureInfo(3, R"(..\resources\textures\Khri$ha.jpg)"));
+		photo.Init(TextureInfo(R"(..\resources\textures\Khri$ha.jpg)"));
 		photo.updateTextureMap(1.0f);
 		photo.updateVertices(vertices);
 		photo.GenerateVertices();
 
 
 		generateOuterWall();
-		wall.Init(TextureInfo(4, R"(..\resources\textures\plain2.bmp)"));
+		wall.Init(TextureInfo(R"(..\resources\textures\plain2.bmp)"));
 		wall.updateTextureMap(1.0f);
 		wall.updateVertices(vertices);
 		wall.GenerateVertices();
 
 		generateWoodBoxes();
-		boxes.Init(TextureInfo(5, R"(..\resources\textures\rocks.bmp)"));
+		boxes.Init(TextureInfo(R"(..\resources\textures\rocks.bmp)"));
 		boxes.updateTextureMap(1.0f);
 		boxes.updateVertices(vertices);
 		boxes.GenerateVertices();
@@ -186,15 +186,11 @@ private:
 		vertices.push_back({ 80.0 , 30.0, 14.0 });
 		vertices.push_back({ 50.0 , 30.0, 19.8 });
 		vertices.push_back({ 50.0 , 10.0, 19.8 });
-
-
 	}
 
 	void generateOuterWall()
 	{
 		vertices.clear();
-		//glColor3f(0.7, 0.7, 0.5);
-
 		//wall 1
 		for (float a = 0.0f; a <= 180.0f; a += 10.0f)
 		{
@@ -236,7 +232,6 @@ private:
 	void generateWoodBoxes()
 	{
 		vertices.clear();
-		//glColor3f(0.7, 0.6, 0.4);
 		//draw 3 wood boxes
 		for (float a = 0.0f; a <= 60.0f; a += 30.0f)
 		{

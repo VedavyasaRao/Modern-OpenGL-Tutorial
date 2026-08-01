@@ -26,24 +26,37 @@ public:
 		SceneCamera()->PPM.setFOV(60.0f);
 		SceneCamera()->PPM.setProjectionMatrix(0.1f, 10.0f);
 
-		cube.Init(TextureInfo(0, R"(..\resources\textures\bricks.jpg)"));
+		cube.Init(TextureInfo(R"(..\resources\textures\bricks.jpg)"));
 		cube.MM.Translateby = glm::vec3(0.0f, 0.0f, -2.0f);
 		
 		//cube.MM.Translateby = glm::vec3(-15.0f, 0.0f, 0.0f);
 		//cube.MM.Scaleby = glm::vec3(20.0f, 10.0f, 10.0f);
 		
-		floor.Init(TextureInfo(1, R"(..\resources\textures\grid.jpg)"));
+		floor.Init(TextureInfo(R"(..\resources\textures\grid.jpg)"));
 		floor.MM.Translateby = glm::vec3(0.0f, -1.0f, 0.0f);
 		floor.MM.Scaleby = glm::vec3(10.0f, 0.02f, 10.0f);
 		
-		//LOGFONTW lf;
-		//ZeroMemory(&lf, sizeof lf);
-		//lf.lfWidth = 16;
-		//wcscpy_s(lf.lfFaceName, 32, L"Ariel");
-		//hfont = CreateFontIndirect(&lf);
-		//pbrush = new SolidBrush(RGB(0, 0, 255));
-		//textutl.Init(TextureUtil::TexInfo(GL_TEXTURE0 + 4), 256,256);
-		//textutl.MM.Translateby = glm::vec3(-0.2f, 0.3f, 0.0f);
+
+		LOGFONTW lf;
+		ZeroMemory(&lf, sizeof lf);
+		lf.lfHeight = -27;
+		lf.lfWeight = 400;
+		lf.lfClipPrecision = 2;
+		lf.lfOutPrecision = 3;
+		lf.lfQuality = 1;
+		lf.lfPitchAndFamily = 34;
+		wcscpy_s(lf.lfFaceName, 32, L"Segoe UI Emoji");
+		hfont = CreateFontIndirectW(&lf);
+		Color gdipColor;
+		gdipColor.SetFromCOLORREF(0x00ff00ff);
+		pbrush = new SolidBrush(gdipColor);
+
+		textutl.Init(TextureInfo(), 256,256);
+		textutl.MM.Translateby = glm::vec3(-0.2f, 0.3f, 0.0f);
+		textutl.ClearCanvas();
+		textutl.Drawtext(PointF(0.8f, 0.8f), ss.substr(), hfont, &fmt, pbrush);
+		textutl.FlipYAxis();
+		textutl.DrawCanvas();
 
 		return 0;
 	}
@@ -54,9 +67,9 @@ public:
 		cube.Cleanup();
 		floor.Cleanup();
 		delete camera;
-		//delete pbrush;
-		//textutl.Cleanup();
-		//DeleteObject(hfont);
+		delete pbrush;
+		textutl.Cleanup();
+		DeleteObject(hfont);
 	}
 	
 	//draw the scene
@@ -74,13 +87,16 @@ public:
 		cube.Draw();
 		SceneCamera()->MM.Reset();
 
-		//SceneCamera()->augumentModelMatrix(textutl);
-		//textutl.Drawtext(PointF(0.0, 0.0), ss.substr(), hfont, &fmt, pbrush);
+		SceneCamera()->augumentModelMatrix(textutl);
+		
 
 		SceneCamera()->augumentModelMatrix(floor);
 		SceneCamera()->setViewMatrix(floor);
 		SceneCamera()->setPerspectiveProjectionMatrix(floor);
 		floor.Draw();
+
+		textutl.Draw();
+
 	}
 
 	//Close the window
@@ -101,10 +117,10 @@ public:
 private:
 	TexturedCube cube;
 	TexturedCube floor;
-	//TextImageSketcher  textutl;
-	//HFONT  hfont;
-	//StringFormat fmt;
-	//SolidBrush* pbrush;
+	TextImageSketcher  textutl;
+	HFONT  hfont;
+	StringFormat fmt;
+	SolidBrush* pbrush;
 	double previousSeconds = GetTickCount() / 1000.0;
-	//wstring ss = L"Khri$ha";
+	wstring ss = L"Khri$ha";
 };
