@@ -1,7 +1,6 @@
 #include "Canvas\Scene\Base\BaseScene.h"
 #include "Canvas\Camera\FPSCamera.h"
-#include "Geometry\Objects\TextImage\TextImageSketcher.h"
-#include "Geometry\Objects\Cube\TexturedCube.h"
+#include "Geometry\Objects\Quad\Quad.h"
 
 class Scene:public BaseScene
 {
@@ -17,86 +16,92 @@ public:
 	{
 		//create host window and context
 		BaseScene::Init(rect, windowname);
-		
 		//attach mouse keyboard input handler
 		camera = new FPSCamera(m_hWnd);
 
 		SceneCamera()->updateWH();
 		SceneCamera()->CenterCursor();
-		SceneCamera()->PPM.setFOV(60.0f);
-		SceneCamera()->PPM.setProjectionMatrix(0.1f, 10.0f);
-
-		cube.Init(TextureInfo(R"(..\resources\textures\bricks.jpg)"));
-		cube.MM.Translateby = glm::vec3(0.0f, 0.0f, -2.0f);
+		SceneCamera()->PPM.setFOV(45.0f);
+		SceneCamera()->PPM.setProjectionMatrix(1.0f, 1000.0f);
+		SceneCamera()->setViewMatrix2({ 26.0f, 6.0f, 6.0f }, { 0.0f, 0.0f, -0.5f }, { 0.0f, 1.0f, 0.0f });
+		SceneCamera()->setSenseivity(0.50f, 0.01f);
 		
-		//cube.MM.Translateby = glm::vec3(-15.0f, 0.0f, 0.0f);
-		//cube.MM.Scaleby = glm::vec3(20.0f, 10.0f, 10.0f);
-		
-		floor.Init(TextureInfo(R"(..\resources\textures\grid.jpg)"));
-		floor.MM.Translateby = glm::vec3(0.0f, -1.0f, 0.0f);
-		floor.MM.Scaleby = glm::vec3(10.0f, 0.02f, 10.0f);
-		
+		generateFloor();
+		floor.Init(TextureInfo(R"(..\resources\textures\blocks.bmp)"));
+		floor.updateTextureMap(6.0f);
+		floor.updateVertices(vertices);
+		floor.GenerateVertices();
 
-		LOGFONTW lf;
-		ZeroMemory(&lf, sizeof lf);
-		lf.lfHeight = -27;
-		lf.lfWeight = 400;
-		lf.lfClipPrecision = 2;
-		lf.lfOutPrecision = 3;
-		lf.lfQuality = 1;
-		lf.lfPitchAndFamily = 34;
-		wcscpy_s(lf.lfFaceName, 32, L"Segoe UI Emoji");
-		hfont = CreateFontIndirectW(&lf);
-		Color gdipColor;
-		gdipColor.SetFromCOLORREF(0x00ff00ff);
-		pbrush = new SolidBrush(gdipColor);
 
-		textutl.Init(TextureInfo(), 256,256);
-		textutl.MM.Translateby = glm::vec3(-0.2f, 0.3f, 0.0f);
-		textutl.ClearCanvas();
-		textutl.Drawtext(PointF(0.8f, 0.8f), ss.substr(), hfont, &fmt, pbrush);
-		textutl.FlipYAxis();
-		textutl.DrawCanvas();
+		generateRoof();
+		roof.Init(TextureInfo(R"(..\resources\textures\plain.bmp)"));
+		roof.updateTextureMap(2.0f);
+		roof.updateVertices(vertices);
+		roof.GenerateVertices();
 
+		generatePhoto();
+		photo.Init(TextureInfo(R"(..\resources\textures\Khri$ha.jpg)"));
+		photo.updateTextureMap(1.0f);
+		photo.updateVertices(vertices);
+		photo.GenerateVertices();
+
+
+		generateOuterWall();
+		wall.Init(TextureInfo(R"(..\resources\textures\plain2.bmp)"));
+		wall.updateTextureMap(1.0f);
+		wall.updateVertices(vertices);
+		wall.GenerateVertices();
+
+		generateWoodBoxes();
+		boxes.Init(TextureInfo(R"(..\resources\textures\rocks.bmp)"));
+		boxes.updateTextureMap(1.0f);
+		boxes.updateVertices(vertices);
+		boxes.GenerateVertices();
 		return 0;
 	}
 
 	//release resources
 	void Cleanup()
 	{
-		cube.Cleanup();
 		floor.Cleanup();
+		roof.Cleanup();
+		photo.Cleanup();
+		wall.Cleanup();
+		boxes.Cleanup();
 		delete camera;
-		delete pbrush;
-		textutl.Cleanup();
-		DeleteObject(hfont);
 	}
 	
 	//draw the scene
 	void DrawScene()
 	{
-		
 		glClearColor(0.0f, 0.0f, 255.0f, 0.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		SceneCamera()->augumentModelMatrix(cube);
 		SceneCamera()->updateViewMatrix();
-
-		SceneCamera()->setViewMatrix(cube);
-		SceneCamera()->setPerspectiveProjectionMatrix(cube);
-		cube.Draw();
-		SceneCamera()->MM.Reset();
-
-		SceneCamera()->augumentModelMatrix(textutl);
-		
-
 		SceneCamera()->augumentModelMatrix(floor);
 		SceneCamera()->setViewMatrix(floor);
 		SceneCamera()->setPerspectiveProjectionMatrix(floor);
 		floor.Draw();
 
-		textutl.Draw();
+		SceneCamera()->augumentModelMatrix(roof);
+		SceneCamera()->setViewMatrix(roof);
+		SceneCamera()->setPerspectiveProjectionMatrix(roof);
+		roof.Draw();
 
+		SceneCamera()->augumentModelMatrix(photo);
+		SceneCamera()->setViewMatrix(photo);
+		SceneCamera()->setPerspectiveProjectionMatrix(photo);
+		photo.Draw();
+
+		SceneCamera()->augumentModelMatrix(wall);
+		SceneCamera()->setViewMatrix(wall);
+		SceneCamera()->setPerspectiveProjectionMatrix(wall);
+		wall.Draw();
+
+		SceneCamera()->augumentModelMatrix(boxes);
+		SceneCamera()->setViewMatrix(boxes);
+		SceneCamera()->setPerspectiveProjectionMatrix(boxes);
+		boxes.Draw();
 	}
 
 	//Close the window
@@ -108,6 +113,150 @@ public:
 		return 0;
 	}
 
+private:
+	void generateFloor()
+	{
+		vertices.clear();
+		for (float a = -10.0f; a <= 170.0f; a += 10.0f)
+		{
+			vertices.push_back({ 0.0 + a, 0.0, 10.0 });
+			vertices.push_back({ 0.0 + a, 0.0, 0.0 });
+			vertices.push_back({ 10.0 + a, 0.0, 0.0 });
+			vertices.push_back({ 10.0 + a, 0.0, 10.0 });
+		}
+
+		for (float b = -10.0f; b <= 320.0f; b += 10.0f)
+		{
+			for (float a = -10.0f; a <= 170.0f; a += 10.0f)
+			{
+				vertices.push_back({ 0.0 + a, 0.0, -(b - 10.0) });
+				vertices.push_back({ 0.0 + a, 0.0, -b });
+				vertices.push_back({ 10.0 + a, 0.0, -b });
+				vertices.push_back({ 10.0 + a, 0.0, -(b - 10.0) });
+			}
+		}
+
+	}
+
+	void generateRoof()
+	{
+		vertices.clear();
+		for (float a = -10.0f; a <= 170.0f; a += 10.0f)
+		{
+			vertices.push_back({ 0.0 + a, 50.0, 20.0 });
+			vertices.push_back({ 0.0 + a, 50.0, 0.0 });
+			vertices.push_back({ 10.0 + a, 50.0, 0.0 });
+			vertices.push_back({ 10.0 + a, 50.0, 20.0 });
+		}
+
+		for (float b = -10.0f; b <= 320.0f; b += 10.0f)
+		{
+			for (float a = -10.0f; a <= 170.0f; a += 10.0f)
+			{
+
+				vertices.push_back({ 0.0 + a, 50.0, -(b - 10.0) });
+				vertices.push_back({ 0.0 + a, 50.0, -b });
+				vertices.push_back({ 10.0 + a, 50.0, -b });
+				vertices.push_back({ 10.0 + a, 50.0, -(b - 10.0) });
+			}
+		}
+	}
+
+	void generatePhoto()
+	{
+		vertices.clear();
+
+		vertices.push_back({ 179.8, 10.0, -80.0 });
+		vertices.push_back({ 179.8, 30.0, -80.0 });
+		vertices.push_back({ 179.8, 30.0, -64.0 });
+		vertices.push_back({ 179.8, 10.0, -64.0 });
+
+		vertices.push_back({ -9.9, 10.0, -64.0 });
+		vertices.push_back({ -9.9, 30.0, -64.0 });
+		vertices.push_back({ -9.9, 30.0, -80.0 });
+		vertices.push_back({ -9.9, 10.0, -80.0 });
+
+
+		vertices.push_back({ 50.0 , 10.0, -304.0 });
+		vertices.push_back({ 50.0 , 30.0, -320.0 });
+		vertices.push_back({ 80.0 , 30.0, -304.0 });
+		vertices.push_back({ 80.0 , 10.0, -320.0 });
+
+		vertices.push_back({ 80.0 , 10.0, 14.0 });
+		vertices.push_back({ 80.0 , 30.0, 14.0 });
+		vertices.push_back({ 50.0 , 30.0, 19.8 });
+		vertices.push_back({ 50.0 , 10.0, 19.8 });
+	}
+
+	void generateOuterWall()
+	{
+		vertices.clear();
+		//wall 1
+		for (float a = 0.0f; a <= 180.0f; a += 10.0f)
+		{
+			vertices.push_back({ -10.0 + a, 0.0, 20.0 });
+			vertices.push_back({ -10.0 + a, 50.0, 20.0 });
+			vertices.push_back({ 0.0 + a, 50.0, 20.0 });
+			vertices.push_back({ 0.0 + a, 0.0, 20.0 });
+		}
+
+		//wall 2
+		for (float a = 0.0f; a <= 320.0f; a = a + 20.0f)
+		{
+			vertices.push_back({ 180.0, 0.0, 0.0 - a });
+			vertices.push_back({ 180.0, 50.0, 0.0 - a });
+			vertices.push_back({ 180.0, 50.0, 20.0 - a });
+			vertices.push_back({ 180.0, 0.0, 20.0 - a });
+		}
+
+		//wall 3
+		for (float a = 0.0f; a <= 180.0f; a += 10.0f)
+		{
+			vertices.push_back({ 180.0 - a, 0.0, -320.0 });
+			vertices.push_back({ 180.0 - a, 50.0, -320.0 });
+			vertices.push_back({ 170.0 - a, 50.0, -320.0 });
+			vertices.push_back({ 170.0 - a, 0.0, -320.0 });
+		}
+
+
+		//wall 4
+		for (float a = -10.0f; a <= 320.0f; a += 10.0f)
+		{
+			vertices.push_back({ -10.0, 0.0, 0.0 - a });
+			vertices.push_back({ -10.0, 50.0, 0.0 - a });
+			vertices.push_back({ -10.0, 50.0, 10.0 - a });
+			vertices.push_back({ -10.0, 0.0, 10.0 - a });
+		}
+	}
+
+	void generateWoodBoxes()
+	{
+		vertices.clear();
+		//draw 3 wood boxes
+		for (float a = 0.0f; a <= 60.0f; a += 30.0f)
+		{
+			vertices.push_back({ 10.0 + a, 9.0, -34.0 });
+			vertices.push_back({ 20.0 + a, 9.0, -34.0 });
+			vertices.push_back({ 20.0 + a, 0.1, -34.0 });
+			vertices.push_back({ 10.0 + a, 0.1, -34.0 });
+
+			vertices.push_back({ 10.0 + a, 9.0, -34.0 });
+			vertices.push_back({ 20.0 + a, 9.0, -34.0 });
+			vertices.push_back({ 20.0 + a, 9.0, -39.8 });
+			vertices.push_back({ 10.0 + a, 9.0, -39.8 });
+
+			vertices.push_back({ 10.0 + a, 9.0, -34.0 });
+			vertices.push_back({ 10.0 + a, 9.0, -39.8 });
+			vertices.push_back({ 10.0 + a, 0.1, -39.8 });
+			vertices.push_back({ 10.0 + a, 0.1, -34.0 });
+
+			vertices.push_back({ 20.0 + a, 9.0, -34.0 });
+			vertices.push_back({ 20.0 + a, 9.0, -39.8 });
+			vertices.push_back({ 20.0 + a, 0.1, -39.8 });
+			vertices.push_back({ 20.0 + a, 0.1, -34.0 });
+		}
+	}
+
 	inline FPSCamera*  SceneCamera()
 	{
 		static auto ret = dynamic_cast<FPSCamera*>(camera);
@@ -115,12 +264,10 @@ public:
 	}
 
 private:
-	TexturedCube cube;
-	TexturedCube floor;
-	TextImageSketcher  textutl;
-	HFONT  hfont;
-	StringFormat fmt;
-	SolidBrush* pbrush;
-	double previousSeconds = GetTickCount() / 1000.0;
-	wstring ss = L"Khri$ha";
+	Quad  floor;
+	Quad  roof;
+	Quad  photo;
+	Quad  wall;
+	Quad  boxes;
+	vector<vec3> vertices;
 };

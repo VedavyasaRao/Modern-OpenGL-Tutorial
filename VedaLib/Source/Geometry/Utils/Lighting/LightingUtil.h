@@ -1,6 +1,6 @@
 #pragma once
 
-enum LightSourceType { Basic = 0, Directional = 1, Point = 2, Spot = 3 };
+enum LightSourceType { None=0, Basic = 1, Directional = 2, Point = 3, Spot = 4 };
 
 
 struct MaterialInfo
@@ -14,7 +14,7 @@ struct MaterialInfo
 
 struct LightSrcInfo
 {
-	LightSourceType src;
+	LightSourceType src = LightSourceType::None;
 
 	string name;
 	float ambientCoefficient;

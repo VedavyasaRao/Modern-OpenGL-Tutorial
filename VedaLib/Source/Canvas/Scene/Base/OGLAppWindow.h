@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <list>
 #include <sstream>
 #include <windows.h>
 #include <gdiplus.h>

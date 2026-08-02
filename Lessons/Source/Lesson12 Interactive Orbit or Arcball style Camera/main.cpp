@@ -6,7 +6,7 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd_line, int show)
 {
 
 	scene.Init(RECT{ 100, 100, 780, 500 }, L"Lesson12: Interactive Orbit or Arcball style Camera");
-	scene.ShowWindow(show);
+	scene.ShowWindow(SW_SHOWMAXIMIZED);
 
 	MSG msg;
 	while (GetMessage(&msg, 0, 0, 0)) 

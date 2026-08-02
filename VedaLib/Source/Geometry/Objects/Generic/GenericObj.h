@@ -88,8 +88,19 @@ private:
 	//override
 	virtual string fragmentShaderSource()
 	{
-		string s =
-			R"(
+		auto s = (light.lightsrc.src != LightSourceType::None) ? fragmentShaderSourcewithlight() : fragmentShaderSourcewithoutlight();
+		regex target("\\$1");
+		if (hastexture)
+			s = regex_replace(s, target, "");
+		else
+			s = regex_replace(s, target, "//");
+
+		return s;
+	}
+
+	string fragmentShaderSourcewithlight()
+	{
+		return R"(
 		#version 400 core
 		in vec2 FragTexCrd; 
 		in vec3 FragVertex; 
@@ -151,15 +162,51 @@ private:
 			FragColor = vec4(linearColor, 1.0);
 		};
 		)";
-		regex target("\\$1");
-		if (hastexture)
-			s = regex_replace(s, target, "");
-		else
-			s = regex_replace(s, target, "//");
-
-		return s;
 	}
 
+
+	string fragmentShaderSourcewithoutlight()
+	{
+		return
+		R"(
+		#version 400 core
+		in vec2 FragTexCrd; 
+		in vec3 FragVertex; 
+		in vec3 FragNormal; 
+
+		out vec4 FragColor;
+		uniform mat4 transform;
+		uniform vec3 viewerPosition;
+		uniform sampler2D tex;
+
+		uniform struct Light
+		{
+		   vec3 position;
+		   float ambientCoefficient;
+			float diffuseCoefficient;
+			float specularCoefficient;
+			vec3 ambientColor;
+			vec3 diffuseColor;
+			vec3 SpecularColor;
+			bool blinn;
+		} light;
+
+		uniform struct Material 
+		{
+			float Shininess;
+			vec3 ambientColor;
+			vec3 diffuseColor;
+			vec3 SpecularColor;
+		} material;
+
+		void main()
+		{
+			vec4 surfaceColor = vec4(material.diffuseColor,1.0);
+			$1 surfaceColor = texture(tex, FragTexCrd);
+			FragColor = surfaceColor;
+		};
+		)";
+	}
 
 private:
 	TextureUtil		texutl;
