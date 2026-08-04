@@ -57,6 +57,13 @@ public:
 		boxes.updateTextureMap(1.0f);
 		boxes.updateVertices(vertices);
 		boxes.GenerateVertices();
+
+		generateMessage();
+		message.Init(TextureInfo(R"(..\resources\textures\closemsg.png)"));
+		message.updateTextureMap(1.0f);
+		message.updateVertices(vertices);
+		message.GenerateVertices();
+
 		return 0;
 	}
 
@@ -68,6 +75,7 @@ public:
 		photo.Cleanup();
 		wall.Cleanup();
 		boxes.Cleanup();
+		message.Cleanup();
 		delete camera;
 	}
 	
@@ -102,6 +110,12 @@ public:
 		SceneCamera()->setViewMatrix(boxes);
 		SceneCamera()->setPerspectiveProjectionMatrix(boxes);
 		boxes.Draw();
+
+		SceneCamera()->augumentModelMatrix(message);
+		SceneCamera()->setViewMatrix(message);
+		SceneCamera()->setPerspectiveProjectionMatrix(message);
+		message.Draw();
+
 	}
 
 	//Close the window
@@ -176,16 +190,25 @@ private:
 		vertices.push_back({ -9.9, 30.0, -80.0 });
 		vertices.push_back({ -9.9, 10.0, -80.0 });
 
-
 		vertices.push_back({ 50.0 , 10.0, -304.0 });
 		vertices.push_back({ 50.0 , 30.0, -320.0 });
 		vertices.push_back({ 80.0 , 30.0, -304.0 });
 		vertices.push_back({ 80.0 , 10.0, -320.0 });
 
+
 		vertices.push_back({ 80.0 , 10.0, 14.0 });
 		vertices.push_back({ 80.0 , 30.0, 14.0 });
 		vertices.push_back({ 50.0 , 30.0, 19.8 });
 		vertices.push_back({ 50.0 , 10.0, 19.8 });
+	}
+
+	void generateMessage()
+	{
+		vertices.clear();
+		vertices.push_back({ 10.0, 35.0, -304.0 });
+		vertices.push_back({ 10.0, 45.0, -320.0 });
+		vertices.push_back({ 80.0, 45.0, -304.0 });
+		vertices.push_back({ 80.0, 35.0, -320.0 });
 	}
 
 	void generateOuterWall()
@@ -267,7 +290,10 @@ private:
 	Quad  floor;
 	Quad  roof;
 	Quad  photo;
+	Quad  message;
 	Quad  wall;
 	Quad  boxes;
 	vector<vec3> vertices;
+
+
 };
