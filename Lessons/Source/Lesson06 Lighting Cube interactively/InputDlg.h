@@ -126,7 +126,7 @@ public:
 
 	void updatevalues(LightSrcInfo& lightsrc, MaterialInfo& mat)
 	{
-		lightsrc.src = (LightSourceType)cursel;
+		lightsrc.src = (LightSourceType)(cursel+1);
 		lightsrc.position = vec3(stof(lposx), stof(lposy), stof(lposz));
 		lightsrc.direction = vec3(stof(ldirx), stof(ldiry), stof(ldirz));
 		lightsrc.viewerPosition = vec3(stof(cposx), stof(cposy), stof(cposz));
@@ -179,7 +179,7 @@ public:
 
 	void enablecontrols()
 	{
-		auto src  = (LightSourceType)cursel;
+		auto src  = (LightSourceType)cursel+1;
 
 		if (src == LightSourceType::Basic)
 		{
@@ -431,7 +431,7 @@ private:
 	bool lblinn = true;
 	
 	uint cursel = 0;
-	wstring lighttypestrings[4] =  {L"Basic", L"Directional", L"Point",  L"Spot" };
+	wstring lighttypestrings[4] =  { L"Basic", L"Directional", L"Point",  L"Spot" };
 
 	CWindow cposxctl;
 	CWindow cposyctl;

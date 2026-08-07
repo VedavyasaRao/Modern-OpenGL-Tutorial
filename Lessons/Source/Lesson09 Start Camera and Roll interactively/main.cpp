@@ -7,7 +7,7 @@ Scene scene;
 
 int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd_line, int show)
 {
-	scene.Init(RECT{ 100, 100, 100+WIDTH, 100+HEIGHT }, L"Lesson10: Start Camera and Roll interactively");
+	scene.Init(RECT{ 100, 100, 100+WIDTH, 100+HEIGHT }, L"Lesson09 Start Camera and Roll interactively");
 	scene.ShowWindow(show);
 
 	MSG msg;
