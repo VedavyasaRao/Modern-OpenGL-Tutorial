@@ -5,10 +5,7 @@
 class DualProjectionCamera :public ThreeDCamera
 {
 public:
-	DualProjectionCamera(HWND hwnd) :ThreeDCamera(hwnd) 
-	{
-	
-	}
+	DualProjectionCamera(HWND hwnd) :ThreeDCamera(hwnd) {}
 
 	bool OnKey(int key)
 	{

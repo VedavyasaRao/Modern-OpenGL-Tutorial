@@ -23,7 +23,7 @@ public:
 		SceneCamera()->CenterCursor();
 		SceneCamera()->PPM.setFOV(45.0f);
 		SceneCamera()->PPM.setProjectionMatrix(1.0f, 1000.0f);
-		SceneCamera()->setViewMatrix2({ 26.0f, 6.0f, 6.0f }, { 0.0f, 0.0f, -0.5f }, { 0.0f, 1.0f, 0.0f });
+		SceneCamera()->updateViewMatrix({ 26.0f, 6.0f, 6.0f }, { 0.0f, 0.0f, -0.5f }, { 0.0f, 1.0f, 0.0f });
 		SceneCamera()->setSenseivity(0.50f, 0.01f);
 		
 		generateFloor();
@@ -190,10 +190,10 @@ private:
 		vertices.push_back({ -9.9, 30.0, -80.0 });
 		vertices.push_back({ -9.9, 10.0, -80.0 });
 
-		vertices.push_back({ 50.0 , 10.0, -304.0 });
-		vertices.push_back({ 50.0 , 30.0, -320.0 });
-		vertices.push_back({ 80.0 , 30.0, -304.0 });
-		vertices.push_back({ 80.0 , 10.0, -320.0 });
+		vertices.push_back({ 50.0 , 5.0, -304.0 });
+		vertices.push_back({ 50.0 , 35.0, -320.0 });
+		vertices.push_back({ 100.0 , 35.0, -304.0 });
+		vertices.push_back({ 100.0 , 5.0, -320.0 });
 
 
 		vertices.push_back({ 80.0 , 10.0, 14.0 });
@@ -205,10 +205,10 @@ private:
 	void generateMessage()
 	{
 		vertices.clear();
-		vertices.push_back({ 10.0, 35.0, -304.0 });
-		vertices.push_back({ 10.0, 45.0, -320.0 });
-		vertices.push_back({ 80.0, 45.0, -304.0 });
-		vertices.push_back({ 80.0, 35.0, -320.0 });
+		vertices.push_back({ -10.0, 40.0, -304.0 });
+		vertices.push_back({ -10.0, 50.0, -320.0 });
+		vertices.push_back({ 60.0, 50.0, -304.0 });
+		vertices.push_back({ 60.0, 40.0, -320.0 });
 	}
 
 	void generateOuterWall()

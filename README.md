@@ -94,12 +94,19 @@ In SingleColoredCube we saw that VBOs were used to draw the single colored cube 
 
 [![Introduction](https://blogger.googleusercontent.com/img/a/AVvXsEipJv53Qe1tGABlw0mDR_2OU3pgMtaaSgGJKwMaRuMdLLys600UYrgHoq76NDofLrlZa7mtqsXUb7vij-2TcdKnyOoMneXmM0NJoIM09biQlMAMwlJH5JUyd_QLaGU5CvBU_zMAdd9UPwhvV_swig0tIxjtuZvGnwbUhvlhH8MHeUAOrv8P7iWI1KZ8ga-j=w200-h118)](https://modernopengl-vedavyasarao.blogspot.com/2022/07/lesson05colored-cube.html)
 
-In the previous posts the graphics pipeline and vertex processing were explained. Also, the implementation of the CubeMesh and SingleColoredCube were covered. 
-In this post we will try to draw a single colored cube as shown above. The cube looks elongated because aspect ratio is not applied.
+In the previous posts the graphics pipeline and vertex processing were explained. Also, the implementation of the MultiColoredCube were covered. 
+In this post we will try to draw a multi colored cube as shown above. The cube looks elongated because aspect ratio is not applied.
 
 #### Implementation:Indexed Cube with interpolated colors ####
 
 [![Introduction](https://blogger.googleusercontent.com/img/a/AVvXsEiVOGZBppfpb-t1S9rQHO9nBFpdIcMRGfRn2_Pdjkat8Fvpc9TcMwanrdtxU2IP3ZSwe_f79Uyi_hoSeXhy7jkyb8XyO4aWFMmjNCGVN0d3_8WCrCwRKr5W76_OWZZ53qPkAKGa6ZthiBtKHD_TTRDZApnLDt3uHhfh_nzlXUoyPGCZ_jYRMo5qAy6J8eWO=w200-h96)](https://modernopengl-vedavyasarao.blogspot.com/2022/07/blog-post.html)
+
+In the previous posts the graphics pipeline and vertex processing were explained. Also, the implementation of the CubeMesh and IndexedCube were covered. 
+In this post we will try to draw a cube with interpolated colors as shown above. The cube looks elongated because aspect ratio is not applied.
+
+#### Lesson04:Indexed Cube with interpolated colors ####
+
+[![Introduction](https://blogger.googleusercontent.com/img/a/AVvXsEgo1pDGJhYQnY4-BXGTZha7rSFjNsedcUrSwQJ1OxTLkWzFRTJVJEBl5q37iCpdD550MR15oaXc9HaEXQRIj6Vl37DVJ5Yz5yV0_sRYtqrVlafkfgYv6a2q1nwN9s6QooRv0rcFK3_jH4nPB4BMPxbbtLWSXzANEDJKYQKjCARiOBAUgZ9pWEMqMGbTHLwL=w200-h118)](https://modernopengl-vedavyasarao.blogspot.com/2022/07/lesson03indexed-cube-with-interpolated.html)
 
 In the previous posts the graphics pipeline and vertex processing were explained. Also, the implementation of the CubeMesh and IndexedCube were covered. 
 In this post we will try to draw a cube with interpolated colors as shown above. The cube looks elongated because aspect ratio is not applied.
@@ -110,7 +117,7 @@ In this post we will try to draw a cube with interpolated colors as shown above.
 
 In the previous discussions, we covered sending vertex data - Position and color. In this post we will try to send texture vertex data. It's implemented in TexturedCube class.
 
-#### Lesson05: Textured Cube ####
+#### Lesson05: Apply Texture to a Cube Interactively ####
 
 [![Introduction](https://blogger.googleusercontent.com/img/a/AVvXsEjUhcIU64BOTBSi5QjGkgivyt92vm0f29RkaMPifL2JSb1ZdXq6QMChKYRa4V8vpSBYJysa2XeWKwL518Id2EExLbCnZgBC3a02N5DrpD1GvbpQAPXqppprCHT9Z_fMOPFASbf_vF-ZV7dTcqC5fiGnLJ0Tph77ytCwAEuDafmtIAWNvvprMaRsGjg6_mR9=w200-h118)](https://modernopengl-vedavyasarao.blogspot.com/2022/07/lesson04textured-cube.html)
 
@@ -125,7 +132,7 @@ Lighting is an important factor to consider while rendering realistic 3D shapes.
 
 #### Implementation: LightedTexCube ####
 
-[![Introduction](https://blogger.googleusercontent.com/img/a/AVvXsEijT-PYv47g-jAuhS2UbbJjZC-eU-Jdwe90Qy2Qv0ey6hl2G_ULf5BdLUSUboAAZ7NIeRmpFrNgtRLqG4-5xuixiwS5HyHccVyGEpw3s2HvWbim3HFCpceR3xj1fQ0g8PUhO-XQky3f98iMZ-1VpSB1KBOc5G3dAbEhms0gTEYhq_w8gmqjucZQ1Q4mihpd=w200-h147)](https://modernopengl-vedavyasarao.blogspot.com/2026/05/implementation-phong-lighted-cube.html)
+[![Introduction](https://blogger.googleusercontent.com/img/a/AVvXsEhIOjjN305C4nPJxaz8gbBLHDKtlnUMP1M_V46iIgwgN5Kxl-d4AFWImqXxdZt_6ICXEGQuyFKryb1CDdt_k7249M5NNxrn9Jsd7JjYecLFW6e-pO5xuW7TEtWMuqSYpvMryt20qbi1vWS34lfkm49f01fYijf0f55WI_TIzCQzyJY0bKNvtU_J1UQV99fv)](https://modernopengl-vedavyasarao.blogspot.com/2026/05/implementation-phong-lighted-cube.html)
 
 In previous examples, we saw that Position, Color, Texture data were sent to draw cubes. In this post we  will discuss how to implement  Phong lighting models and other lights such as Directional, Point and Spot Lights. For this surface normals needs to be sent as VBO data.
 
@@ -140,9 +147,7 @@ In this post we will try to draw a textured cube with lighting interactively. Th
 
 [![Introduction](https://blogger.googleusercontent.com/img/a/AVvXsEijT-PYv47g-jAuhS2UbbJjZC-eU-Jdwe90Qy2Qv0ey6hl2G_ULf5BdLUSUboAAZ7NIeRmpFrNgtRLqG4-5xuixiwS5HyHccVyGEpw3s2HvWbim3HFCpceR3xj1fQ0g8PUhO-XQky3f98iMZ-1VpSB1KBOc5G3dAbEhms0gTEYhq_w8gmqjucZQ1Q4mihpd=w200-h147)](https://modernopengl-vedavyasarao.blogspot.com/2022/07/drawing-text.html)
 
-In this post we shall understand affine transformations interactively the three kinds of affine 
-transformations: Scale, Translate and Rotation on X, Y and  Z axes as discussed in the previous post.
-The rotation has been already demonstrated in the earlier examples. In this post we will deep dive into Translation and Scaling.
+Modern OpenGL does not support drawing text or Images so it needs to be handled independently. There many popular libraries available such as freetype to render text in a scene.
 
 #### Lesson07: Drawing Text and Images interactively. ####
 
@@ -154,11 +159,29 @@ In this post we will try to draw  text and image interactively.
 
 #### Lesson08: Understanding Affine Transformation interactively. ####
 
-[![Introduction](https://blogger.googleusercontent.com/img/a/AVvXsEhFsXjzHEFd785OKnwCkh1GFtSKqtrChN2jWxi7qsFBNCwDM0JB6iHPhiNJlaWHnQ3uQg7w_bmdQR8Ug7cpeYZ3BjOGLJE6UQJnHAGpiSHqEfwOjQ5uy6PW80NpRj1RaSiaLkIgUflWzBvfGYFLoeOMyb6Z75gKgIrTUr5Z3as1GjFVbFTPylfsD7OYkNw8)](https://modernopengl-vedavyasarao.blogspot.com/2022/07/lesson06understanding-affine.html)
+[![Introduction](https://blogger.googleusercontent.com/img/a/AVvXsEjv0PoU_I_B7IRnT14umGnQsWMkIIjfBbuW5WES2sCUNHJ8wNDYd2klFrvAMpBj267fqJ9ZMPCczI3AyNCRIKSm5HbIMHATrOI-ZNGhZxadLU0UZy4obPhgww81e_3hOf0OI5GO6KAlFzSCbdJmJ0cLPtIvL_Eeysin95sglPU17KEkCyIltAs8fIQXwn-L)](https://modernopengl-vedavyasarao.blogspot.com/2022/07/lesson06understanding-affine.html)
 
 In this post we shall understand affine transformations interactively the three kinds of affine 
 transformations: Scale, Translate and Rotation on X, Y and  Z axes as discussed in the previous post.
 The rotation has been already demonstrated in the earlier examples. In this post we will deep dive into Translation and Scaling.
+
+#### Primer: Understanding View space, Perspective and Orthographic Projections ####
+
+[![Introduction](https://blogger.googleusercontent.com/img/a/AVvXsEhT69SM87ldzUqlHm7sLObC1zgHA5md8N65ZHygdgXNRCJGdfQfazGmAP2sFbssd8kQ3fwd2evw3_Rl6pwnRhylBH08fO35k46328wKKG_RAofN_HpfkIW7EtVkv4ZggF-cVsKoRVUvykdbtkpigTeButZfn4IENC1jnXl3AtCx6DE9mayilDLxfxD8mud-)](https://modernopengl-vedavyasarao.blogspot.com/2022/07/projection.html)
+
+So far our camera was in a fixed position and transformations happened in object space.  In this post we will  look at the larger picture.
+
+#### Implementation: DualProjectionCamera Camera ####
+
+[![Introduction](https://blogger.googleusercontent.com/img/a/AVvXsEhs2w70UlwA1aK1Ou_AystpyUskJmgyEs3XDYPJAUcQ5yyJy1cd3ZjOFR8pSSEXDCyAWb-7AejFk1vL44kvmbsIV8LUwkzFds_6Gw_JVE5gswnpWQBux-4gWhstarld4DWTS67cVejMXLkXkVSL4rU5KW-j85DTaDUUXHDfad0TeENTYvSJGFAOnjeE_Wy2)](https://modernopengl-vedavyasarao.blogspot.com/2026/06/overview-scene-consists-of-set-of-3d.html)
+
+In the previous post, we understood how view matrix, perspective matrix and orthographic matrix. Two new cameras are used to provide perspective and orthographic views.
+
+#### Lesson09: Roll Camera and Action Interactively ####
+
+[![Introduction](https://blogger.googleusercontent.com/img/a/AVvXsEgEJh3tRE80-C2mpuz2gB6UkwkUiXBOAjvGlPcjjt5OzzUBPH-X635zHzUXujAD03Tn_fZvv6zj9Od2340GC5GZX1v0Rd9oA77G5xHLbbfssOu0h7QjFfDzLG_1NKTg7sTZ7JA_lxO-1v_V9NFD4BrPSR044MluTAPm8tpeY5-hrFSlHJ8Dj2z3UosnpF2C)](https://modernopengl-vedavyasarao.blogspot.com/2022/08/lesson-07-start-camera-and-roll.html)
+
+In this post understand cameras space and Perspective and Orthographic&nbsp; projections interactively.
 
 #### Primer: Importing WaveFront OBJ Models ####
 
@@ -169,19 +192,36 @@ Wavefront OBJ is one such image format.
 
 #### Implementation: Importing WaveFront OBJ Models ####
 
-[![Introduction](https://blogger.googleusercontent.com/img/a/AVvXsEgSzFTHLNCbu6tnv5HtmCnCDa6tF2pjviZf-C60Kl5FMZY1rfHx-niyozJMLLb3nb0s0PcKYtLMadEPNlgtD4keQttgVZkvNHfI39lMS-4nd8a7GpnHzB8uFrYgKRgBYqcasXaTl-89KqQxyDjyfWhJDeXdZkcFBzVsmlTKu4zmywR7TkNJocMPBczA_Ona=w200-h180)](https://modernopengl-vedavyasarao.blogspot.com/2022/07/implementation-importing-wavefront-obj.html)
+[![Introduction](https://blogger.googleusercontent.com/img/a/AVvXsEhspRvwjR60PQTVHku_acpiQHnHHd7KRvd47NIrTtfzOy44n8FW51oLI5vWXX3EDdo2rT75MdNG2WR0OtwjHo3HNXPpPN82kKtV_x8tPwXp2b10KyicB5tUyd4IWx8TU9dcqsrLIDayAFpq-X27ch3C7pOKGs9AnZiEeeg_DXDL9yVfwrM2Fg_d6t2YEv-m)](https://modernopengl-vedavyasarao.blogspot.com/2022/07/implementation-importing-wavefront-obj.html)
 
-In previous examples, we saw that Position, Color, Texture data were sent to draw cubes. In this post we  will discuss how to implement  Phong lighting models and other lights such as Directional, Point and Spot Lights. For this surface normals needs to be sent as VBO data.
+As discussed before, WaveFront OBJ and MTL files needs to be parsed to get geometry, Material information. A new mesh class and new geometry object are required for this. A new utility class  GenericObjParser is defined for loading OBJ and MTL files and generating VertexData, Material and texture information.
 
-#### Lesson 09: Importing WaveFront OBJ Models ####
+#### Lesson 10: Importing WaveFront OBJ Models using WFObjParser ####
 
-[![Introduction](https://blogger.googleusercontent.com/img/a/AVvXsEiCW-eoSjdzqC9X9oXeV4-_ftWPwuPoCGQGP9_uWtqisVb3tFRW06ZAVMrmsRnxJGT4EcjYNV4ysbf_5602pS479olMJDGBf87qGRrH5cKZH7-KMzVBP2DYIPAiG9L2mnTdX7hEDPzu6yYFKHAoREDGsAKnZ_KQuYZ8P5Uk9v2A6_hXao7iQJcrWsy0MSux)](https://modernopengl-vedavyasarao.blogspot.com/2026/06/lesson-09-importing-wavefront-obj-models.html)
+[![Introduction](https://blogger.googleusercontent.com/img/a/AVvXsEiWpkDYMCAXqonmMNDhRjeLTT6ES7MzhPKuNo8sZILhemiOIIzvVcYcFQpccWokbwMZavT7nFQndV6M-fwtUV1yiK702OpDepDlfn_CUwJLBiGoJAXMTT4Z3cYKfh_Av7XGYmyHq73HkOGCbx9vUMQIRFUgizBzhlAi1waR2nSn7mCVchVZAMTAVzTRB05X)](https://modernopengl-vedavyasarao.blogspot.com/2026/06/lesson-09-importing-wavefront-obj-models.html)
 
 As discussed in the  previous article, we saw how geometric objects can be imported from obj and mtl files. Also, the implementation of the WFObjMesh, WFOBJInfo and WFObj were covered. 
 In this post we will try to render a model from "dolphin.obj" and "dolphin.mtl" files.
 
-#### Primer: Understanding View space, Perspective and Orthographic Projections ####
+#### Lesson 10a: Importing WaveFront OBJ Models using AssetImpParser ####
 
-[![Introduction](https://blogger.googleusercontent.com/img/a/AVvXsEhT69SM87ldzUqlHm7sLObC1zgHA5md8N65ZHygdgXNRCJGdfQfazGmAP2sFbssd8kQ3fwd2evw3_Rl6pwnRhylBH08fO35k46328wKKG_RAofN_HpfkIW7EtVkv4ZggF-cVsKoRVUvykdbtkpigTeButZfn4IENC1jnXl3AtCx6DE9mayilDLxfxD8mud-)](https://modernopengl-vedavyasarao.blogspot.com/2022/07/projection.html)
+[![Introduction](https://blogger.googleusercontent.com/img/a/AVvXsEiYwWUi63SlYUbJi2lmnqxzfle8b39wm06rHHsuyG5MM96cS08swJFBYA97foKcwUjQTDlH231R8guOj-EKNT8jLL3LK4gKz13xhvd3z3SI8Nc8jlN7Zk626J89U82eZx7aE6aVfl6KoezhR0V6arvMrwa3hNyx5qp-flVzg16T6je-LSIQfXhIjUJh21c2)](https://modernopengl-vedavyasarao.blogspot.com/2026/07/lesson-09a-importing-wavefront-obj.html)
 
-So far our camera was in a fixed position and transformations happened in object space.  In this post we will  look at the larger picture.
+As discussed in the  previous article, we saw how geometric objects can be imported from obj and mtl files. Also, the implementation of the GenericObjMesh, GenericObj and and AssetImpParser were covered. 
+In this post we will try to render a model from "adiyogi.obj" files.
+
+#### Implementation: First Person and Orbit Cameras ####
+
+[![Introduction](https://blogger.googleusercontent.com/img/a/AVvXsEgpsDKUtJ9a3nMxsd-fg3x3IeQ40eNcIXL7WvFgxfW61AThHSXDttNSEwswb9dSrIZXdYZ7xXXC4AZhROp6-6s96wmKWVGrcrWmuUuARz_d9yV1CpPtWReHzJZdtKPdxYdqu8VeB5Boh-PB-VyqkXrLs8Tfx6n39sT4F80qKswAqwtvmwraI6WTsOTygUDu)](https://modernopengl-vedavyasarao.blogspot.com/2026/08/implementationfps-camera-and-orbit.html)
+
+An OpenGL application uses specialized cameras navigate a terrain in 3D scenes or wade thru sections of a complex structure. Some of such implementations are First Person Shooter (FPS) Camera or Orbit Camera or ARC ball Camera.
+#### Lesson11: Traversing with First Person Camera in a Gallery ####
+
+[![Introduction](https://blogger.googleusercontent.com/img/a/AVvXsEjsNohgfiM5nORTC4vlq1KTjYOPu4OgJOp0cR2-laCNu49XQcdTfo8wH9n1ookJ5aXhtxWwMXI3eb5lW_dg_YemuQjg_IgO7U-dbT2gMWUcgHqN_xyW-nH-XNV7tmxZzVmZmELlHRzvuk1-djH_HR17tQaF_v7uFKYos6EslXzn45iedkFWvO-7bWZ8hwnx)](https://modernopengl-vedavyasarao.blogspot.com/2022/08/lesson-09-multiple-objects.html)
+
+In this post we will discuss implementation of First Person Camera. In this post we shall understand its functionality.
+#### Lesson12: Traversing with Orbit Camera in the Solar System ####
+
+[![Introduction](https://blogger.googleusercontent.com/img/a/AVvXsEj0hlq-hVsiohAjA69719feLqa8Ta7r_xPm0xomj21OuNWWhOyUKXq5egaRtyk5ZOEFEz9dlTCKyhMHtg_brIBeWc383002TtzW7g32NdD8Ujw5ZEAtsVb60bzhX6yju84ecmIVa51tUsAMR-7LkGHs8kraoKo2ih37nsK2JADnAjauOIfjQG59w0WE4kjR)](https://modernopengl-vedavyasarao.blogspot.com/2022/08/lesson-11-interactive-orbit-or-arcball.html)
+
+In this post we will discuss implementation of Orbit Camera. In this post we shall understand its functionality.

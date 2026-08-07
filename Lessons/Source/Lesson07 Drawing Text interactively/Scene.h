@@ -61,7 +61,6 @@ public:
 		pdlg->ShowWindow(SW_SHOW);
 	}
 
-
 	LRESULT OnDoRefresh(WORD wParam, WORD wParam2, HWND lParam, BOOL& bHandled)
 	{
 		bHandled = TRUE;
@@ -91,12 +90,6 @@ public:
 		DestroyWindow();
 		PostQuitMessage(0);
 		return 0;
-	}
-
-	inline ThreeDCamera*  SceneCamera()
-	{
-		static auto ret = dynamic_cast<ThreeDCamera*>(camera);
-		return ret;
 	}
 
 private:

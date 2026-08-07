@@ -74,7 +74,7 @@ public:
 		VM.setViewMatrix(camera_pos, camera_pos + camera_front, camera_up);
 	}
 
-	void setViewMatrix2(const vec3& camera_pos, const vec3& camera_front, const vec3&  camera_up)
+	void updateViewMatrix(const vec3& camera_pos, const vec3& camera_front, const vec3&  camera_up)
 	{
 		this->camera_pos = camera_pos;
 		this->camera_front = camera_front;
