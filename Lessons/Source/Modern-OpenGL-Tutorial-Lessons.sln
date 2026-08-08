@@ -11,10 +11,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson03 Multi-Colored Cube
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson04 Indexed Cube with interpolated colors", "Lesson04 Indexed Cube with interpolated colors\Lesson04.vcxproj", "{AC2108E1-FD91-42D5-8776-8BBF4912AD0C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson11 Interactive First Person Shooter or FPS style Camera", "Lesson11 Interactive First Person Shooter or FPS style Camera\Lesson11.vcxproj", "{5B8E6718-A255-4481-8A14-74549D4F0405}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson12 Interactive Orbit or Arcball style Camera", "Lesson12 Interactive Orbit or Arcball style Camera\Lesson12.vcxproj", "{13BA884F-D0D3-4051-A107-B05D570B4502}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson07 Drawing Text interactively", "Lesson07 Drawing Text interactively\Lesson07.vcxproj", "{ABABF494-0579-4A51-80DC-51789A1C9A1A}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson06 Lighting Cube interactively", "Lesson06 Lighting Cube interactively\Lesson06.vcxproj", "{FEE422D3-B01D-4D00-865F-63E091D4D2F2}"
@@ -28,6 +24,10 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson09 Start Camera and Roll interactively", "Lesson09 Start Camera and Roll interactively\Lesson09.vcxproj", "{16993FAA-CEDC-406B-8F5D-1E141B9D5D62}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson10 Importing WaveFront OBJ Models  interactively", "Lesson10 Importing WaveFront OBJ Models  interactively\Lesson10.vcxproj", "{9AE87CCF-5CCF-4A18-BFE1-EC9B9E08EDD0}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson11 Interactive First Person Camera", "Lesson11 Interactive First Person Camera\Lesson11.vcxproj", "{5B8E6718-A255-4481-8A14-74549D4F0405}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson12 Interactive Orbit Camera", "Lesson12 Interactive Orbit Camera\Lesson12.vcxproj", "{13BA884F-D0D3-4051-A107-B05D570B4502}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,14 +51,6 @@ Global
 		{AC2108E1-FD91-42D5-8776-8BBF4912AD0C}.Debug|x86.Build.0 = Debug|Win32
 		{AC2108E1-FD91-42D5-8776-8BBF4912AD0C}.Release|x86.ActiveCfg = Release|Win32
 		{AC2108E1-FD91-42D5-8776-8BBF4912AD0C}.Release|x86.Build.0 = Release|Win32
-		{5B8E6718-A255-4481-8A14-74549D4F0405}.Debug|x86.ActiveCfg = Debug|Win32
-		{5B8E6718-A255-4481-8A14-74549D4F0405}.Debug|x86.Build.0 = Debug|Win32
-		{5B8E6718-A255-4481-8A14-74549D4F0405}.Release|x86.ActiveCfg = Release|Win32
-		{5B8E6718-A255-4481-8A14-74549D4F0405}.Release|x86.Build.0 = Release|Win32
-		{13BA884F-D0D3-4051-A107-B05D570B4502}.Debug|x86.ActiveCfg = Debug|Win32
-		{13BA884F-D0D3-4051-A107-B05D570B4502}.Debug|x86.Build.0 = Debug|Win32
-		{13BA884F-D0D3-4051-A107-B05D570B4502}.Release|x86.ActiveCfg = Release|Win32
-		{13BA884F-D0D3-4051-A107-B05D570B4502}.Release|x86.Build.0 = Release|Win32
 		{ABABF494-0579-4A51-80DC-51789A1C9A1A}.Debug|x86.ActiveCfg = Debug|Win32
 		{ABABF494-0579-4A51-80DC-51789A1C9A1A}.Debug|x86.Build.0 = Debug|Win32
 		{ABABF494-0579-4A51-80DC-51789A1C9A1A}.Release|x86.ActiveCfg = Release|Win32
@@ -87,6 +79,14 @@ Global
 		{9AE87CCF-5CCF-4A18-BFE1-EC9B9E08EDD0}.Debug|x86.Build.0 = Debug|Win32
 		{9AE87CCF-5CCF-4A18-BFE1-EC9B9E08EDD0}.Release|x86.ActiveCfg = Release|Win32
 		{9AE87CCF-5CCF-4A18-BFE1-EC9B9E08EDD0}.Release|x86.Build.0 = Release|Win32
+		{5B8E6718-A255-4481-8A14-74549D4F0405}.Debug|x86.ActiveCfg = Debug|Win32
+		{5B8E6718-A255-4481-8A14-74549D4F0405}.Debug|x86.Build.0 = Debug|Win32
+		{5B8E6718-A255-4481-8A14-74549D4F0405}.Release|x86.ActiveCfg = Release|Win32
+		{5B8E6718-A255-4481-8A14-74549D4F0405}.Release|x86.Build.0 = Release|Win32
+		{13BA884F-D0D3-4051-A107-B05D570B4502}.Debug|x86.ActiveCfg = Debug|Win32
+		{13BA884F-D0D3-4051-A107-B05D570B4502}.Debug|x86.Build.0 = Debug|Win32
+		{13BA884F-D0D3-4051-A107-B05D570B4502}.Release|x86.ActiveCfg = Release|Win32
+		{13BA884F-D0D3-4051-A107-B05D570B4502}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

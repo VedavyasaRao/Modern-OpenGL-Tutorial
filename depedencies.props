@@ -3,8 +3,8 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <IncludePath>$(MSBuildThisFileDirectory)VedaLib\externals\assimp\include;$(MSBuildThisFileDirectory)VedaLib\externals\GLExtns;$(MSBuildThisFileDirectory)VedaLib\externals\glm;$(MSBuildThisFileDirectory)VedaLib\externals\stb;$(MSBuildThisFileDirectory)VedaLib\Source;$(IncludePath)</IncludePath>
-    <LibraryPath>$(MSBuildThisFileDirectory)VedaLib\externals\assimp\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(MSBuildThisFileDirectory)VedaGraphicsLib\externals\assimp\include;$(MSBuildThisFileDirectory)VedaGraphicsLib\externals\GLExtns;$(MSBuildThisFileDirectory)VedaGraphicsLib\externals\glm;$(MSBuildThisFileDirectory)VedaGraphicsLib\externals\stb;$(MSBuildThisFileDirectory)VedaGraphicsLib\Source;$(IncludePath)</IncludePath>
+    <LibraryPath>$(MSBuildThisFileDirectory)VedaGraphicsLib\externals\assimp\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   
  
