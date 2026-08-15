@@ -196,14 +196,14 @@ Wavefront OBJ is one such image format.
 
 As discussed before, WaveFront OBJ and MTL files needs to be parsed to get geometry, Material information. A new mesh class and new geometry object are required for this. A new utility class  GenericObjParser is defined for loading OBJ and MTL files and generating VertexData, Material and texture information.
 
-#### Lesson 10: Importing WaveFront OBJ Models using WFObjParser ####
+#### Lesson10: Importing WaveFront OBJ Models using WFObjParser ####
 
 [![Introduction](https://blogger.googleusercontent.com/img/a/AVvXsEiWpkDYMCAXqonmMNDhRjeLTT6ES7MzhPKuNo8sZILhemiOIIzvVcYcFQpccWokbwMZavT7nFQndV6M-fwtUV1yiK702OpDepDlfn_CUwJLBiGoJAXMTT4Z3cYKfh_Av7XGYmyHq73HkOGCbx9vUMQIRFUgizBzhlAi1waR2nSn7mCVchVZAMTAVzTRB05X)](https://modernopengl-vedavyasarao.blogspot.com/2026/06/lesson-09-importing-wavefront-obj-models.html)
 
 As discussed in the  previous article, we saw how geometric objects can be imported from obj and mtl files. Also, the implementation of the WFObjMesh, WFOBJInfo and WFObj were covered. 
 In this post we will try to render a model from "dolphin.obj" and "dolphin.mtl" files.
 
-#### Lesson 10a: Importing WaveFront OBJ Models using AssetImpParser ####
+#### Lesson10a: Importing WaveFront OBJ Models using AssetImpParser ####
 
 [![Introduction](https://blogger.googleusercontent.com/img/a/AVvXsEiYwWUi63SlYUbJi2lmnqxzfle8b39wm06rHHsuyG5MM96cS08swJFBYA97foKcwUjQTDlH231R8guOj-EKNT8jLL3LK4gKz13xhvd3z3SI8Nc8jlN7Zk626J89U82eZx7aE6aVfl6KoezhR0V6arvMrwa3hNyx5qp-flVzg16T6je-LSIQfXhIjUJh21c2)](https://modernopengl-vedavyasarao.blogspot.com/2026/07/lesson-09a-importing-wavefront-obj.html)
 
@@ -215,12 +215,12 @@ In this post we will try to render a model from "adiyogi.obj" files.
 [![Introduction](https://blogger.googleusercontent.com/img/a/AVvXsEgpsDKUtJ9a3nMxsd-fg3x3IeQ40eNcIXL7WvFgxfW61AThHSXDttNSEwswb9dSrIZXdYZ7xXXC4AZhROp6-6s96wmKWVGrcrWmuUuARz_d9yV1CpPtWReHzJZdtKPdxYdqu8VeB5Boh-PB-VyqkXrLs8Tfx6n39sT4F80qKswAqwtvmwraI6WTsOTygUDu)](https://modernopengl-vedavyasarao.blogspot.com/2026/08/implementationfps-camera-and-orbit.html)
 
 An OpenGL application uses specialized cameras navigate a terrain in 3D scenes or wade thru sections of a complex structure. Some of such implementations are First Person Shooter (FPS) Camera or Orbit Camera or ARC ball Camera.
-#### Lesson11: Traversing with First Person Camera in a Gallery ####
+#### Lesson11: Traversing a Gallery with a First Person Camera ####
 
 [![Introduction](https://blogger.googleusercontent.com/img/a/AVvXsEjsNohgfiM5nORTC4vlq1KTjYOPu4OgJOp0cR2-laCNu49XQcdTfo8wH9n1ookJ5aXhtxWwMXI3eb5lW_dg_YemuQjg_IgO7U-dbT2gMWUcgHqN_xyW-nH-XNV7tmxZzVmZmELlHRzvuk1-djH_HR17tQaF_v7uFKYos6EslXzn45iedkFWvO-7bWZ8hwnx)](https://modernopengl-vedavyasarao.blogspot.com/2022/08/lesson-09-multiple-objects.html)
 
 In this post we will discuss implementation of First Person Camera. In this post we shall understand its functionality.
-#### Lesson12: Traversing with Orbit Camera in the Solar System ####
+#### Lesson12: Traversing the Solar System with an Orbit Camera ####
 
 [![Introduction](https://blogger.googleusercontent.com/img/a/AVvXsEj0hlq-hVsiohAjA69719feLqa8Ta7r_xPm0xomj21OuNWWhOyUKXq5egaRtyk5ZOEFEz9dlTCKyhMHtg_brIBeWc383002TtzW7g32NdD8Ujw5ZEAtsVb60bzhX6yju84ecmIVa51tUsAMR-7LkGHs8kraoKo2ih37nsK2JADnAjauOIfjQG59w0WE4kjR)](https://modernopengl-vedavyasarao.blogspot.com/2022/08/lesson-11-interactive-orbit-or-arcball.html)
 

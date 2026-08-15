@@ -2,7 +2,8 @@
 #include "Canvas\Camera\DualProjectionCamera.h"
 #include "Geometry\Utils\Generic\GenericParser.h"
 #include "Geometry\Objects\Generic\GenericObj.h"
-#include "..\Lesson10 Importing WaveFront OBJ Models  interactively\InputDlg.h"
+#include "..\Lesson10 Importing WaveFront OBJ Models using WFObjParser\InputDlg.h"
+
 DWORD WINAPI ThreadFunction(LPVOID lpParam);
 
 class Scene:public BaseScene

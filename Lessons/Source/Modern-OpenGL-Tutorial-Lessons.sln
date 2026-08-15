@@ -19,15 +19,15 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson05 Apply Texture to a
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson08 Understanding Affine Transformation interactively", "Lesson08 Understanding Affine Transformation interactively\Lesson08.vcxproj", "{1D7E82DB-0564-4275-ACB7-98FFBB0B90D4}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson10a Importing Assimp Models  interactively", "Lesson10a Importing Assimp Models  interactively\Lesson10a.vcxproj", "{87F178F9-5655-4A52-AC56-4B2870EFD7B5}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson09 Start Camera and Roll interactively", "Lesson09 Start Camera and Roll interactively\Lesson09.vcxproj", "{16993FAA-CEDC-406B-8F5D-1E141B9D5D62}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson10 Importing WaveFront OBJ Models  interactively", "Lesson10 Importing WaveFront OBJ Models  interactively\Lesson10.vcxproj", "{9AE87CCF-5CCF-4A18-BFE1-EC9B9E08EDD0}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson10 Importing WaveFront OBJ Models using WFObjParser", "Lesson10 Importing WaveFront OBJ Models using WFObjParser\Lesson10.vcxproj", "{9AE87CCF-5CCF-4A18-BFE1-EC9B9E08EDD0}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson11 Interactive First Person Camera", "Lesson11 Interactive First Person Camera\Lesson11.vcxproj", "{5B8E6718-A255-4481-8A14-74549D4F0405}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson10a Importing WaveFront OBJ Models using AssetImpParser", "Lesson10a Importing WaveFront OBJ Models using AssetImpParser\Lesson10a.vcxproj", "{87F178F9-5655-4A52-AC56-4B2870EFD7B5}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson12 Interactive Orbit Camera", "Lesson12 Interactive Orbit Camera\Lesson12.vcxproj", "{13BA884F-D0D3-4051-A107-B05D570B4502}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson11 Traversing a Gallery with a First Person Camera", "Lesson11 Traversing a Gallery with a First Person Camera\Lesson11.vcxproj", "{5B8E6718-A255-4481-8A14-74549D4F0405}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson12 Traversing the Solar System with an Orbit Camera", "Lesson12 Traversing the Solar System with an Orbit Camera\Lesson12.vcxproj", "{13BA884F-D0D3-4051-A107-B05D570B4502}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,10 +67,6 @@ Global
 		{1D7E82DB-0564-4275-ACB7-98FFBB0B90D4}.Debug|x86.Build.0 = Debug|Win32
 		{1D7E82DB-0564-4275-ACB7-98FFBB0B90D4}.Release|x86.ActiveCfg = Release|Win32
 		{1D7E82DB-0564-4275-ACB7-98FFBB0B90D4}.Release|x86.Build.0 = Release|Win32
-		{87F178F9-5655-4A52-AC56-4B2870EFD7B5}.Debug|x86.ActiveCfg = Debug|Win32
-		{87F178F9-5655-4A52-AC56-4B2870EFD7B5}.Debug|x86.Build.0 = Debug|Win32
-		{87F178F9-5655-4A52-AC56-4B2870EFD7B5}.Release|x86.ActiveCfg = Release|Win32
-		{87F178F9-5655-4A52-AC56-4B2870EFD7B5}.Release|x86.Build.0 = Release|Win32
 		{16993FAA-CEDC-406B-8F5D-1E141B9D5D62}.Debug|x86.ActiveCfg = Debug|Win32
 		{16993FAA-CEDC-406B-8F5D-1E141B9D5D62}.Debug|x86.Build.0 = Debug|Win32
 		{16993FAA-CEDC-406B-8F5D-1E141B9D5D62}.Release|x86.ActiveCfg = Release|Win32
@@ -79,6 +75,10 @@ Global
 		{9AE87CCF-5CCF-4A18-BFE1-EC9B9E08EDD0}.Debug|x86.Build.0 = Debug|Win32
 		{9AE87CCF-5CCF-4A18-BFE1-EC9B9E08EDD0}.Release|x86.ActiveCfg = Release|Win32
 		{9AE87CCF-5CCF-4A18-BFE1-EC9B9E08EDD0}.Release|x86.Build.0 = Release|Win32
+		{87F178F9-5655-4A52-AC56-4B2870EFD7B5}.Debug|x86.ActiveCfg = Debug|Win32
+		{87F178F9-5655-4A52-AC56-4B2870EFD7B5}.Debug|x86.Build.0 = Debug|Win32
+		{87F178F9-5655-4A52-AC56-4B2870EFD7B5}.Release|x86.ActiveCfg = Release|Win32
+		{87F178F9-5655-4A52-AC56-4B2870EFD7B5}.Release|x86.Build.0 = Release|Win32
 		{5B8E6718-A255-4481-8A14-74549D4F0405}.Debug|x86.ActiveCfg = Debug|Win32
 		{5B8E6718-A255-4481-8A14-74549D4F0405}.Debug|x86.Build.0 = Debug|Win32
 		{5B8E6718-A255-4481-8A14-74549D4F0405}.Release|x86.ActiveCfg = Release|Win32
