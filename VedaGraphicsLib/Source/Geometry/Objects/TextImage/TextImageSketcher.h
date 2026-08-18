@@ -135,9 +135,6 @@ public:
 	}
 
 
-public:
-	static ULONG_PTR gdiplusToken;
-
 private:
 	TextureUtil						texutl;
 	unique_ptr<Bitmap>				pbitmap;
